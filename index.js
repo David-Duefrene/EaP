@@ -1,4 +1,12 @@
 const { ApolloServer, gql } = require('apollo-server');
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  useQuery,
+  // gql
+} from "@apollo/client";
+
 const { app, BrowserWindow } = require('electron');
 
 // GraphQL code
@@ -45,6 +53,12 @@ const server = new ApolloServer({
   server.listen().then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
   });
+
+  // // the client
+  // const client = new ApolloClient({
+  //   uri: 'https://localhost:4000',
+  //   cache: new InMemoryCache()
+  // });
 
 // Electron code
 const createWindow = () => {
