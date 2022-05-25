@@ -34,9 +34,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
+        <p>Hello Vite, React, GraphQL, and Electron!</p>
+        <p>env is {process.env.NODE_ENV}</p>
         <p>
-          count is: {count.map(book => <p>{book.title}</p>)}
+          count is: {count.map(book => <p>{book['title']}</p>)}
         </p>
       </header>
     </div>

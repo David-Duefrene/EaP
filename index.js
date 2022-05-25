@@ -1,12 +1,4 @@
 const { ApolloServer, gql } = require('apollo-server');
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  // gql
-} from "@apollo/client";
-
 const { app, BrowserWindow } = require('electron');
 
 // GraphQL code
@@ -54,12 +46,6 @@ const server = new ApolloServer({
     console.log(`🚀  Server ready at ${url}`);
   });
 
-  // // the client
-  // const client = new ApolloClient({
-  //   uri: 'https://localhost:4000',
-  //   cache: new InMemoryCache()
-  // });
-
 // Electron code
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -72,15 +58,13 @@ const createWindow = () => {
 
     // Check if we are in development mode
     const isDev = process.env.NODE_ENV === 'dev' ||
-    process.env.NODE_ENV === 'development' ||
-    process.env.NODE_ENV === undefined;
+    process.env.NODE_ENV === 'development';
+    // building with vite appears to show up as undefined instead of production
+    // || process.env.NODE_ENV === undefined;
 
-    // win.loadFile('index.html');
-    win.loadURL(
-        isDev
-          ? 'http://localhost:3000'
-          : `file://${path.join(__dirname, '../build/index.html')}`
-    );
+    isDev ?
+      win.loadURL('http://localhost:3000') :
+      win.loadFile('vite-build/index.html');
 }
 
 app.whenReady().then(() => {
