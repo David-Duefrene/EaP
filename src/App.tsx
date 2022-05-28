@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 import {
   ApolloClient,
@@ -8,8 +8,9 @@ import {
   gql
 } from "@apollo/client";
 
-import logo from './logo.svg'
-import './App.css'
+import AddCharacter from './AddCharacter/AddCharacter';
+import logo from './logo.svg';
+import './App.css';
 
   // the client
   const client = new ApolloClient({
@@ -18,7 +19,7 @@ import './App.css'
   });
 
 function App() {
-  const [count, setCount] = useState([])
+  const [count, setCount] = useState([]);
 
   client.query({
     query: gql`
@@ -36,9 +37,8 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>Hello Vite, React, GraphQL, and Electron!</p>
         <p>env is {process.env.NODE_ENV}</p>
-        <p>
-          count is: {count.map(book => <p>{book['title']}</p>)}
-        </p>
+        <AddCharacter />
+        <p>QL Query: {count.map(book => <p>{book['title']}</p>)}</p>
       </header>
     </div>
   )
