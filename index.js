@@ -1,6 +1,7 @@
 const { ApolloServer, gql } = require('apollo-server');
 const { app, BrowserWindow, shell, ipcMain } = require('electron');
 const path = require('path');
+const net = require('net');
 
 // GraphQL code
 const typeDefs = gql`
@@ -56,13 +57,24 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            preload: path.join(__dirname, 'preload.js'),
+            // preload: path.join(__dirname, 'preload.js'),
         },
     })
 
     ipcMain.on('Login', (event, arg) => {
         event.preventDefault();
-        shell.openExternal(arg)
+
+        shell.openExternal(arg);
+        const server = net.createServer();
+        server.listen(80, 'localhost',  () => {
+            console.log('connected to server!');
+        });
+
+        server.on('connection', (socket) => {
+            socket.on('data', (data) => {
+                console.log(data.toString().split(' ')[1].match(/(?<=code=).*(?=&)/)[0]); // this is the auth code
+            });
+        });
     });
 
     // TODO process.env.NODE_ENV seems to not be set dev despite it needing to be set to dev
@@ -78,11 +90,6 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
     createWindow();
-})
-
-app.on('login', (event, url) => {
-    event.preventDefault();
-    shell.openExternal(url);
 });
 
 app.on('window-all-closed', () => {
