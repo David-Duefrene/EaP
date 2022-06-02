@@ -27,10 +27,10 @@ const AddCharacter = () => {
     }
     const challenge = hash(verifier);
 
-    const url = `${baseURL}?response_type=code&redirect_uri=${redirectURL}&client_id=${clientID}&scope=${scope}&code_challenge=${challenge}&state=uniqueString`;
+    const url = `${baseURL}?response_type=code&redirect_uri=${redirectURL}&client_id=${clientID}&scope=${scope}&code_challenge=${challenge}&code_challenge_method=S256&state=uniqueString`;
 
     return (
-        <button onClick={() => ipcRenderer.send('Login', url)} id='TestMe'>TEST</button>
+        <button onClick={() => ipcRenderer.send('Login', url)}>Login</button>
     );
 }
 
