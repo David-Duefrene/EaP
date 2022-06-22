@@ -12,6 +12,7 @@ class Auth {
 
 	constructor() {
 		this.service = 'EaP';
+		this.isRunning = false;
 	}
 
 	addNewCharacter() {
@@ -63,7 +64,10 @@ class Auth {
 					console.log(`error: ${error}`);
 					console.log(error.response.data);
 				});
+				socket.end('<h1>You may close this tab now.</h1>');
+				server.close();
 			});
+
 		});
 	}
 }
