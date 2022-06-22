@@ -67,7 +67,7 @@ const createWindow = () => {
 		event.preventDefault();
 		const controller = new AbortController();
 		const { signal } = controller;
-		const child = fork('./Electron/Auth/auth.ts', { signal });
+		const child = fork('./Auth/auth.ts', { signal });
 		child.on('message', (message) => {
 			shell.openExternal(message.url);
 		});

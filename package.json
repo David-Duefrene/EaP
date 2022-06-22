@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "start": "concurrently -k \"npm run dev\" \"npm run electron\"",
-    "electron": "electron .",
-    "dev": "vite",
+    "electron": "electron ./Electron/index.ts",
+    "dev": "vite ./React",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "ebuild": "electron-builder --win",
