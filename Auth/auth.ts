@@ -1,17 +1,19 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 // import keytar from 'keytar';
-// import { randomBytes, createHash } from 'crypto';
-const keytar = require('keytar');
+// const keytar = require('keytar');
 const { randomBytes, createHash } = require('crypto');
 const net = require('net');
-const axios = require('axios');
-const qs = require('qs');
+
+import axios from 'axios';
+import qs from 'qs';
+
+type Message = { type: string, message: string };
+type SendMessage = (message: Message) => void;
 
 class Auth {
 	service: string;
-	sendMessage: Function;
+	sendMessage: SendMessage;
 
-	constructor(sendMessage = (message) => { console.log(message); }) {
+	constructor(sendMessage = (message: Message) => { console.log(message); }) {
 		this.service = 'EaP';
 		this.sendMessage = sendMessage;
 	}
@@ -33,7 +35,7 @@ class Auth {
 		const hashVerifier = base64URLEncode(createHash('sha256').update(verifier).digest());
 
 		const url = `${baseURL}?response_type=code&redirect_uri=${redirectURL}&client_id=${clientID}&scope=${scope}&code_challenge=${hashVerifier}&code_challenge_method=S256&state=uniqueString`;
-		this.sendMessage({ 'url': url });
+		this.sendMessage({ type: 'url', message: url });
 
 		const server = net.createServer();
 		let auth_code = '';

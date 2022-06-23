@@ -7,7 +7,7 @@
     "start": "concurrently -k \"npm run dev-React\" \"npm run dev-Electron\"",
     "dev-Electron": "electron ./Electron/index.ts",
     "dev-React": "vite ./React",
-    "build-Auth": "vite build ./Auth",
+    "build-Auth": "vite build ./Auth"
   },
   "author": "",
   "license": "ISC",
