@@ -4,13 +4,10 @@
   "description": "Eve online API Project",
   "main": "index.ts",
   "scripts": {
-    "start": "concurrently -k \"npm run dev\" \"npm run electron\"",
-    "electron": "electron ./Electron/index.ts",
-    "dev": "vite ./React",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "ebuild": "electron-builder --win",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently -k \"npm run dev-React\" \"npm run dev-Electron\"",
+    "dev-Electron": "electron ./Electron/index.ts",
+    "dev-React": "vite ./React",
+    "build-Auth": "vite build ./Auth",
   },
   "author": "",
   "license": "ISC",

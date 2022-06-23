@@ -8,11 +8,12 @@ const axios = require('axios');
 const qs = require('qs');
 
 class Auth {
-	// service: string;
+	service: string;
+	sendMessage: Function;
 
-	constructor() {
+	constructor(sendMessage = (message) => { console.log(message); }) {
 		this.service = 'EaP';
-		this.isRunning = false;
+		this.sendMessage = sendMessage;
 	}
 
 	addNewCharacter() {
@@ -32,7 +33,7 @@ class Auth {
 		const hashVerifier = base64URLEncode(createHash('sha256').update(verifier).digest());
 
 		const url = `${baseURL}?response_type=code&redirect_uri=${redirectURL}&client_id=${clientID}&scope=${scope}&code_challenge=${hashVerifier}&code_challenge_method=S256&state=uniqueString`;
-		process.send({ 'url': url });
+		this.sendMessage({ 'url': url });
 
 		const server = net.createServer();
 		let auth_code = '';
