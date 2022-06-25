@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-require('dotenv').config();
+require('dotenv').config('./../.env');
 const { ApolloServer, gql } = require('apollo-server');
 const { app, BrowserWindow, shell, ipcMain } = require('electron');
 const { fork } = require('node:child_process');
@@ -69,7 +69,7 @@ const createWindow = () => {
 		const { signal } = controller;
 		const child = fork('./Auth/vite-build/auth.es.js', { signal });
 		child.on('message', (message) => {
-			shell.openExternal(message.url);
+			shell.openExternal(message.message);
 		});
 		// child.on('error', (err) => {
 		// 	console.log(err);
