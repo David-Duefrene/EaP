@@ -4,7 +4,9 @@ require('dotenv').config('./../.env');
 const { randomBytes, createHash } = require('crypto');
 const net = require('net');
 
-import axios from 'axios';
+const jwksClient = require('jwks-rsa');
+var jwt = require('jsonwebtoken');
+const axios = require('axios');
 import qs from 'qs';
 
 type Message = { type: string, message: string };
@@ -51,7 +53,7 @@ class Auth {
 					'grant_type': 'authorization_code',
 					'code': `${auth_code}`,
 					'code_verifier': `${verifier}`,
-					'client_id': `${process.env.CLIENT_ID}`,
+					'client_id': `${process.env['CLIENT_ID']}`,
 				});
 				const options = {
 					method: 'POST',
@@ -62,8 +64,13 @@ class Auth {
 					data: postData,
 				};
 				axios(options).then((response) => {
-					console.log(`response: ${response}`);
 					console.log(response.data);
+					const jwtVerifier = jwksClient({
+						jwksUri: 'https://login.eveonline.com/oauth/jwks',
+						requestHeaders: {}, // Optional
+						timeout: 30000 // Defaults to 30s
+					});
+					jwtVerifier.getSigningKey("JWT-Signature-Key").then(key => console.log(jwt.verify(response.data['access_token'], key.getPublicKey(),  { algorithms: ['RS256'] })));
 				}).catch((error) => {
 					console.log(`error: ${error}`);
 					console.log(error.response.data);
