@@ -1,11 +1,12 @@
 require('dotenv').config('./../.env');
-// import keytar from 'keytar';
-// const keytar = require('keytar');
+
 const { randomBytes, createHash } = require('crypto');
 const net = require('net');
 
 const jwksClient = require('jwks-rsa');
 var jwt = require('jsonwebtoken');
+const keytar = require('keytar');
+
 const axios = require('axios');
 import qs from 'qs';
 
@@ -15,11 +16,18 @@ type SendMessage = (message: Message) => void;
 class Auth {
 	service: string;
 	sendMessage: SendMessage;
+	characterList: {};
 
 	constructor(sendMessage = (message: Message) => { console.log(message); }) {
-		this.service = 'EaP';
+		this.service = 'EaP-Auth';
 		this.sendMessage = sendMessage;
+		this.characterList = {}
 	}
+
+	updateTokens(accessToken: string, refreshToken: string, characterName: string, expiresIn: number) {
+		this.characterList[characterName] = { 'access_token': accessToken, 'refresh_token': refreshToken, 'expiration': expiresIn };
+		keytar.setPassword(this.service, characterName, JSON.stringify(refreshToken));
+	};
 
 	addNewCharacter() {
 		// https://docs.esi.evetech.net/docs/sso/native_sso_flow.html
@@ -64,13 +72,22 @@ class Auth {
 					data: postData,
 				};
 				axios(options).then((response) => {
-					console.log(response.data);
+					const access_token = response.data['access_token'];
+					const refresh_token = response.data['refresh_token'];
+
 					const jwtVerifier = jwksClient({
 						jwksUri: 'https://login.eveonline.com/oauth/jwks',
 						requestHeaders: {}, // Optional
 						timeout: 30000 // Defaults to 30s
 					});
-					jwtVerifier.getSigningKey("JWT-Signature-Key").then(key => console.log(jwt.verify(response.data['access_token'], key.getPublicKey(),  { algorithms: ['RS256'] })));
+					jwtVerifier.getSigningKey("JWT-Signature-Key").then(key => {
+						// if jwt.verify is true, need to save the refresh token to keytar,
+						const decoded = jwt.verify(access_token, key.getPublicKey(),  { algorithms: ['RS256'] });
+						const charName = decoded.name;
+						const expiration = decoded.exp;
+						this.updateTokens(access_token, refresh_token, charName, expiration);
+						// if jwt.verify is false, need to send a message to the user that they have been denied access
+					});
 				}).catch((error) => {
 					console.log(`error: ${error}`);
 					console.log(error.response.data);
