@@ -7,8 +7,9 @@ const jwksClient = require('jwks-rsa');
 var jwt = require('jsonwebtoken');
 const keytar = require('keytar');
 
-const axios = require('axios');
 import qs from 'qs';
+
+import GetAuth from './axiosGetAuth';
 
 type Message = { type: string, message: string };
 type SendMessage = (message: Message) => void;
@@ -105,17 +106,9 @@ class Auth {
 					'code_verifier': `${verifier}`,
 					'client_id': `${process.env['CLIENT_ID']}`,
 				});
-				const options = {
-					method: 'POST',
-					url: 'https://login.eveonline.com/v2/oauth/token',
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-					},
-					data: postData,
-				};
 
 				// Now try and get the full refresh token
-				axios(options).then((response) => {
+				GetAuth(postData).then((response) => {
 					const access_token = response.data['access_token'];
 					const refresh_token = response.data['refresh_token'];
 
