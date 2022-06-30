@@ -62,15 +62,17 @@ const createWindow = () => {
 			// preload: path.join(__dirname, 'preload.js'),
 		},
 	});
+	const controller = new AbortController();
+	const { signal } = controller;
+	const child = fork('./Auth/vite-build/auth.es.js', { signal });
+	child.on('message', (message) => {
+		shell.openExternal(message.message);
+	});
 
 	ipcMain.on('Login', (event) => {
 		event.preventDefault();
-		const controller = new AbortController();
-		const { signal } = controller;
-		const child = fork('./Auth/vite-build/auth.es.js', { signal });
-		child.on('message', (message) => {
-			shell.openExternal(message.message);
-		});
+		console.log('Login');
+		child.send({ type: 'Login', message: 'Login' });
 		// child.on('error', (err) => {
 		// 	console.log(err);
 		// });
