@@ -49,6 +49,22 @@ class Auth {
 		});
 	};
 
+	//* Refreshes the character's token
+	refreshToken(characterName: string) {
+		const refresh_token = keytar.getPassword(this.service, characterName);
+		const payload = {
+			grant_type: 'refresh_token',
+			refresh_token: refresh_token,
+			client_id: process.env['CLIENT_ID'],
+		};
+		GetAuth(payload).then((response) => {
+			const access_token = response.data['access_token'];
+			this.verifyJWT(access_token).then((decoded) => {
+				this.updateToken(access_token, decoded.name, refresh_token, decoded.exp);
+			});
+		});
+	};
+
 	//* Loads all character tokens to the character list
 	loadAllTokens() {
 		const accountList = keytar.findCredentials(this.service);
