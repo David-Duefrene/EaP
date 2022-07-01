@@ -22,7 +22,7 @@ const default_send_message: SendMessage = (message) => {
 	else {
 		console.log(message);
 	}
-}
+};
 
 //* Sends a message to the main process
 const default_receive_message = (processMessages: (arg0: Message) => void) => {
@@ -41,13 +41,13 @@ class Auth {
 		this.service = 'EaP-Auth';
 		this.sendMessage = sendMessage;
 		this.characterList = {};
-
+		https://docs.esi.evetech.net/docs/sso/refreshing_access_tokens.html
 		receiveMessage((message: Message) => {
 			if (message.type === 'Login') {
 				this.addNewCharacter();
 			}
 		});
-	}
+	};
 
 	//* Loads all character tokens to the character list
 	loadAllTokens() {
@@ -55,7 +55,7 @@ class Auth {
 		for (const account of accountList) {
 			this.updateToken(account.password, account.account);
 		}
-	}
+	};
 
 	//*	Updates the character to the character list & key chain
 	updateToken(accessToken: string, characterName: string, refreshToken: string = '', expiresIn: number = 0) {
@@ -112,16 +112,8 @@ class Auth {
 					const access_token = response.data['access_token'];
 					const refresh_token = response.data['refresh_token'];
 
-					const jwtVerifier = jwksClient({
-						jwksUri: 'https://login.eveonline.com/oauth/jwks',
-						requestHeaders: {}, // Optional
-						timeout: 30000 // Defaults to 30s
-					});
-					jwtVerifier.getSigningKey("JWT-Signature-Key").then(key => {
-						const decoded = jwt.verify(access_token, key.getPublicKey(),  { algorithms: ['RS256'] });
-						const charName = decoded.name;
-						const expiration = decoded.exp;
-						this.updateToken(access_token, charName, refresh_token, expiration);
+					this.verifyJWT(access_token).then((decoded) => {
+						this.updateToken(access_token, decoded.name, refresh_token, decoded.exp);
 					});
 				}).catch((error) => {
 					// TODO: Make a logging system
@@ -131,9 +123,20 @@ class Auth {
 				socket.end('<h1>You may close this tab now.</h1>');
 				server.close();
 			});
-
 		});
-	}
-}
+	};
+
+	//* Verifies a JWT token
+	private verifyJWT(access_token: any) {
+		const jwtVerifier = jwksClient({
+			jwksUri: 'https://login.eveonline.com/oauth/jwks',
+			requestHeaders: {},
+			timeout: 30000 // Defaults to 30s
+		});
+		return jwtVerifier.getSigningKey("JWT-Signature-Key").then(key => {
+			return jwt.verify(access_token, key.getPublicKey(), { algorithms: ['RS256'] });
+		});
+	};
+};
 
 new Auth();
