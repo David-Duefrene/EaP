@@ -60,7 +60,7 @@ class Auth {
 		GetAuth(payload).then((response) => {
 			const access_token = response.data['access_token'];
 			this.verifyJWT(access_token).then((decoded) => {
-				this.updateToken(access_token, decoded.name, refresh_token, decoded.exp);
+				this.updateToken(access_token, decoded.name, refresh_token);
 			});
 		});
 	};
@@ -74,8 +74,10 @@ class Auth {
 	};
 
 	//*	Updates the character to the character list & key chain
-	updateToken(accessToken: string, characterName: string, refreshToken: string = '', expiresIn: number = 0) {
-		this.characterList[characterName] = { 'access_token': accessToken, 'refresh_token': refreshToken, 'expiration': expiresIn };
+	updateToken(accessToken: string, characterName: string, refreshToken: string = '') {
+		const expiration = new Date();
+		expiration.setMinutes(expiration.getMinutes() + 19);
+		this.characterList[characterName] = { 'access_token': accessToken, 'refresh_token': refreshToken, 'expiration': expiration };
 		keytar.setPassword(this.service, characterName, JSON.stringify(refreshToken));
 	};
 
@@ -129,7 +131,7 @@ class Auth {
 					const refresh_token = response.data['refresh_token'];
 
 					this.verifyJWT(access_token).then((decoded) => {
-						this.updateToken(access_token, decoded.name, refresh_token, decoded.exp);
+						this.updateToken(access_token, decoded.name, refresh_token);
 					});
 				}).catch((error) => {
 					// TODO: Make a logging system
