@@ -60,39 +60,6 @@ class Auth {
 		return new Error('Character not found');
 	}
 
-	//* Refreshes the character's token
-	refreshToken(characterName: string) {
-		const refresh_token = keytar.getPassword(this.service, characterName);
-		const payload = {
-			grant_type: 'refresh_token',
-			refresh_token: refresh_token,
-			client_id: process.env['CLIENT_ID'],
-		};
-		return GetAuth(payload).then((response) => {
-			const access_token = response.data['access_token'];
-			return this.verifyJWT(access_token).then((decoded) => {
-				this.updateToken(access_token, decoded.name, refresh_token);
-				return { 'name': decoded.name, 'access_token': access_token, 'refresh_token': refresh_token };
-			});
-		});
-	};
-
-	//* Loads all character tokens to the character list
-	loadAllTokens() {
-		const accountList = keytar.findCredentials(this.service);
-		for (const account of accountList) {
-			this.updateToken(account.password, account.account);
-		}
-	};
-
-	//*	Updates the character to the character list & key chain
-	updateToken(accessToken: string, characterName: string, refreshToken: string = '') {
-		const expiration = new Date();
-		expiration.setMinutes(expiration.getMinutes() + 19);
-		this.characterList[characterName] = { 'access_token': accessToken, 'refresh_token': refreshToken, 'expiration': expiration };
-		keytar.setPassword(this.service, characterName, JSON.stringify(refreshToken));
-	};
-
 	//* Retrieves the access & refresh tokens for a new character
 	addNewCharacter() {
 		// https://docs.esi.evetech.net/docs/sso/native_sso_flow.html
@@ -154,6 +121,41 @@ class Auth {
 				server.close();
 			});
 		});
+	};
+
+	// Private Methods
+
+	//* Refreshes the character's token
+	private refreshToken(characterName: string) {
+		const refresh_token = keytar.getPassword(this.service, characterName);
+		const payload = {
+			grant_type: 'refresh_token',
+			refresh_token: refresh_token,
+			client_id: process.env['CLIENT_ID'],
+		};
+		return GetAuth(payload).then((response) => {
+			const access_token = response.data['access_token'];
+			return this.verifyJWT(access_token).then((decoded) => {
+				this.updateToken(access_token, decoded.name, refresh_token);
+				return { 'name': decoded.name, 'access_token': access_token, 'refresh_token': refresh_token };
+			});
+		});
+	};
+
+	//* Loads all character tokens to the character list
+	private loadAllTokens() {
+		const accountList = keytar.findCredentials(this.service);
+		for (const account of accountList) {
+			this.updateToken(account.password, account.account);
+		}
+	};
+
+	//*	Updates the character to the character list & key chain
+	private updateToken(accessToken: string, characterName: string, refreshToken: string = '') {
+		const expiration = new Date();
+		expiration.setMinutes(expiration.getMinutes() + 19);
+		this.characterList[characterName] = { 'access_token': accessToken, 'refresh_token': refreshToken, 'expiration': expiration };
+		keytar.setPassword(this.service, characterName, JSON.stringify(refreshToken));
 	};
 
 	//* Verifies a JWT token
