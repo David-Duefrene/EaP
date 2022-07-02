@@ -41,13 +41,24 @@ class Auth {
 		this.service = 'EaP-Auth';
 		this.sendMessage = sendMessage;
 		this.characterList = {};
-		https://docs.esi.evetech.net/docs/sso/refreshing_access_tokens.html
+
+		this.loadAllTokens();
 		receiveMessage((message: Message) => {
 			if (message.type === 'Login') {
 				this.addNewCharacter();
 			}
 		});
 	};
+
+	//* Retrieves a character's token
+	getToken(characterName: string) {
+		if (characterName in this.characterList) {
+			return this.refreshToken(characterName).then((result) => {;
+				return result;
+			});
+		}
+		return new Error('Character not found');
+	}
 
 	//* Refreshes the character's token
 	refreshToken(characterName: string) {
@@ -57,10 +68,11 @@ class Auth {
 			refresh_token: refresh_token,
 			client_id: process.env['CLIENT_ID'],
 		};
-		GetAuth(payload).then((response) => {
+		return GetAuth(payload).then((response) => {
 			const access_token = response.data['access_token'];
-			this.verifyJWT(access_token).then((decoded) => {
+			return this.verifyJWT(access_token).then((decoded) => {
 				this.updateToken(access_token, decoded.name, refresh_token);
+				return { 'name': decoded.name, 'access_token': access_token, 'refresh_token': refresh_token };
 			});
 		});
 	};
