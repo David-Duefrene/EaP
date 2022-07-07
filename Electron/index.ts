@@ -68,6 +68,19 @@ const createWindow = () => {
 	const { signal } = controller;
 	const child = fork('./Auth/vite-build/auth.es.js', { signal });
 
+	// Pull all tokens from the store
+	const characterList = electronStore.get('characters', '').split(',');
+	if (characterList.length > 1) {
+		const charDict = {};
+		for(const character of characterList) {
+			const buffer = Buffer.from(electronStore.get(character));
+			const decryptedBuffer = safeStorage.decryptString(buffer);
+			charDict[character] = decryptedBuffer;
+		}
+		child.send({ type: 'CharList', message: charDict });
+	}
+
+
 	child.on('message', (message) => {
 		if (message.type === 'url') {
 			shell.openExternal(message.message);
@@ -77,7 +90,7 @@ const createWindow = () => {
 			const charList = electronStore.get('characters', '').split(',');
 
 			if (name !in charList) {
-				charList.push(name);
+				charList[name] = token;
 				electronStore.set('characters', charList);
 			}
 			electronStore.set(name, token);

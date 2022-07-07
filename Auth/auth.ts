@@ -4,7 +4,7 @@ const { randomBytes, createHash } = require('crypto');
 const net = require('net');
 
 const jwksClient = require('jwks-rsa');
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 import qs from 'qs';
 
@@ -45,6 +45,11 @@ class Auth {
 		receiveMessage((message: Message) => {
 			if (message.type === 'Login') {
 				this.addNewCharacter();
+			} else if (message.type === 'CharList') {
+				console.log(message.message)
+				for (const [name, refresh_token] of Object.entries(message.message)) {
+					this.characterList[name] = { access_token: '', refresh_token: refresh_token, expiration: '' }
+				}
 			}
 		});
 	};
