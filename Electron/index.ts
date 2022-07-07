@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config('./../.env');
-const { ApolloServer, gql } = require('apollo-server');
-const { app, BrowserWindow, shell, ipcMain } = require('electron');
 const { fork } = require('node:child_process');
 
+const { ApolloServer, gql } = require('apollo-server');
+
+const { app, BrowserWindow, shell, ipcMain, safeStorage } = require('electron');
+const Store = require('electron-store');
+const electronStore = new Store();
 // GraphQL code
 const typeDefs = gql`
     type Book {
@@ -15,7 +18,6 @@ const typeDefs = gql`
         books: [Book]
     }
 `;
-
 // Example data
 const books = [
 	{
@@ -65,8 +67,21 @@ const createWindow = () => {
 	const controller = new AbortController();
 	const { signal } = controller;
 	const child = fork('./Auth/vite-build/auth.es.js', { signal });
+
 	child.on('message', (message) => {
-		shell.openExternal(message.message);
+		if (message.type === 'url') {
+			shell.openExternal(message.message);
+		} else if (message.type === 'token') {
+			const name = message.message['name'];
+			const token = safeStorage.encryptString(message.message['refresh_token']);
+			const charList = electronStore.get('characters', '').split(',');
+
+			if (name !in charList) {
+				charList.push(name);
+				electronStore.set('characters', charList);
+			}
+			electronStore.set(name, token);
+		}
 	});
 
 	ipcMain.on('Login', (event) => {
@@ -93,7 +108,9 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
 	createWindow();
-});
+}).catch((err) => {
+	console.log(err);
+});;
 
 app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') {

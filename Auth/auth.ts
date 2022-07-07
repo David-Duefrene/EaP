@@ -5,13 +5,12 @@ const net = require('net');
 
 const jwksClient = require('jwks-rsa');
 var jwt = require('jsonwebtoken');
-const keytar = require('keytar');
 
 import qs from 'qs';
 
 import GetAuth from './axiosGetAuth';
 
-type Message = { type: string, message: string };
+type Message = { type: string, message: any };
 type SendMessage = (message: Message) => void;
 
 //* Checks for process.send & sends it, this is to prevent Typescript errors
@@ -42,7 +41,7 @@ class Auth {
 		this.sendMessage = sendMessage;
 		this.characterList = {};
 
-		this.loadAllTokens();
+		// this.loadAllTokens();
 		receiveMessage((message: Message) => {
 			if (message.type === 'Login') {
 				this.addNewCharacter();
@@ -127,7 +126,7 @@ class Auth {
 
 	//* Refreshes the character's token
 	private refreshToken(characterName: string) {
-		const refresh_token = keytar.getPassword(this.service, characterName);
+		const refresh_token = this.characterList[characterName].refresh_token;
 		const payload = {
 			grant_type: 'refresh_token',
 			refresh_token: refresh_token,
@@ -144,18 +143,17 @@ class Auth {
 
 	//* Loads all character tokens to the character list
 	private loadAllTokens() {
-		const accountList = keytar.findCredentials(this.service);
-		for (const account of accountList) {
-			this.updateToken(account.password, account.account);
-		}
 	};
 
 	//*	Updates the character to the character list & key chain
-	private updateToken(accessToken: string, characterName: string, refreshToken: string = '') {
+	private updateToken(refreshToken: string, characterName: string, accessToken: string = '') {
 		const expiration = new Date();
 		expiration.setMinutes(expiration.getMinutes() + 19);
 		this.characterList[characterName] = { 'access_token': accessToken, 'refresh_token': refreshToken, 'expiration': expiration };
-		keytar.setPassword(this.service, characterName, JSON.stringify(refreshToken));
+		this.sendMessage({ type: 'token', message: {
+			'name': characterName,
+			'refresh_token': refreshToken,
+		} });
 	};
 
 	//* Verifies a JWT token
