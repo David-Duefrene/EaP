@@ -6,8 +6,6 @@ const net = require('net');
 const jwksClient = require('jwks-rsa');
 const jwt = require('jsonwebtoken');
 
-import qs from 'qs';
-
 import GetAuth from './axiosGetAuth';
 
 type Message = { type: string, message: any };
@@ -45,7 +43,6 @@ class Auth {
 			if (message.type === 'Login') {
 				this.addNewCharacter();
 			} else if (message.type === 'CharList') {
-				console.log(message.message)
 				for (const [name, refresh_token] of Object.entries(message.message)) {
 					this.characterList[name] = { access_token: '', refresh_token: refresh_token, expiration: '' }
 				}
@@ -57,11 +54,11 @@ class Auth {
 	//* Retrieves a character's token
 	getToken(characterName: string) {
 		if (characterName in this.characterList) {
-			return this.refreshToken(characterName).then((result) => {;
+			return this.refreshToken(characterName).then((result) => {
 				return result;
 			});
 		}
-		return new Error('Character not found');
+		return null;
 	}
 
 	//* Retrieves the access & refresh tokens for a new character
@@ -101,12 +98,7 @@ class Auth {
 			socket.on('data', (data) => {
 				// Get the auth_code from the URL
 				auth_code = data.toString().split(' ')[1].match(/(?<=code=).*(?=&)/)[0];
-				const postData = qs.stringify({
-					'grant_type': 'authorization_code',
-					'code': `${auth_code}`,
-					'code_verifier': `${verifier}`,
-					'client_id': `${process.env['CLIENT_ID']}`,
-				});
+				const postData = `grant_type=authorization_code&code=${auth_code}&code_verifier=${verifier}&client_id=${process.env['CLIENT_ID']}`;
 
 				// Now try and get the full refresh token
 				GetAuth(postData).then((response) => {
@@ -132,16 +124,12 @@ class Auth {
 	//* Refreshes the character's token
 	private refreshToken(characterName: string) {
 		const refresh_token = this.characterList[characterName]['refresh_token'];
-		const payload = qs.stringify({
-			grant_type: 'refresh_token',
-			refresh_token: refresh_token,
-			client_id: process.env['CLIENT_ID'],
-		});
+		const payload = `grant_type=refresh_token&refresh_token=${refresh_token}&client_id=${process.env['CLIENT_ID']}`;
 
 		return GetAuth(payload).then((response) => {
 			const access_token = response.data['access_token'];
 			return this.verifyJWT(access_token).then((decoded) => {
-				this.updateToken(access_token, decoded.name, refresh_token);
+				this.updateToken(refresh_token, decoded.name, access_token);
 				return { 'name': decoded.name, 'access_token': access_token, 'refresh_token': refresh_token };
 			}).catch((error) => {
 				console.log(`error: ${error}`);
