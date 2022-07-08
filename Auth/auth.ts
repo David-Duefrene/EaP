@@ -41,7 +41,6 @@ class Auth {
 		this.sendMessage = sendMessage;
 		this.characterList = {};
 
-		// this.loadAllTokens();
 		receiveMessage((message: Message) => {
 			if (message.type === 'Login') {
 				this.addNewCharacter();
@@ -50,6 +49,7 @@ class Auth {
 				for (const [name, refresh_token] of Object.entries(message.message)) {
 					this.characterList[name] = { access_token: '', refresh_token: refresh_token, expiration: '' }
 				}
+				this.refreshAllTokens();
 			}
 		});
 	};
@@ -114,7 +114,7 @@ class Auth {
 					const refresh_token = response.data['refresh_token'];
 
 					this.verifyJWT(access_token).then((decoded) => {
-						this.updateToken(access_token, decoded.name, refresh_token);
+						this.updateToken(refresh_token, decoded.name, access_token);
 					});
 				}).catch((error) => {
 					// TODO: Make a logging system
@@ -131,23 +131,33 @@ class Auth {
 
 	//* Refreshes the character's token
 	private refreshToken(characterName: string) {
-		const refresh_token = this.characterList[characterName].refresh_token;
-		const payload = {
+		const refresh_token = this.characterList[characterName]['refresh_token'];
+		const payload = qs.stringify({
 			grant_type: 'refresh_token',
 			refresh_token: refresh_token,
 			client_id: process.env['CLIENT_ID'],
-		};
+		});
+
 		return GetAuth(payload).then((response) => {
 			const access_token = response.data['access_token'];
 			return this.verifyJWT(access_token).then((decoded) => {
 				this.updateToken(access_token, decoded.name, refresh_token);
 				return { 'name': decoded.name, 'access_token': access_token, 'refresh_token': refresh_token };
+			}).catch((error) => {
+				console.log(`error: ${error}`);
+				console.log(error.response.data);
 			});
+		}).catch((error) => {
+			console.log(`error: ${error}`);
+			console.log(error.response.data);
 		});
 	};
 
 	//* Loads all character tokens to the character list
-	private loadAllTokens() {
+	private refreshAllTokens() {
+		for (const characterName of Object.keys(this.characterList)) {
+			this.refreshToken(characterName);
+		}
 	};
 
 	//*	Updates the character to the character list & key chain
