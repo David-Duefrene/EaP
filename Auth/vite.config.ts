@@ -9,13 +9,13 @@ export default defineConfig({
 	build: {
 		outDir: './vite-build',
 		lib: {
-			entry: fileURLToPath(new URL('./auth.ts', import.meta.url)),
-			name: 'auth',
-			fileName: 'auth',
+			entry: fileURLToPath(new URL('./ElectronEntry.ts', import.meta.url)),
+			name: 'ElectronEntry',
+			fileName: 'ElectronEntry',
 		},
 		rollupOptions: {
 			input: {
-				Auth: fileURLToPath(new URL('./auth.ts', import.meta.url)),
+				Auth: fileURLToPath(new URL('./ElectronEntry.ts', import.meta.url)),
 			},
 		},
 	},

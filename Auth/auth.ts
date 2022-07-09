@@ -172,4 +172,4 @@ class Auth {
 	};
 };
 
-new Auth();
+export default Auth;
