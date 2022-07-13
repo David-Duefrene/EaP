@@ -67,7 +67,6 @@ class Auth {
 		const verifier = this.GeneratePCKEVerifier();
 
 		const server = net.createServer();
-		let auth_code = '';
 		server.listen(80, 'localhost',  () => {
 			// Listening for the response from EVEO
 			// TODO: Make a logging system
@@ -76,23 +75,7 @@ class Auth {
 
 		server.on('connection', (socket) => {
 			socket.on('data', (data) => {
-				// Get the auth_code from the URL
-				auth_code = data.toString().split(' ')[1].match(/(?<=code=).*(?=&)/)[0];
-				const postData = `grant_type=authorization_code&code=${auth_code}&code_verifier=${verifier}&client_id=${process.env['CLIENT_ID']}`;
-
-				// Now try and get the full refresh token
-				GetAuth(postData).then((response) => {
-					const access_token = response.data['access_token'];
-					const refresh_token = response.data['refresh_token'];
-
-					this.verifyJWT(access_token).then((decoded) => {
-						this.updateToken(refresh_token, decoded.name, access_token);
-					});
-				}).catch((error) => {
-					// TODO: Make a logging system
-					console.log(`error: ${error}`);
-					console.log(error.response.data);
-				});
+				this.handleOAuthCallback(data, verifier);
 				socket.end('<h1>You may close this tab now.</h1>');
 				server.close();
 			});
@@ -100,6 +83,27 @@ class Auth {
 	};
 
 	// Private Methods
+
+	//* Handles the OAuth callback from EVEO
+	private handleOAuthCallback(data: any, verifier: any) {
+		// Get the auth_code from the URL
+		const auth_code = data.toString().split(' ')[1].match(/(?<=code=).*(?=&)/)[0];
+		const postData = `grant_type=authorization_code&code=${auth_code}&code_verifier=${verifier}&client_id=${process.env['CLIENT_ID']}`;
+
+		// Now try and get the full refresh token
+		GetAuth(postData).then((response) => {
+			const access_token = response.data['access_token'];
+			const refresh_token = response.data['refresh_token'];
+
+			this.verifyJWT(access_token).then((decoded) => {
+				this.updateToken(refresh_token, decoded.name, access_token);
+			});
+		}).catch((error) => {
+			// TODO: Make a logging system
+			console.log(`error: ${error}`);
+			console.log(error.response.data);
+		});
+	}
 
 	//* Generates a PCKE Verifier
 	private GeneratePCKEVerifier() {
