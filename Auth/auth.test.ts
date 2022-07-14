@@ -35,4 +35,42 @@ describe('Auth', () => {
 		expect(auth.characterList['character1'].refresh_token).toBe('refresh_token');
 		expect(auth.characterList['character1'].expiration).toEqual(testDate);
 	});
+
+	test('should refresh token', () => {
+		auth.characterList = {
+			'character1': {
+				access_token: 'access_token',
+				refresh_token: 'refresh_token',
+				expiration: new Date()
+			}
+		};
+		vi.useFakeTimers();
+		vi.mock('./axiosGetAuth', () => {
+			return {
+				default: vi.fn(() => {
+					return Promise.resolve({
+						data: {
+							access_token: 'access_token2',
+							refresh_token: 'refresh_token2',
+							expires_in: 3600
+						}
+					});
+				})
+			};
+		});
+
+		// mock the verifyJWT function
+		auth['verifyJWT'] = vi.fn(() => {
+			return Promise.resolve({
+				name: 'character1'
+			});
+		});
+
+		auth['refreshToken']('character1').then(() => {
+			expect(auth.characterList['character1'].access_token).toBe('access_token2');
+			expect(auth.characterList['character1'].refresh_token).toBe('refresh_token2');
+			expect(auth.characterList['character1'].expiration).toBeDefined();
+		});
+
+	});
 });

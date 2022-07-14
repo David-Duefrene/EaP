@@ -132,11 +132,12 @@ class Auth {
 
 	//* Refreshes the character's token
 	private refreshToken(characterName: string) {
-		const refresh_token = this.characterList[characterName]['refresh_token'];
+		let refresh_token = this.characterList[characterName]['refresh_token'];
 		const payload = `grant_type=refresh_token&refresh_token=${refresh_token}&client_id=${process.env['CLIENT_ID']}`;
 
 		return GetAuth(payload).then((response) => {
 			const access_token = response.data['access_token'];
+			refresh_token = response.data['refresh_token'];
 			return this.verifyJWT(access_token).then((decoded) => {
 				this.updateToken(refresh_token, decoded.name, access_token);
 				return { 'name': decoded.name, 'access_token': access_token, 'refresh_token': refresh_token };
