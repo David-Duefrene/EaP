@@ -7,23 +7,42 @@ describe('Auth', () => {
 
 	beforeEach(() => {
 		auth = new Auth();
-	});
 
-	test('should be instantiated with default values', () => {
-		expect(auth).toBeDefined();
-		expect(auth.service).toBe('EaP-Auth');
-		expect(auth.characterList).toEqual({});
-	});
-
-	test('should update token', () => {
 		auth.characterList = {
 			'character1': {
 				access_token: '',
 				refresh_token: '',
 				expiration: ''
+			},
+			'character2': {
+				access_token: '',
+				refresh_token: '',
+				expiration: ''
 			}
 		};
+	});
 
+	test('should be instantiated with default values', () => {
+		expect(auth).toBeDefined();
+		expect(auth.service).toBe('EaP-Auth');
+		expect('character1' in auth.characterList).toEqual(true);
+		expect('character2' in auth.characterList).toEqual(true);
+	});
+
+	// Test to see if we can refresh all tokens
+	test('should be able to refresh all tokens', () => {
+		// mock the refreshToken function
+		auth['refreshToken'] = vi.fn(() => {});
+
+		// call the refreshAllTokens function
+		auth['refreshAllTokens']();
+
+		// check to see if the refreshToken function was called for each character
+		expect(auth['refreshToken']).toHaveBeenCalledTimes(2);
+	});
+
+
+	test('should update token', () => {
 		const testDate = new Date('2020-01-01T00:00:00.000Z')
 		vi.useFakeTimers();
 		vi.setSystemTime(testDate);
