@@ -29,6 +29,13 @@ describe('Auth', () => {
 		expect('character2' in auth.characterList).toEqual(true);
 	});
 
+	// Test to see if it can Generate a PCKE verifier
+	test('should be able to generate a PCKE verifier', () => {
+		const verifier = auth['GeneratePCKEVerifier']();
+		expect(verifier).toBeDefined();
+		expect(verifier.length).toBe(128);
+	});
+
 	// Test to see if we can refresh all tokens
 	test('should be able to refresh all tokens', () => {
 		// mock the refreshToken function
