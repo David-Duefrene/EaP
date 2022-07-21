@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "concurrently -k \"npm run dev-React\" \"npm run dev-Electron\"",
+	"test": "vitest",
     "dev-Electron": "electron ./Electron/vite-build/index.es.js",
     "dev-React": "vite ./React",
     "build-Electron": "vite build ./Electron",
