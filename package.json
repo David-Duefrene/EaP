@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "concurrently -k \"npm run dev-React\" \"npm run dev-Electron\"",
-	"test": "vitest",
+    "test": "vitest",
     "dev-Electron": "electron ./Electron/vite-build/index.es.js",
     "dev-React": "vite ./React",
     "build-Electron": "vite build ./Electron",
@@ -25,6 +25,8 @@
     "electron-builder": "^23.0.3",
     "eslint": "^8.17.0",
     "eslint-plugin-react": "^7.30.0",
+    "prisma": "^4.2.1",
+    "prisma-merge": "^0.2.0",
     "typescript": "^4.6.3",
     "vite": "^2.9.9",
     "vitest": "^0.18.0",

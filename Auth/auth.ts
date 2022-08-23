@@ -95,8 +95,8 @@ class Auth {
 			const access_token = response.data['access_token'];
 			const refresh_token = response.data['refresh_token'];
 
-			this.verifyJWT(access_token).then((decoded) => {
-				this.updateToken(refresh_token, decoded.name, access_token);
+			this.verifyJWT(access_token).then((decodedJWT) => {
+				this.updateToken(refresh_token, decodedJWT, access_token);
 			});
 		}).catch((error) => {
 			// TODO: Make a logging system
@@ -159,13 +159,14 @@ class Auth {
 	};
 
 	//*	Updates the character to the character list & key chain
-	private updateToken(refreshToken: string, characterName: string, accessToken: string = '') {
+	private updateToken(refreshToken: string, decodedJWT, accessToken: string = '') {
 		const expiration = new Date();
 		expiration.setMinutes(expiration.getMinutes() + 19);
-		this.characterList[characterName] = { 'access_token': accessToken, 'refresh_token': refreshToken, 'expiration': expiration };
+		this.characterList[decodedJWT.name] = { 'access_token': accessToken, 'refresh_token': refreshToken, 'expiration': expiration };
 		this.sendMessage({ type: 'token', message: {
-			'name': characterName,
+			'name': decodedJWT.name,
 			'refresh_token': refreshToken,
+			'char_id': decodedJWT.sub,
 		} });
 	};
 
