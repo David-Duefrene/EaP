@@ -1,12 +1,14 @@
-import { expect, test, beforeEach, describe, vi } from 'vitest';
+import { expect, test, beforeEach, afterEach, describe, vi } from 'vitest';
 
 import Auth from './auth';
 
 describe('Auth', () => {
 	let auth: Auth;
+	const mockSendFn = vi.fn().mockImplementation(() => {});
+	const mockReceiveFn = vi.fn().mockImplementation(() => {});
 
 	beforeEach(() => {
-		auth = new Auth();
+		auth = new Auth(mockSendFn, mockReceiveFn);
 
 		auth.characterList = {
 			'character1': {
@@ -21,6 +23,10 @@ describe('Auth', () => {
 			}
 		};
 	});
+
+	afterEach(() => {
+        vi.restoreAllMocks();
+    });
 
 	test('should be instantiated with default values', () => {
 		expect(auth).toBeDefined();
@@ -76,7 +82,7 @@ describe('Auth', () => {
 			}
 		};
 		vi.useFakeTimers();
-		vi.mock('./axiosGetAuth', () => {
+		vi.mock('../axiosGetAuth', () => {
 			return {
 				default: vi.fn(() => {
 					return Promise.resolve({
@@ -101,6 +107,46 @@ describe('Auth', () => {
 			expect(auth.characterList['character1'].access_token).toBe('access_token2');
 			expect(auth.characterList['character1'].refresh_token).toBe('refresh_token2');
 			expect(auth.characterList['character1'].expiration).toBeDefined();
+		});
+
+	});
+
+	test('should not refresh an expired token', () => {
+		auth.characterList = {
+			'character1': {
+				access_token: 'access_token',
+				refresh_token: 'refresh_token',
+				expiration: new Date('1995-12-17T03:24:00')
+			}
+		};
+
+		vi.mock('../axiosGetAuth', () => {
+			return {
+				default: vi.fn(() => {
+					return Promise.resolve({
+						data: {
+							status: 'fail'
+						}
+					});
+				})
+			};
+		});
+
+		// mock the verifyJWT function
+		auth['verifyJWT'] = vi.fn(() => {
+			return Promise.resolve({
+				status: 'fail'
+			});
+		});
+
+		console.log('there')
+		auth['refreshToken']('character1').then(() => {
+			expect(auth.characterList['character1'].access_token).toBe('access_token');
+			expect(auth.characterList['character1'].refresh_token).toBe('refresh_token');
+			expect(auth.characterList['character1'].expiration).toBeDefined();
+
+			expect(mockSendFn).toHaveBeenCalledOnce();
+			expect(mockSendFn).toHaveBeenCalledWith({ 'tokenRefresh': 'character1' });
 		});
 
 	});
