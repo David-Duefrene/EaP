@@ -24,7 +24,7 @@
     "electron": "^19.0.1",
     "electron-builder": "23.3.3",
     "eslint": "8.22.0",
-    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react": "7.31.0",
     "prisma": "^4.2.1",
     "prisma-merge": "^0.2.0",
     "typescript": "4.7.4",
