@@ -9,7 +9,7 @@
     "dev-Electron": "electron ./Electron/vite-build/index.es.js",
     "dev-React": "vite ./React",
     "build-Electron": "vite build ./Electron",
-    "build-Auth": "vite build ./Auth"
+    "build-Auth": "vite build ./APICrawler"
   },
   "author": "",
   "license": "ISC",
