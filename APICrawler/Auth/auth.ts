@@ -137,6 +137,8 @@ class Auth {
 				title: 'Token Expired',
 				characterName,
 			} });
+
+			delete this.characterList[characterName];
 			return;
 		};
 

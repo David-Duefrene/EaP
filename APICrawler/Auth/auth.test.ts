@@ -140,9 +140,7 @@ describe('Auth', () => {
 		});
 
 		auth['refreshToken']('character1')
-		expect(auth.characterList['character1'].access_token).toBe('access_token');
-		expect(auth.characterList['character1'].refresh_token).toBe('refresh_token');
-		expect(auth.characterList['character1'].expiration).toBeDefined();
+		expect(auth.characterList['character1']).toBeUndefined();
 
 		expect(mockSendFn).toHaveBeenCalledWith({
 			'type': 'error',
