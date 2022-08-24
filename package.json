@@ -27,7 +27,7 @@
     "eslint-plugin-react": "^7.30.0",
     "prisma": "^4.2.1",
     "prisma-merge": "^0.2.0",
-    "typescript": "^4.6.3",
+    "typescript": "4.7.4",
     "vite": "2.9.15",
     "vitest": "0.22.1"
   },
