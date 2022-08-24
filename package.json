@@ -28,7 +28,7 @@
     "prisma": "^4.2.1",
     "prisma-merge": "^0.2.0",
     "typescript": "^4.6.3",
-    "vite": "^2.9.9",
+    "vite": "2.9.15",
     "vitest": "0.22.1"
   },
   "dependencies": {
