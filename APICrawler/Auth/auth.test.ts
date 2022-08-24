@@ -78,30 +78,9 @@ describe('Auth', () => {
 			'character1': {
 				access_token: 'access_token',
 				refresh_token: 'refresh_token',
-				expiration: new Date()
+				expiration: new Date(`5000-01-01`)
 			}
 		};
-		vi.useFakeTimers();
-		vi.mock('../axiosGetAuth', () => {
-			return {
-				default: vi.fn(() => {
-					return Promise.resolve({
-						data: {
-							access_token: 'access_token2',
-							refresh_token: 'refresh_token2',
-							expires_in: 3600
-						}
-					});
-				})
-			};
-		});
-
-		// mock the verifyJWT function
-		auth['verifyJWT'] = vi.fn(() => {
-			return Promise.resolve({
-				name: 'character1'
-			});
-		});
 
 		auth['refreshToken']('character1').then(() => {
 			expect(auth.characterList['character1'].access_token).toBe('access_token2');
@@ -119,34 +98,13 @@ describe('Auth', () => {
 				expiration: new Date('1995-12-17T03:24:00')
 			}
 		};
-
-		vi.mock('../axiosGetAuth', () => {
-			return {
-				default: vi.fn(() => {
-					return Promise.resolve({
-						data: {
-							status: 'fail'
-						}
-					});
-				})
-			};
-		});
-
-		// mock the verifyJWT function
-		auth['verifyJWT'] = vi.fn(() => {
-			return Promise.resolve({
-				status: 'fail'
-			});
-		});
-
 		auth['refreshToken']('character1')
-		expect(auth.characterList['character1']).toBeUndefined();
 
+		expect(auth.characterList['character1']).toBeUndefined();
 		expect(mockSendFn).toHaveBeenCalledWith({
-			'type': 'error',
+			'type': 'tokenExpired',
 			'message': {
 				'characterName': 'character1',
-				'title': 'Token Expired',
 			}
 		});
 	});

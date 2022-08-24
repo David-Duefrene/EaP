@@ -81,6 +81,7 @@ const createWindow = () => {
 	}
 
 
+	// TODO create a proper message system
 	child.on('message', (message) => {
 		if (message.type === 'url') {
 			shell.openExternal(message.message);
@@ -94,6 +95,14 @@ const createWindow = () => {
 				electronStore.set('characters', charList);
 			}
 			electronStore.set(name, token);
+		} else if (message.type === 'tokenExpired') {
+			const name = message.message['characterName'];
+			const charList = electronStore.get('characters', '').split(',');
+
+			if (name in charList) {
+				delete charList[name];
+				electronStore.set('characters', charList);
+			}
 		}
 	});
 

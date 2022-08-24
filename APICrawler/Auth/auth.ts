@@ -132,11 +132,9 @@ class Auth {
 
 	//* Refreshes the character's token
 	private refreshToken(characterName: string) {
-		if (Date.parse(this.characterList[characterName].expiration) < Date.now()) {
-			this.sendMessage({ type: 'error', message: {
-				title: 'Token Expired',
-				characterName,
-			} });
+		const expiration = this.characterList[characterName].expiration;
+		if (expiration < Date.now() || expiration === undefined) {
+			this.sendMessage({ type: 'tokenExpired', message: { characterName } });
 
 			delete this.characterList[characterName];
 			return;
