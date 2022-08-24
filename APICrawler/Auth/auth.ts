@@ -132,6 +132,14 @@ class Auth {
 
 	//* Refreshes the character's token
 	private refreshToken(characterName: string) {
+		const expiration = this.characterList[characterName].expiration;
+		if (expiration < Date.now() || expiration === undefined) {
+			this.sendMessage({ type: 'tokenExpired', message: { characterName } });
+
+			delete this.characterList[characterName];
+			return;
+		};
+
 		let refresh_token = this.characterList[characterName]['refresh_token'];
 		const payload = `grant_type=refresh_token&refresh_token=${refresh_token}&client_id=${process.env['CLIENT_ID']}`;
 
