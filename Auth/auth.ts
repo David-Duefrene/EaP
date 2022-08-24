@@ -139,7 +139,7 @@ class Auth {
 			const access_token = response.data['access_token'];
 			refresh_token = response.data['refresh_token'];
 			return this.verifyJWT(access_token).then((decoded) => {
-				this.updateToken(refresh_token, decoded.name, access_token);
+				this.updateToken(refresh_token, decoded, access_token);
 				return { 'name': decoded.name, 'access_token': access_token, 'refresh_token': refresh_token };
 			}).catch((error) => {
 				console.log(`error: ${error}`);

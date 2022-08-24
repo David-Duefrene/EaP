@@ -33,7 +33,7 @@ describe('Auth', () => {
 	test('should be able to generate a PCKE verifier', () => {
 		const verifier = auth['GeneratePCKEVerifier']();
 		expect(verifier).toBeDefined();
-		expect(verifier.length).toBe(128);
+		expect(verifier.length).toBe(43);
 	});
 
 	// Test to see if we can refresh all tokens
@@ -55,7 +55,12 @@ describe('Auth', () => {
 		vi.setSystemTime(testDate);
 		testDate.setMinutes(19)
 
-		auth['updateToken']('refresh_token', 'character1', 'access_token');
+		const decoded = {
+			sub: 'CHARACTER:EVE:123123',
+			name: 'character1',
+		}
+
+		auth['updateToken']('refresh_token', decoded, 'access_token');
 
 		expect(auth.characterList['character1'].access_token).toBe('access_token');
 		expect(auth.characterList['character1'].refresh_token).toBe('refresh_token');
