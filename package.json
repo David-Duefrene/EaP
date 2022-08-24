@@ -29,7 +29,7 @@
     "prisma-merge": "^0.2.0",
     "typescript": "^4.6.3",
     "vite": "^2.9.9",
-    "vitest": "^0.18.0",
+    "vitest": "0.22.1",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   },
