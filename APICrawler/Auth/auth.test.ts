@@ -139,15 +139,17 @@ describe('Auth', () => {
 			});
 		});
 
-		console.log('there')
-		auth['refreshToken']('character1').then(() => {
-			expect(auth.characterList['character1'].access_token).toBe('access_token');
-			expect(auth.characterList['character1'].refresh_token).toBe('refresh_token');
-			expect(auth.characterList['character1'].expiration).toBeDefined();
+		auth['refreshToken']('character1')
+		expect(auth.characterList['character1'].access_token).toBe('access_token');
+		expect(auth.characterList['character1'].refresh_token).toBe('refresh_token');
+		expect(auth.characterList['character1'].expiration).toBeDefined();
 
-			expect(mockSendFn).toHaveBeenCalledOnce();
-			expect(mockSendFn).toHaveBeenCalledWith({ 'tokenRefresh': 'character1' });
+		expect(mockSendFn).toHaveBeenCalledWith({
+			'type': 'error',
+			'message': {
+				'characterName': 'character1',
+				'title': 'Token Expired',
+			}
 		});
-
 	});
 });
