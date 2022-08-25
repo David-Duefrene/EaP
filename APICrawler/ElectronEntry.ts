@@ -1,3 +1,3 @@
-import Auth from './Auth/auth';
+import Auth from './Auth/auth'
 
-new Auth();
+new Auth()

@@ -6,7 +6,8 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+		"eslint-config-vigilant-octo-train"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -20,23 +21,5 @@
         "react",
         "@typescript-eslint"
     ],
-    "rules": {
-		"@typescript-eslint/no-var-requires": "none",
-        "indent": [
-            "error",
-            "tab"
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
-    }
+    "rules": { }
 }
