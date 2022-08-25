@@ -2,7 +2,7 @@
 const axios = require('axios')
 
 //* Sends a payload to Eve's auth API
-export default (payload: any) => {
+export default (payload) => {
 	return axios({
 		method: 'POST',
 		url: 'https://login.eveonline.com/v2/oauth/token',
