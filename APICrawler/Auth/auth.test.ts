@@ -7,8 +7,8 @@ import Auth from './auth'
 
 describe('Auth', () => {
 	let auth: Auth
-	const mockSendFn = vi.fn().mockImplementation(() => {})
-	const mockReceiveFn = vi.fn().mockImplementation(() => {})
+	const mockSendFn = vi.fn().mockImplementation(() => { /* Do nothing */ })
+	const mockReceiveFn = vi.fn().mockImplementation(() => { /* Do nothing */ })
 
 	beforeEach(() => {
 		auth = new Auth(mockSendFn, mockReceiveFn)
