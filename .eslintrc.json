@@ -4,10 +4,11 @@
         "es2021": true
     },
     "extends": [
+		"eslint-config-vigilant-octo-train",
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-		"eslint-config-vigilant-octo-train"
+		"plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

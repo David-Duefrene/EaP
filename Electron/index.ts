@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
-require('dotenv').config('./../.env')
+require('dotenv').config()
+
 const { fork } = require('node:child_process')
 
 const { ApolloServer, gql } = require('apollo-server')
@@ -78,7 +79,7 @@ const createWindow = () => {
 	const child = fork('./APICrawler/vite-build/ElectronEntry.es.js', { signal })
 
 	// Pull all tokens from the store
-	const characterList = electronStore.get('characters', '').split(',')
+	const characterList = electronStore.get('characters', '')
 	if (characterList.length > 1) {
 		const charDict = {}
 		for (const character of characterList) {
@@ -95,17 +96,17 @@ const createWindow = () => {
 			shell.openExternal(message.message)
 		} else if (message.type === 'token') {
 			const name = message.message.name
-			const token = safeStorage.encryptString(message.message.refresh_token)
-			const charList = electronStore.get('characters', '').split(',')
+			const token = safeStorage.encryptString(message.message.refreshToken)
+			const charList = electronStore.get('characters', '')
 
-			if (name !in charList) {
+			if (!charList.includes(name)) {
 				charList[name] = token
 				electronStore.set('characters', charList)
 			}
 			electronStore.set(name, token)
 		} else if (message.type === 'tokenExpired') {
 			const name = message.message.characterName
-			const charList = electronStore.get('characters', '').split(',')
+			const charList = electronStore.get('characters', '')
 
 			if (name in charList) {
 				delete charList[name]

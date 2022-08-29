@@ -1,3 +1,3 @@
-import Auth from './Auth/auth'
+import crawler from './APICrawler'
 
-new Auth()
+crawler()
