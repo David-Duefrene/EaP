@@ -79,7 +79,7 @@ const createWindow = () => {
 	const child = fork('./APICrawler/vite-build/ElectronEntry.es.js', { signal })
 
 	// Pull all tokens from the store
-	const characterList = electronStore.get('characters', '').split(',')
+	const characterList = electronStore.get('characters', '')
 	if (characterList.length > 1) {
 		const charDict = {}
 		for (const character of characterList) {
@@ -97,16 +97,16 @@ const createWindow = () => {
 		} else if (message.type === 'token') {
 			const name = message.message.name
 			const token = safeStorage.encryptString(message.message.refreshToken)
-			const charList = electronStore.get('characters', '').split(',')
+			const charList = electronStore.get('characters', '')
 
-			if (name in charList === false) {
+			if (!charList.includes(name)) {
 				charList[name] = token
 				electronStore.set('characters', charList)
 			}
 			electronStore.set(name, token)
 		} else if (message.type === 'tokenExpired') {
 			const name = message.message.characterName
-			const charList = electronStore.get('characters', '').split(',')
+			const charList = electronStore.get('characters', '')
 
 			if (name in charList) {
 				delete charList[name]
