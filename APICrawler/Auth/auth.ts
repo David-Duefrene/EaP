@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
-require('dotenv').config('./../.env')
+require('dotenv').config()
+const env = process.env
 
 const { randomBytes, createHash } = require('crypto')
 const net = require('net')
@@ -90,13 +91,12 @@ class Auth {
 	private handleOAuthCallback(data, verifier) {
 		// Get the authCode from the URL
 		const authCode = data.toString().split(' ')[1].match(/(?<=code=).*(?=&)/)[0]
-		const postData = `grant_type=authorization_code&code=${authCode}&code_verifier=${verifier}&client_id=${process.env.CLIENT_ID}`
+		const postData = `grant_type=authorization_code&code=${authCode}&code_verifier=${verifier}&client_id=${env.CLIENT_ID}`
 
 		// Now try and get the full refresh token
 		GetAuth(postData).then((response) => {
-			const accessToken = response.data.accessToken
-			const refreshToken = response.data.refreshToken
-
+			const accessToken = response.data.access_token
+			const refreshToken = response.data.refresh_token
 			this.verifyJWT(accessToken).then((decodedJWT) => {
 				this.updateToken(refreshToken, decodedJWT, accessToken)
 			})
@@ -109,7 +109,7 @@ class Auth {
 
 	//* Generates a PCKE Verifier
 	private GeneratePCKEVerifier() {
-		const clientID = process.env.CLIENT_ID
+		const clientID = env.CLIENT_ID
 		const baseURL = 'https://login.eveonline.com/v2/oauth/authorize'
 		const redirectURL = 'http://localhost/authenticated/'
 		// Scope is for everything
@@ -142,12 +142,12 @@ class Auth {
 			return false
 		}
 
-		let refreshToken = this.characterList[characterName].refreshToken
-		const payload = `grant_type=refreshToken&refreshToken=${refreshToken}&client_id=${process.env.CLIENT_ID}`
+		const refreshToken = this.characterList[characterName].refreshToken
+		const payload = `grant_type=refreshToken&refreshToken=${refreshToken}&client_id=${env.CLIENT_ID}`
 
 		return GetAuth(payload).then((response) => {
 			const accessToken = response.data.accessToken
-			refreshToken = response.data.refreshToken
+			const refreshToken = response.data.refreshToken
 			return this.verifyJWT(accessToken).then((decoded) => {
 				this.updateToken(refreshToken, decoded, accessToken)
 				return {

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
-require('dotenv').config('./../.env')
+require('dotenv').config()
+
 const { fork } = require('node:child_process')
 
 const { ApolloServer, gql } = require('apollo-server')
