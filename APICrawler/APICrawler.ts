@@ -20,10 +20,14 @@ const defaultReceiveMessage = (processMessages: (arg0: Message) => void) => {
 const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultReceiveMessage) => {
 	const auth = new Auth(sendMessage, receiveMessage)
 
-	Object.entries(auth.characterList).forEach(([ name, {
-		accessToken, refreshToken, expiration,
-	} ]) => {
-		console.log(`${name}: access token: ${accessToken}\trefresh token: ${refreshToken}\texpiration: ${expiration}`)
+	receiveMessage((message: Message) => {
+		if (message.type === 'refreshAPI') {
+			Object.entries(auth.characterList).forEach(([ name, {
+				accessToken, refreshToken, expiration,
+			} ]) => {
+				console.log(`${name}: access token: ${accessToken}\trefresh token: ${refreshToken}\texpiration: ${expiration}`)
+			})
+		}
 	})
 }
 
