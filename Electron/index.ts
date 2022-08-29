@@ -96,7 +96,7 @@ const createWindow = () => {
 			shell.openExternal(message.message)
 		} else if (message.type === 'token') {
 			const name = message.message.name
-			const token = safeStorage.encryptString(message.message.refresh_token)
+			const token = safeStorage.encryptString(message.message.refreshToken)
 			const charList = electronStore.get('characters', '').split(',')
 
 			if (name !in charList) {
