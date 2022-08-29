@@ -23,9 +23,10 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 	receiveMessage((message: Message) => {
 		if (message.type === 'refreshAPI') {
 			Object.entries(auth.characterList).forEach(([ name, {
-				accessToken, refreshToken, expiration,
+				accessToken, refreshToken, expiration, characterID,
 			} ]) => {
-				console.log(`${name}: access token: ${accessToken}\trefresh token: ${refreshToken}\texpiration: ${expiration}`)
+				// eslint-disable-next-line no-console
+				console.log(`Name: ${name}:\naccess token: ${accessToken}\nrefresh token: ${refreshToken}\nexpiration: ${expiration}\nID: ${characterID}`)
 			})
 		}
 	})

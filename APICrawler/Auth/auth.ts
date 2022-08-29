@@ -31,7 +31,7 @@ const defaultReceiveMessage = (processMessages: (arg0: Message) => void) => {
 class Auth {
 	service: string
 	sendMessage: SendMessage
-	characterList: Record<string, { accessToken: string, refreshToken, expiration }>
+	characterList: Record<string, { accessToken: string, refreshToken, expiration, characterID: string }>
 
 	constructor(sendMessage = defaultSendMessage, receiveMessage = defaultReceiveMessage) {
 		this.service = 'EaP-Auth'
@@ -44,7 +44,7 @@ class Auth {
 			} else if (message.type === 'CharList') {
 				for (const [ name, refreshToken ] of Object.entries(message.message)) {
 					this.characterList[name] = {
-						accessToken: '', refreshToken: refreshToken, expiration: '',
+						accessToken: '', refreshToken: refreshToken, expiration: '', characterID: '',
 					}
 				}
 				this.refreshAllTokens()
@@ -174,14 +174,15 @@ class Auth {
 	private updateToken(refreshToken: string, decodedJWT, accessToken = '') {
 		const expiration = new Date()
 		expiration.setMinutes(expiration.getMinutes() + 19)
+		const characterID = decodedJWT.sub.split(':')[2]
 		this.characterList[decodedJWT.name] = {
-			'accessToken': accessToken, 'refreshToken': refreshToken, 'expiration': expiration,
+			accessToken, refreshToken, expiration, characterID,
 		}
 		this.sendMessage({ type: 'token',
 			message: {
 				'name': decodedJWT.name,
 				'refreshToken': refreshToken,
-				'char_id': decodedJWT.sub,
+				characterID,
 			} })
 	}
 
