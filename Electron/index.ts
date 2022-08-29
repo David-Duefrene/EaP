@@ -99,7 +99,7 @@ const createWindow = () => {
 			const token = safeStorage.encryptString(message.message.refreshToken)
 			const charList = electronStore.get('characters', '').split(',')
 
-			if (name !in charList) {
+			if (name in charList === false) {
 				charList[name] = token
 				electronStore.set('characters', charList)
 			}
