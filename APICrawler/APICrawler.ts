@@ -32,24 +32,39 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 				publicCharacterData(characterID).then((result: Character) => {
 					const prisma = new PrismaClient()
 
-					prisma.Character.create({
-						data: {
-							name: name,
-							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-							// @ts-ignore - This is showing in typescript as a number, but it is actually a string
-							characterID: parseInt(characterID),
+					const characterData = {
+						name: name,
+						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+						// @ts-ignore - This is showing in typescript as a number, but it is actually a string
+						characterID: parseInt(characterID),
+					}
+					const sheetData = {
+						name: result.name,
+						corporationID: result.corporation_id,
+						allianceID: result.alliance_id,
+						securityStatus: result.security_status,
+						birthday: result.birthday,
+						bloodLineID: result.bloodline_id,
+						description: result.description,
+						gender: result.gender,
+						raceID: result.race_id,
+					}
+
+					prisma.Character.upsert({
+						where: { characterID: parseInt(characterID) },
+						update: {
+							...characterData,
 							characterSheet: {
-								create: {
-									name: result.name,
-									corporationID: result.corporation_id,
-									allianceID: result.alliance_id,
-									securityStatus: result.security_status,
-									birthday: result.birthday,
-									bloodLineID: result.bloodline_id,
-									description: result.description,
-									gender: result.gender,
-									raceID: result.race_id,
+								update: {
+									data: { ...sheetData },
+									where: { name: result.name },
 								},
+							},
+						},
+						create: {
+							...characterData,
+							characterSheet: {
+								create: { ...sheetData },
 							},
 						},
 					}).catch((error: Error) => {
