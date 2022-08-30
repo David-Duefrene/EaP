@@ -4,15 +4,19 @@
   "description": "Eve online API Project",
   "main": "index.ts",
   "scripts": {
-    "start": "concurrently -k \"npm run dev-React\" \"npm run dev-Electron\"",
+    "start": "concurrently -k \"npm run dev-React\" \"npm run dev-GraphQL\"",
     "test": "vitest",
-    "dev-Electron": "electron ./Electron/vite-build/index.es.js",
+
+	"dev-Electron": "electron ./Electron/vite-build/index.es.js",
     "dev-React": "vite ./React",
-    "build-Electron": "vite build ./Electron",
-    "build-Auth": "vite build ./APICrawler"
+	"dev-GraphQL": "vite ./GraphQL",
+
+	"build-Electron": "vite build ./Electron",
+    "build-Auth": "vite build ./APICrawler",
+	"build-GraphQL": "vite build ./GraphQL"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "18.0.0",
     "@types/react": "18.0.17",

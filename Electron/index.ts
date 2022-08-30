@@ -1,68 +1,14 @@
 /* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
 
 const { fork } = require('node:child_process')
-
-const { ApolloServer, gql } = require('apollo-server')
 
 const {
 	app, BrowserWindow, shell, ipcMain, safeStorage,
 } = require('electron')
 const Store = require('electron-store')
 const electronStore = new Store()
-// GraphQL code
-const typeDefs = gql`
-    type Book {
-        title: String
-        author: String
-    }
 
-    type Query {
-        books: [Book]
-    }
-`
-// Example data
-const books = [
-	{
-		title: 'The Awakening',
-		author: 'Kate Chopin',
-	},
-	{
-		title: 'City of Glass',
-		author: 'Paul Auster',
-	},
-]
-
-/*
- * Resolvers define the technique for fetching the types defined in the
- * schema. This resolver retrieves books from the "books" array above.
- */
-const resolvers = {
-	Query: {
-		books: () => books,
-	},
-}
-
-/*
- * The ApolloServer constructor requires two parameters: your schema
- * definition and your set of resolvers.
- */
-const server = new ApolloServer({
-	typeDefs,
-	resolvers,
-	csrfPrevention: true,
-})
-
-/*
- * The `listen` method launches a web server.
- * TODO do something better than console log
- */
-server.listen().then(({ url }) => {
-	console.log(`🚀  Server ready at ${url}`)
-})
-
-// Electron code
 const createWindow = () => {
 	const win = new BrowserWindow({
 		width: 800,
@@ -77,6 +23,7 @@ const createWindow = () => {
 	const controller = new AbortController()
 	const { signal } = controller
 	const child = fork('./APICrawler/vite-build/ElectronEntry.es.js', { signal })
+	fork('./GraphQL/vite-build/ElectronEntry.es.js', { signal })
 
 	// Pull all tokens from the store
 	const characterList = electronStore.get('characters', '')
