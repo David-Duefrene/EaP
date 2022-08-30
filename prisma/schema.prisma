@@ -8,23 +8,24 @@ datasource db {
 }
 
 model Character {
-  id        	 Int @id @default(autoincrement())
-  name      	 String
+  key        	 Int @id @default(autoincrement())
+  name      	 String @unique
   createdAt 	 DateTime @default(now())
   updatedAt 	 DateTime @updatedAt
+  characterID	 Int @unique
   characterSheet CharacterSheet[]
 }
 
 model CharacterSheet {
-  id        	 Int @id @default(autoincrement())
-  character 	 Character @relation(fields: [id], references: [id])
+  key        	 Int @id
+  character 	 Character @relation(fields: [key], references: [key])
   allianceID 	 Int
   birthday  	 DateTime
   bloodLineID 	 Int
   corporationID  Int
   description 	 String
   gender 		 String
-  name 			 String
+  name 			 String @unique
   raceID 		 Int
   securityStatus Float
 }
