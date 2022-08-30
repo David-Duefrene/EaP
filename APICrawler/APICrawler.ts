@@ -1,6 +1,8 @@
 import Auth from './Auth/auth'
 import publicCharacterData from './Endpoints/Character/publicCharacterData'
 
+import Character from '../Types/APIResponses/EveOfficial/character.type'
+
 type Message = { type: string, message };
 type SendMessage = (message: Message) => void;
 
@@ -24,7 +26,7 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 	receiveMessage((message: Message) => {
 		if (message.type === 'refreshAPI') {
 			Object.entries(auth.characterList).forEach(([ name, { characterID } ]) => {
-				publicCharacterData(characterID).then((result) => {
+				publicCharacterData(characterID).then((result: Character) => {
 					// eslint-disable-next-line no-console
 					console.log(`Name: ${name}\n${JSON.stringify(result)}`)
 				}).catch((error) => {
