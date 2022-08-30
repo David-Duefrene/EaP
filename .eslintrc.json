@@ -22,5 +22,15 @@
         "react",
         "@typescript-eslint"
     ],
-    "rules": { }
+    "rules": {
+		"@typescript-eslint/no-var-requires": "off"
+	},
+	"overrides": [
+		{
+		  "files": ["*.test.ts"],
+		  "rules": {
+			"dot-notation": "off"
+		  }
+		}
+	  ]
 }

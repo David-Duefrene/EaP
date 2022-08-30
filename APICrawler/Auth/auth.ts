@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
 const env = process.env
 
@@ -11,11 +10,11 @@ const jwt = require('jsonwebtoken')
 
 import GetAuth from '../axiosGetAuth'
 
-type Message = { type: string, message };
+type Message = { 'type': string, 'message': string | Record<string, string> };
 type SendMessage = (message: Message) => void;
 
 //* Checks for process.send & sends it, this is to prevent Typescript errors
-const defaultSendMessage: SendMessage = (message) => {
+const defaultSendMessage = (message: Message) => {
 	if (process.send) {
 		process.send(message)
 	}
@@ -31,7 +30,9 @@ const defaultReceiveMessage = (processMessages: (arg0: Message) => void) => {
 class Auth {
 	service: string
 	sendMessage: SendMessage
-	characterList: Record<string, { accessToken: string, refreshToken, expiration, characterID: string }>
+	characterList: Record<string, {
+		accessToken: string, refreshToken: string, expiration: Date, characterID: number,
+	}>
 
 	constructor(sendMessage = defaultSendMessage, receiveMessage = defaultReceiveMessage) {
 		this.service = 'EaP-Auth'
@@ -43,8 +44,9 @@ class Auth {
 				this.addNewCharacter()
 			} else if (message.type === 'CharList') {
 				for (const [ name, refreshToken ] of Object.entries(message.message)) {
+					console.log(`${name} - ${refreshToken}`)
 					this.characterList[name] = {
-						accessToken: '', refreshToken: refreshToken, expiration: '', characterID: '',
+						accessToken: '', refreshToken, expiration: new Date, characterID: -1,
 					}
 				}
 				this.refreshAllTokens()
@@ -135,8 +137,8 @@ class Auth {
 	//* Refreshes the character's token
 	private refreshToken(characterName: string) {
 		const expiration = this.characterList[characterName].expiration
-		if (expiration < Date.now() || expiration === undefined) {
-			this.sendMessage({ type: 'tokenExpired', message: { characterName } })
+		if (expiration < new Date || expiration === undefined) {
+			this.sendMessage({ type: 'tokenExpired', message: characterName })
 
 			delete this.characterList[characterName]
 			return false

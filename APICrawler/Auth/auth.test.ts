@@ -1,4 +1,3 @@
-/* eslint-disable dot-notation */
 import {
 	expect, test, beforeEach, afterEach, describe, vi,
 } from 'vitest'
@@ -17,12 +16,14 @@ describe('Auth', () => {
 			'character1': {
 				accessToken: '',
 				refreshToken: '',
-				expiration: '',
+				characterID: 1,
+				expiration: new Date,
 			},
 			'character2': {
 				accessToken: '',
 				refreshToken: '',
-				expiration: '',
+				characterID: 2,
+				expiration: new Date,
 			},
 		}
 	})
@@ -76,6 +77,7 @@ describe('Auth', () => {
 			'character1': {
 				accessToken: 'accessToken',
 				refreshToken: 'refreshToken',
+				characterID: 1,
 				expiration: new Date('5000-01-01'),
 			},
 		}
@@ -92,6 +94,7 @@ describe('Auth', () => {
 			'character1': {
 				accessToken: 'accessToken',
 				refreshToken: 'refreshToken',
+				characterID: 1,
 				expiration: new Date('1995-12-17T03:24:00'),
 			},
 		}
@@ -100,9 +103,7 @@ describe('Auth', () => {
 		expect(auth.characterList.character1).toBeUndefined()
 		expect(mockSendFn).toHaveBeenCalledWith({
 			'type': 'tokenExpired',
-			'message': {
-				'characterName': 'character1',
-			},
+			'message': 'character1',
 		})
 	})
 })
