@@ -22,7 +22,14 @@ const App = () => {
 				<p>Hello Vite, React, GraphQL, and Electron!</p>
 				<p>env is {process.env.NODE_ENV}</p>
 				<AddCharacter />
-				{characters.map((el, key) => <div key={key}>{el.name}</div>) }
+				{characters.map((el, key) => {
+					return (
+						<div key={key}>
+							<div>{el.name}</div>
+							<div>{el.characterID}</div>
+						</div>
+					)
+				}) }
 			</header>
 		</div>
 	)

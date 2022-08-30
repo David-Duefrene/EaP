@@ -34,8 +34,26 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 
 					prisma.Character.create({
 						data: {
-							name,
+							name: name,
+							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+							// @ts-ignore - This is showing in typescript as a number, but it is actually a string
+							characterID: parseInt(characterID),
+							characterSheet: {
+								create: {
+									name: result.name,
+									corporationID: result.corporation_id,
+									allianceID: result.alliance_id,
+									securityStatus: result.security_status,
+									birthday: result.birthday,
+									bloodLineID: result.bloodline_id,
+									description: result.description,
+									gender: result.gender,
+									raceID: result.race_id,
+								},
+							},
 						},
+					}).catch((error: Error) => {
+						console.error(error)
 					})
 				}).catch((error: Error) => {
 					// eslint-disable-next-line no-console

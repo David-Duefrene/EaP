@@ -23,7 +23,6 @@ const createWindow = () => {
 	const controller = new AbortController()
 	const { signal } = controller
 	const child = fork('./APICrawler/vite-build/ElectronEntry.es.js', { signal })
-	fork('./GraphQL/vite-build/ElectronEntry.es.js', { signal })
 
 	// Pull all tokens from the store
 	const characterList = electronStore.get('characters', '')

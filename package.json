@@ -6,12 +6,11 @@
   "scripts": {
     "start": "concurrently -k \"npm run dev-React\" \"npm run build-Auth\"",
     "test": "vitest",
-
-	"dev-Electron": "electron ./Electron/vite-build/index.es.js",
+    "dev-Electron": "electron ./Electron/vite-build/index.es.js",
     "dev-React": "vite ./React",
-
-	"build-Electron": "vite build ./Electron",
-    "build-Auth": "vite build ./APICrawler"
+    "build-Electron": "vite build ./Electron",
+    "build-Auth": "vite build ./APICrawler",
+	"migrate": "npx prisma migrate dev"
   },
   "author": "",
   "license": "MIT",
