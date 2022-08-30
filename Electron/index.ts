@@ -104,6 +104,7 @@ const createWindow = () => {
 				electronStore.set('characters', charList)
 			}
 			electronStore.set(name, token)
+			child.send({ type: 'refreshAPI', message: '' })
 		} else if (message.type === 'tokenExpired') {
 			const name = message.message.characterName
 			const charList = electronStore.get('characters', '')
