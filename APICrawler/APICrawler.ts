@@ -3,11 +3,11 @@ import publicCharacterData from './Endpoints/Character/publicCharacterData'
 
 import Character from '../Types/APIResponses/EveOfficial/character.type'
 
-type Message = { type: string, message };
+type Message = { type: string, message: string };
 type SendMessage = (message: Message) => void;
 
 //* Checks for process.send & sends it, this is to prevent Typescript errors
-const defaultSendMessage: SendMessage = (message) => {
+const defaultSendMessage: SendMessage = (message: Message) => {
 	if (process.send) {
 		process.send(message)
 	}
@@ -16,6 +16,8 @@ const defaultSendMessage: SendMessage = (message) => {
 //* Sends a message to the main process
 const defaultReceiveMessage = (processMessages: (arg0: Message) => void) => {
 	process.on('message', (message: Message) => {
+		// eslint-disable-next-line no-console
+		console.log(message)
 		processMessages(message)
 	})
 }
