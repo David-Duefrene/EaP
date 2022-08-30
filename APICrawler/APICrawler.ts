@@ -2,6 +2,7 @@ import Auth from './Auth/auth'
 import publicCharacterData from './Endpoints/Character/publicCharacterData'
 
 import Character from '../Types/APIResponses/EveOfficial/character.type'
+const { PrismaClient } = require('@prisma/client')
 
 type Message = { 'type': string, 'message': string | Record<string, string> };
 
@@ -25,9 +26,17 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 	receiveMessage((message: Message) => {
 		if (message.type === 'refreshAPI') {
 			Object.entries(auth.characterList).forEach(([ name, { characterID } ]) => {
+				if (characterID < 0) {
+					return
+				}
 				publicCharacterData(characterID).then((result: Character) => {
-					// eslint-disable-next-line no-console
-					console.log(`Name: ${name}\n${JSON.stringify(result)}`)
+					const prisma = new PrismaClient()
+
+					prisma.Character.create({
+						data: {
+							name,
+						},
+					})
 				}).catch((error: Error) => {
 					// eslint-disable-next-line no-console
 					console.log(error)

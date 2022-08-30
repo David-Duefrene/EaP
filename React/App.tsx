@@ -1,31 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import {
-	ApolloClient, InMemoryCache, gql,
-} from '@apollo/client'
+const { PrismaClient } = require('@prisma/client')
 
 import AddCharacter from './AddCharacter/AddCharacter'
 import logo from './logo.svg'
 import './App.css'
 
-// The client
-const client = new ApolloClient({
-	uri: 'http://localhost:4000',
-	cache: new InMemoryCache(),
-})
+const prisma = new PrismaClient()
 
 const App = () => {
-	const [ count, setCount ] = useState([])
+	const [ characters, setCharacters ] = useState([])
 
-	client.query({
-		query: gql`
-    query ExampleQuery {
-      books {
-        title
-      }
-    }
-    `,
-	}).then((result) => setCount(result.data.books))
+	useEffect(() => {
+		prisma.character.findMany().then((d) => setCharacters(d))
+	}, [])
 
 	return (
 		<div className='App'>
@@ -34,10 +22,7 @@ const App = () => {
 				<p>Hello Vite, React, GraphQL, and Electron!</p>
 				<p>env is {process.env.NODE_ENV}</p>
 				<AddCharacter />
-				<p>QL Query: {count.map((book, index) => <p key={index}>{
-					//@ts-expect-error placeholder
-					book.title
-				}</p>)}</p>
+				{characters.map((el, key) => <div key={key}>{el.name}</div>) }
 			</header>
 		</div>
 	)

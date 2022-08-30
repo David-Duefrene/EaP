@@ -18,5 +18,6 @@ export default defineConfig({
 				Auth: fileURLToPath(new URL('./ElectronEntry.ts', import.meta.url)),
 			},
 		},
+		watch: {},
 	},
 })
