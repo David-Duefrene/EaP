@@ -22,7 +22,7 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 
 	receiveMessage((message: Message) => {
 		if (message.type === 'refreshAPI') {
-			Object.entries(auth.characterList).forEach(([, { characterID } ]) => {
+			Object.values(auth.characterList).forEach(({ characterID }) => {
 				if (characterID < 0) {
 					return
 				}
