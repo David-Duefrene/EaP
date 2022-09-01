@@ -36,3 +36,4 @@ jobs:
         with:
           sarif_file: eslintResults.sarif
           wait-for-processing: true
+          continue-on-error: true
