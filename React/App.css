@@ -9,6 +9,19 @@
 	color: white;
 }
 
+.Card {
+	max-width: 500px;
+	margin: 1%;
+	background-color: #282c34;
+	color: white;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.CardBody {
+	list-style: none;
+}
+
 button {
 	font-size: calc(10px + 2vmin);
 }
