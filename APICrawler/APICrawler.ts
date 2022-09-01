@@ -1,9 +1,6 @@
 import Auth from './Auth/auth'
 import publicCharacterData from './Endpoints/Character/publicCharacterData'
 
-import Character from '../Types/APIResponses/EveOfficial/character.type'
-const { PrismaClient } = require('@prisma/client')
-
 type Message = { 'type': string, 'message': string | Record<string, string> };
 
 //* Checks for process.send & sends it, this is to prevent Typescript errors
@@ -25,52 +22,11 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 
 	receiveMessage((message: Message) => {
 		if (message.type === 'refreshAPI') {
-			Object.entries(auth.characterList).forEach(([ name, { characterID } ]) => {
+			Object.values(auth.characterList).forEach(({ characterID }) => {
 				if (characterID < 0) {
 					return
 				}
-				publicCharacterData(characterID).then((result: Character) => {
-					const prisma = new PrismaClient()
-
-					const characterData = {
-						name: name,
-						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-						// @ts-ignore - This is showing in typescript as a number, but it is actually a string
-						characterID: parseInt(characterID),
-					}
-					const sheetData = {
-						name: result.name,
-						corporationID: result.corporation_id,
-						allianceID: result.alliance_id,
-						securityStatus: result.security_status,
-						birthday: result.birthday,
-						bloodLineID: result.bloodline_id,
-						description: result.description,
-						gender: result.gender,
-						raceID: result.race_id,
-					}
-
-					prisma.Character.upsert({
-						where: { characterID: parseInt(characterID) },
-						update: {
-							...characterData,
-							characterSheet: {
-								update: {
-									data: { ...sheetData },
-									where: { name: result.name },
-								},
-							},
-						},
-						create: {
-							...characterData,
-							characterSheet: {
-								create: { ...sheetData },
-							},
-						},
-					}).catch((error: Error) => {
-						console.error(error)
-					})
-				}).catch((error: Error) => {
+				publicCharacterData(characterID).catch((error: Error) => {
 					// eslint-disable-next-line no-console
 					console.log(error)
 				})

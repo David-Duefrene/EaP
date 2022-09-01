@@ -3,34 +3,51 @@ import React, { useState, useEffect } from 'react'
 const { PrismaClient } = require('@prisma/client')
 
 import AddCharacter from './AddCharacter/AddCharacter'
-import logo from './logo.svg'
 import './App.css'
+import CharacterQuery from '../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 
 const prisma = new PrismaClient()
 
 const App = () => {
-	const [ characters, setCharacters ] = useState([])
+	const [ characters, setCharacters ] = useState<CharacterQuery[]>([])
+	const [ characterSheets, setCharacterSheets ] = useState<CharacterQuery[]>([])
 
 	useEffect(() => {
-		prisma.character.findMany().then((d) => setCharacters(d))
+		prisma.character.findMany().then((d: CharacterQuery[]) => setCharacters(d))
+		prisma.characterSheet.findMany().then((d: CharacterQuery[]) => setCharacterSheets(d))
 	}, [])
+
+	if (characterSheets.length === 0) {
+		return <div>Loading...</div>
+	}
+
+	const cardList = characters.map((el, key) => {
+		const {
+			allianceID, birthday, bloodLineID, corporationID, gender, raceID, securityStatus,
+		} = characterSheets[key]
+		return (
+			<div key={key} className="Card">
+				<div className="CardHeader">
+					<h3>{el.name}</h3>
+				</div>
+				<ul className="CardBody">
+					<li>Character ID: {el.characterID}</li>
+					<li>Alliance ID: {allianceID}</li>
+					<li>Character birthday: {`${birthday}`}</li>
+					<li>Bloodline ID: {bloodLineID}</li>
+					<li>Corp ID:{corporationID}</li>
+					<li>Gender: {gender}</li>
+					<li>Race ID: {raceID}</li>
+					<li>Security Status: {securityStatus}</li>
+				</ul>
+			</div>
+		)
+	})
 
 	return (
 		<div className='App'>
-			<header className='App-header'>
-				<img src={logo} className='App-logo' alt='logo' />
-				<p>Hello Vite, React, GraphQL, and Electron!</p>
-				<p>env is {process.env.NODE_ENV}</p>
-				<AddCharacter />
-				{characters.map((el, key) => {
-					return (
-						<div key={key}>
-							<div>{el.name}</div>
-							<div>{el.characterID}</div>
-						</div>
-					)
-				}) }
-			</header>
+			<AddCharacter />
+			{cardList}
 		</div>
 	)
 }

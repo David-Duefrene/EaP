@@ -12,7 +12,7 @@ model Character {
   name      	 String @unique
   createdAt 	 DateTime @default(now())
   updatedAt 	 DateTime @updatedAt
-  characterID	 Int @unique
+  characterID	 String @unique
   characterSheet CharacterSheet[]
 }
 
