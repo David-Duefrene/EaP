@@ -24,7 +24,7 @@
     ],
     "rules": {
 		"@typescript-eslint/no-var-requires": "off",
-		"camelcase": ["error", {"ignoreDestructuring": true }]
+		"camelcase": [2, {"ignoreDestructuring": true }]
 	},
 	"overrides": [
 		{
