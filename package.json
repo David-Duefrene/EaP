@@ -27,7 +27,7 @@
     "eslint": "8.22.0",
     "eslint-config-vigilant-octo-train": "0.0.4",
     "eslint-plugin-react": "7.31.1",
-    "prisma": "4.2.1",
+    "prisma": "4.3.0",
     "prisma-merge": "0.2.0",
     "typescript": "4.8.2",
     "vite": "2.9.15",
