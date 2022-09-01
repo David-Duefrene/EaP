@@ -4,21 +4,9 @@ const { PrismaClient } = require('@prisma/client')
 
 import AddCharacter from './AddCharacter/AddCharacter'
 import './App.css'
+import CharacterQuery from '../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 
 const prisma = new PrismaClient()
-
-type CharacterQuery = {
-	characterID: string,
-	name: string,
-	allianceID: number,
-	birthday: string | Date,
-	bloodLineID: number,
-	corporationID: number,
-	description: string,
-	gender: 'male' | 'female',
-	raceID: number,
-	securityStatus: number
-}
 
 const App = () => {
 	const [ characters, setCharacters ] = useState<CharacterQuery[]>([])
