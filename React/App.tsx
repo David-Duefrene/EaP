@@ -26,11 +26,11 @@ const App = () => {
 			allianceID, birthday, bloodLineID, corporationID, gender, raceID, securityStatus,
 		} = characterSheets[key]
 		return (
-			<div key={key} className="Card">
-				<div className="CardHeader">
+			<div key={key} className='Card'>
+				<div className='CardHeader'>
 					<h3>{el.name}</h3>
 				</div>
-				<ul className="CardBody">
+				<ul className='CardBody'>
 					<li>Character ID: {el.characterID}</li>
 					<li>Alliance ID: {allianceID}</li>
 					<li>Character birthday: {`${birthday}`}</li>
