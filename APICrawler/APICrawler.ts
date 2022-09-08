@@ -1,5 +1,5 @@
 import Auth from './Auth/auth'
-import publicCharacterData from './Endpoints/Character/publicCharacterData'
+import endpoints from './Endpoints/index'
 
 type Message = { 'type': string, 'message': string | Record<string, string> };
 
@@ -26,9 +26,11 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 				if (characterID < 0) {
 					return
 				}
-				publicCharacterData(characterID).catch((error: Error) => {
-					// eslint-disable-next-line no-console
-					console.log(error)
+				endpoints.forEach((endpoint) => {
+					endpoint(characterID).catch((error: Error) => {
+						// eslint-disable-next-line no-console
+						console.log(error)
+					})
 				})
 			})
 		}
