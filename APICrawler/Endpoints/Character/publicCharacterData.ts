@@ -3,7 +3,9 @@ const { PrismaClient } = require('@prisma/client')
 
 import Character from '../../../Types/APIResponses/EveOfficial/character.type'
 
-export default (characterID: number | string) => {
+export default (characterAuthData) => {
+	const { characterID } = characterAuthData
+
 	return axios.get(`https://esi.evetech.net/latest/characters/${characterID}/?datasource=tranquility`)
 		.then((result: { data: Character }) => {
 			const prisma = new PrismaClient()
@@ -44,10 +46,10 @@ export default (characterID: number | string) => {
 				},
 			}).catch((error: Error) => {
 				// eslint-disable-next-line no-console
-				console.error(error)
+				console.error('public char error\n', error)
 			})
 		}).catch((error: Error) => {
 			// eslint-disable-next-line no-console
-			console.error(error)
+			console.error('public char error\n', error)
 		})
 }

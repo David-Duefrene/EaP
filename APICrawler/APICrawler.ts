@@ -22,12 +22,12 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 
 	receiveMessage((message: Message) => {
 		if (message.type === 'refreshAPI') {
-			Object.values(auth.characterList).forEach(({ characterID }) => {
-				if (characterID < 0) {
+			Object.entries(auth.characterList).forEach(([ characterName, characterTokens ]) => {
+				if (characterTokens.characterID < 0) {
 					return
 				}
 				endpoints.forEach((endpoint) => {
-					endpoint(characterID).catch((error: Error) => {
+					endpoint({ ...characterTokens, characterName }).catch((error: Error) => {
 						// eslint-disable-next-line no-console
 						console.log(error)
 					})
