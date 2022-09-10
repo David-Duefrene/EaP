@@ -31,7 +31,7 @@
     "prisma-merge": "0.2.0",
     "typescript": "4.8.3",
     "vite": "2.9.15",
-    "vitest": "0.23.1"
+    "vitest": "0.23.2"
   },
   "dependencies": {
     "@prisma/client": "^4.2.1",
