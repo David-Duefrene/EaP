@@ -2,7 +2,7 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import publicCharacterData from '../../../../prisma/PrismaClient'
+import publicCharacterData from '../publicCharacterData'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 
 describe('publicCharacterData', () => {
@@ -27,11 +27,11 @@ describe('publicCharacterData', () => {
 			}),
 		}))
 
-		vi.mock('../jsIsBas', () => ({
+		vi.mock('../../../../prisma/PrismaClient', () => ({
 			default: { Character: { upsert: vi.fn().mockResolvedValue({ }) } },
 		}))
 
-		await publicCharacterData({ characterID: '1', accessToken: 'Token' })
+		publicCharacterData({ characterID: '1', accessToken: 'Token' })
 
 		expect(ESIRequest).toBeCalledTimes(1)
 		expect(ESIRequest).toBeCalledWith('characters/1')
