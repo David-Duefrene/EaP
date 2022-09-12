@@ -1,5 +1,4 @@
-const { PrismaClient } = require('@prisma/client')
-
+import prisma from '../../../prisma/PrismaClient'
 import ESIRequest from '../../axiosRequests/ESIRequest'
 import Character from '../../../Types/APIResponses/EveOfficial/character.type'
 import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
@@ -8,7 +7,6 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}`).then((result: { data: Character }) => {
-		const prisma = new PrismaClient()
 		const {
 			name, corporation_id: corporationID, alliance_id: allianceID, security_status: securityStatus,
 			birthday, bloodline_id: bloodLineID, description, gender, race_id: raceID,
