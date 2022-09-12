@@ -1,14 +1,10 @@
-const axios = require('axios')
+import ESIRequest from '../../axiosRequests/ESIRequest'
+import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
 
-export default (characterAuthData) => {
+export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
-	const config = {
-		headers: {
-			'Authorization': `Bearer ${accessToken}`,
-		},
-	}
 
-	return axios.get(`https://esi.evetech.net/latest/characters/${characterID}/agents_research/?datasource=tranquility`, config)
+	return ESIRequest(`characters/${characterID}/agents_research`, accessToken)
 		.then((result) => {
 			// eslint-disable-next-line no-console
 			console.log('result', result)

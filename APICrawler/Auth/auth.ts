@@ -8,7 +8,7 @@ const net = require('net')
 const jwksClient = require('jwks-rsa')
 const jwt = require('jsonwebtoken')
 
-import GetAuth from '../axiosGetAuth'
+import GetAuth from '../axiosRequests/axiosGetAuth'
 
 type Message = { 'type': string, 'message': string | Record<string, string> };
 type SendMessage = (message: Message) => void;
