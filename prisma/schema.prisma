@@ -14,6 +14,7 @@ model Character {
   updatedAt 	 DateTime @updatedAt
   characterID	 String @unique
   characterSheet CharacterSheet[]
+  agentResearch	 AgentResearch[]
 }
 
 model CharacterSheet {
@@ -28,4 +29,15 @@ model CharacterSheet {
   name 			 String @unique
   raceID 		 Int
   securityStatus Float
+}
+
+model AgentResearch {
+  key			 	Int @id
+  characterID	 	String @unique
+  character		 	Character @relation(fields: [key], references: [key])
+  agentID		 	Int
+  pointsPerDay   	Float
+  remainderPoints 	Float
+  skillTypeID		Int
+  startedAT			String
 }
