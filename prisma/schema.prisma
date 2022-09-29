@@ -15,6 +15,7 @@ model Character {
   characterID	 String @unique
   characterSheet CharacterSheet[]
   agentResearch	 AgentResearch[]
+  blueprint		 Blueprint[]
 }
 
 model CharacterSheet {
@@ -33,11 +34,24 @@ model CharacterSheet {
 
 model AgentResearch {
   key			 	Int @id
-  characterID	 	String @unique
+  characterID	 	Int
   character		 	Character @relation(fields: [key], references: [key])
   agentID		 	Int
   pointsPerDay   	Float
   remainderPoints 	Float
   skillTypeID		Int
   startedAT			String
+}
+
+model Blueprint {
+  characterID	 	    String
+  itemID      	        BigInt @unique
+  character		 	    Character @relation(fields: [characterID], references: [characterID])
+  locationFlag          String
+  locationID            BigInt
+  materialEfficiency 	Int
+  quantity              Int
+  runs                  Int
+  timeEfficiency        Int
+  typeID                Int
 }

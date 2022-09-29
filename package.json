@@ -10,6 +10,7 @@
     "dev-React": "vite ./React",
     "build-Electron": "vite build ./Electron",
     "build-Auth": "vite build ./APICrawler",
+    "studio": "npx prisma studio",
     "migrate": "npx prisma migrate dev"
   },
   "author": "",

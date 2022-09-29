@@ -17,6 +17,7 @@ const App = () => {
 		prisma.characterSheet.findMany().then((d: CharacterQuery[]) => setCharacterSheets(d))
 	}, [])
 
+	// TODO: Need to determine if no characters exist and display a message to the user
 	if (characterSheets.length === 0) {
 		return <div>Loading...</div>
 	}
