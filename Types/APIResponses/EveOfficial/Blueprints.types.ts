@@ -14,7 +14,7 @@ enum BlueprintLocationFlags {
 type Blueprint = {
     item_id: string,
     location_flag: BlueprintLocationFlags,
-    location_id: number,
+    location_id: string,
     material_efficiency: number,
     quantity: number,
     runs: number,
