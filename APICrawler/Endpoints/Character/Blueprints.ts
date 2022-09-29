@@ -5,11 +5,14 @@ import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosType
 import Blueprint from '../../../Types/APIResponses/EveOfficial/Blueprints.types'
 
 export default (characterAuthData: CharacterAuthData) => {
-	const { characterID, accessToken, name } = characterAuthData
+	const { characterID, accessToken } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}/blueprints`, accessToken).then((result: { data: Array<Blueprint> }) => {
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		const blueprintList: Object[] = []
+		// TODO: Add Blueprints type for prisma response ^^
+
 		result.data.forEach((blueprint) => {
-			// For each does not wait for promises and is causing issues
 			const {
 				item_id: itemID, location_flag: locationFlag, location_id: locationID,
 				material_efficiency: materialEfficiency, quantity, runs, time_efficiency: timeEfficiency,
@@ -19,24 +22,13 @@ export default (characterAuthData: CharacterAuthData) => {
 				itemID, locationFlag, locationID, materialEfficiency, quantity, runs, timeEfficiency, typeID,
 			}
 
-			return prisma.Blueprint.upsert({
-				where: { itemID },
-				update: {
-					characterID,
-					...blueprintData,
-				},
-				create: {
-					characterID,
-					...blueprintData,
-				},
-			}).catch((error: Error) => {
-				// eslint-disable-next-line no-console
-				console.log('Blueprint error\n', error)
-				Promise.reject(error)
-			}).catch((error: Error) => {
-				// eslint-disable-next-line no-console
-				console.log('Blueprint error\n', error)
-			})
+			blueprintList.push(blueprintData)
 		})
+
+		return prisma.$transaction([
+			prisma.Blueprint.deleteMany({ where: { characterID } }),
+			// TODO: switch off of SQLlite for this to work
+			prisma.Blueprint.createMany({ ...blueprintList }),
+		])
 	})
 }
