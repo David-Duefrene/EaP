@@ -17,9 +17,9 @@ const App = () => {
 		prisma.characterSheet.findMany().then((d: CharacterQuery[]) => setCharacterSheets(d))
 	}, [])
 
-	if (characterSheets.length === 0) {
-		return <div>Loading...</div>
-	}
+	// if (characterSheets.length === 0) {
+	// 	return <div>Loading...</div>
+	// }
 
 	const cardList = characters.map((el, key) => {
 		const {
