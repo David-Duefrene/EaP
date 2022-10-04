@@ -14,12 +14,10 @@ export default (characterAuthData: CharacterAuthData) => {
 
 		result.data.forEach((blueprint) => {
 			const {
-				item_id: itemID, location_flag: locationFlag, location_id: locationID,
-				material_efficiency: materialEfficiency, quantity, runs, time_efficiency: timeEfficiency,
-				type_id: typeID,
+				itemId, locationFlag, locationId, materialEfficiency, quantity, runs, timeEfficiency, typeId,
 			} = blueprint
 			const blueprintData = {
-				itemID, locationFlag, locationID, materialEfficiency, quantity, runs, timeEfficiency, typeID,
+				itemId, locationFlag, locationId, materialEfficiency, quantity, runs, timeEfficiency, typeId,
 			}
 
 			blueprintList.push(blueprintData)
