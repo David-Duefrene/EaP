@@ -1,7 +1,7 @@
 import prisma from '../../../prisma/PrismaClient'
 import ESIRequest from '../../axiosRequests/ESIRequest'
 import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
-import AgentResearch from '../../../Types/APIResponses/PrismaQueries/Character/AgentResearch.types'
+import AgentResearch from '../../../Types/APIResponses/EveOfficial/AgentResearch.types'
 
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData

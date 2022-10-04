@@ -1,13 +1,13 @@
 type character = {
-	'alliance_id': number,
+	'allianceId': number,
 	'birthday': string | Date,
-	'bloodline_id': number,
-	'corporation_id': number,
+	'bloodLineId': number,
+	'corporationId': number,
 	'description': string,
 	'gender': 'male' | 'female',
 	'name': string,
-	'race_id': number,
-	'security_status': number
+	'raceId': number,
+	'securityStatus': number
 }
 
 export default character
