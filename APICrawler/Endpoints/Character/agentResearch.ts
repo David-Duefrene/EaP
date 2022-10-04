@@ -1,7 +1,7 @@
 import prisma from '../../../prisma/PrismaClient'
 import ESIRequest from '../../axiosRequests/ESIRequest'
 import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
-import AgentResearch from '../../../Types/APIResponses/EveOfficial/AgentResearch.types'
+import AgentResearch from '../../../Types/APIResponses/PrismaQueries/Character/AgentResearch.types'
 
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
@@ -10,11 +10,10 @@ export default (characterAuthData: CharacterAuthData) => {
 		.then((result: { data: Array<AgentResearch> }) => {
 			result.data.forEach((researchSlot) => {
 				const {
-					agent_id: agentID, points_per_day: pointsPerDay, remainder_points: remainderPoints,
-					skill_type_id: skillTypeID, started_at: startedAT,
+					agentId, pointsPerDay, remainderPoints, skillTypeId, startedAt,
 				} = researchSlot
 				const agentData = {
-					agentID, pointsPerDay, remainderPoints, skillTypeID, startedAT,
+					agentId, pointsPerDay, remainderPoints, skillTypeId, startedAt,
 				}
 
 				return prisma.AgentResearch.upsert({
