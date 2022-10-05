@@ -9,18 +9,20 @@ export default (characterAuthData: CharacterAuthData) => {
 
 	return ESIRequest(`characters/${characterID}/blueprints`, accessToken).then((result: { data: Array<Blueprint> }) => {
 		return result.data.forEach((blueprint) => {
-			const { itemId } = blueprint
+			const { itemID } = blueprint
 			const blueprintData = { ...blueprint }
 
 			prisma.Blueprint.upsert({
-				where: { itemId },
-				update: {
-					data: { ...blueprintData },
-				},
-				create: {
-					data: { ...blueprintData },
-				},
+				where: { itemID },
+				update: { ...blueprintData, characterID },
+				create: { ...blueprintData, characterID },
+			}).catch((error: Error) => {
+				// eslint-disable-next-line no-console
+				console.log('Blueprints prisma error\n', error)
 			})
 		})
+	}).catch((error: Error) => {
+		// eslint-disable-next-line no-console
+		console.log('Blueprints API error\n', error)
 	})
 }

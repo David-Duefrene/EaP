@@ -9,13 +9,10 @@ export default (characterAuthData: CharacterAuthData) => {
 	return ESIRequest(`characters/${characterID}/agents_research`, accessToken)
 		.then((result: { data: Array<AgentResearch> }) => {
 			result.data.forEach((researchSlot) => {
-				const {
-					agentId, pointsPerDay, remainderPoints, skillTypeId, startedAt,
-				} = researchSlot
-				const agentData = {
-					agentId, pointsPerDay, remainderPoints, skillTypeId, startedAt,
-				}
-
+				const agentData = { ...researchSlot }
+				// eslint-disable-next-line multiline-comment-style
+				// TODO possible bug here
+				// Should loop through an array of agents and send them to the db and not return the promise
 				return prisma.AgentResearch.upsert({
 					where: { characterID },
 					update: {

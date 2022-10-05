@@ -7,18 +7,12 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}`).then((result: { data: Character }) => {
-		const {
-			name, corporationId, allianceId, securityStatus,
-			birthday, bloodLineId, description, gender, raceId,
-		} = result.data
-
+		const { name } = result.data
 		const characterData = { name, characterID }
-		const sheetData = {
-			name, corporationId, allianceId, securityStatus, birthday, bloodLineId, description, gender, raceId,
-		}
+		const sheetData = { ...result.data }
 
 		return prisma.Character.upsert({
-			where: { characterID: characterID },
+			where: { characterID },
 			update: {
 				...characterData,
 				characterSheet: {

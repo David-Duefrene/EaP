@@ -24,7 +24,7 @@ const App = () => {
 
 	const cardList = characters.map((el, key) => {
 		const {
-			allianceID, birthday, bloodLineID, corporationID, gender, raceID, securityStatus,
+			allianceID, birthday, bloodlineID, corporationID, gender, raceID, securityStatus,
 		} = characterSheets[key]
 		return (
 			<div key={key} className='Card'>
@@ -34,7 +34,7 @@ const App = () => {
 					<li>Character ID: {el.characterID}</li>
 					<li>Alliance ID: {allianceID}</li>
 					<li>Character birthday: {`${birthday}`}</li>
-					<li>Bloodline ID: {bloodLineID}</li>
+					<li>Bloodline ID: {bloodlineID}</li>
 					<li>Corp ID:{corporationID}</li>
 					<li>Gender: {gender}</li>
 					<li>Race ID: {raceID}</li>
