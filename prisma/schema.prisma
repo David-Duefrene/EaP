@@ -12,7 +12,7 @@ model Character {
   name      	 String @unique
   createdAt 	 DateTime @default(now())
   updatedAt 	 DateTime @updatedAt
-  characterID	 String @unique
+  characterId	 String @unique
   characterSheet CharacterSheet[]
   agentResearch	 AgentResearch[]
   blueprint		 Blueprint[]
@@ -21,37 +21,37 @@ model Character {
 model CharacterSheet {
   key        	 Int @id
   character 	 Character @relation(fields: [key], references: [key])
-  allianceID 	 Int
+  allianceId 	 Int
   birthday  	 DateTime
-  bloodLineID 	 Int
-  corporationID  Int
+  bloodLineId 	 Int
+  corporationId  Int
   description 	 String
   gender 		 String
   name 			 String @unique
-  raceID 		 Int
+  raceId 		 Int
   securityStatus Float
 }
 
 model AgentResearch {
   key			 	Int @id
-  characterID	 	Int
+  characterId	 	Int
   character		 	Character @relation(fields: [key], references: [key])
-  agentID		 	Int
+  agentId		 	Int
   pointsPerDay   	Float
   remainderPoints 	Float
-  skillTypeID		Int
-  startedAT			String
+  skillTypeId		Int
+  startedAt			String
 }
 
 model Blueprint {
-  characterID	 	    String
+  characterId	 	    String
   itemID      	        BigInt @unique
-  character		 	    Character @relation(fields: [characterID], references: [characterID])
+  character		 	    Character @relation(fields: [characterId], references: [characterId])
   locationFlag          String
-  locationID            BigInt
+  locationId            BigInt
   materialEfficiency 	Int
   quantity              Int
   runs                  Int
   timeEfficiency        Int
-  typeID                Int
+  typeId                Int
 }
