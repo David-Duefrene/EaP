@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = "file:./dev.db?connection_limit=1&pool_timeout=0"
 }
 
 model Character {
@@ -16,6 +16,7 @@ model Character {
   characterSheet CharacterSheet[]
   agentResearch	 AgentResearch[]
   blueprint		 Blueprint[]
+  corpHistory	 CorpHistory[]
 }
 
 model CharacterSheet {
@@ -23,7 +24,7 @@ model CharacterSheet {
   character 	 Character @relation(fields: [key], references: [key])
   allianceID 	 Int
   birthday  	 DateTime
-  bloodLineID 	 Int
+  bloodlineID 	 Int
   corporationID  Int
   description 	 String
   gender 		 String
@@ -40,7 +41,7 @@ model AgentResearch {
   pointsPerDay   	Float
   remainderPoints 	Float
   skillTypeID		Int
-  startedAT			String
+  startedAt			String
 }
 
 model Blueprint {
@@ -54,4 +55,13 @@ model Blueprint {
   runs                  Int
   timeEfficiency        Int
   typeID                Int
+}
+
+model CorpHistory {
+  characterID    String
+  character 	 Character @relation(fields: [characterID], references: [characterID])
+  corporationID  Int
+  recordID 	     Int @unique
+  startDate  	 DateTime
+  isDeleted 	 Boolean @default(false)
 }

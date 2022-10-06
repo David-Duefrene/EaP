@@ -1,36 +1,37 @@
 module.exports = {
-	'env': {
-		'browser': true,
-		'es2021': true,
+	env: {
+		browser: true,
+		es2021: true,
 	},
-	'extends': [
+	extends: [
 		'eslint-config-vigilant-octo-train',
 		'eslint:recommended',
 		'plugin:react/recommended',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:@typescript-eslint/recommended',
 	],
-	'parser': '@typescript-eslint/parser',
-	'parserOptions': {
-		'ecmaFeatures': {
-			'jsx': true,
+	parser: '@typescript-eslint/parser',
+	parserOptions: {
+		ecmaFeatures: {
+			jsx: true,
 		},
-		'ecmaVersion': 'latest',
-		'sourceType': 'module',
+		ecmaVersion: 'latest',
+		sourceType: 'module',
 	},
-	'plugins': [
+	plugins: [
 		'react',
 		'@typescript-eslint',
 	],
-	'rules': {
+	rules: {
 		'@typescript-eslint/no-var-requires': 'off',
-		'camelcase': [ 2, { 'ignoreDestructuring': true } ],
+		camelcase: [ 'error', { ignoreDestructuring: true } ],
 	},
-	'overrides': [
+	overrides: [
 		{
-			'files': [ '*.test.ts' ],
-			'rules': {
+			files: [ '*.test.ts' ],
+			rules: {
 				'dot-notation': 'off',
+				camelcase: 'off',
 			},
 		},
 	],

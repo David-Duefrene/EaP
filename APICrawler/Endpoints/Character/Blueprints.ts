@@ -8,25 +8,21 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}/blueprints`, accessToken).then((result: { data: Array<Blueprint> }) => {
-		// eslint-disable-next-line @typescript-eslint/ban-types
-		const blueprintList: Object[] = []
-		// TODO: Add Blueprints type for prisma response ^^
+		return result.data.forEach(async (blueprint) => {
+			const { itemID } = blueprint
+			const blueprintData = { ...blueprint }
 
-		result.data.forEach((blueprint) => {
-			const {
-				itemId, locationFlag, locationId, materialEfficiency, quantity, runs, timeEfficiency, typeId,
-			} = blueprint
-			const blueprintData = {
-				itemId, locationFlag, locationId, materialEfficiency, quantity, runs, timeEfficiency, typeId,
-			}
-
-			blueprintList.push(blueprintData)
+			await prisma.Blueprint.upsert({
+				where: { itemID },
+				update: { ...blueprintData, characterID },
+				create: { ...blueprintData, characterID },
+			}).catch((error: Error) => {
+				// eslint-disable-next-line no-console
+				console.log('Blueprints prisma error\n', error)
+			})
 		})
-
-		return prisma.$transaction([
-			prisma.Blueprint.deleteMany({ where: { characterID } }),
-			// TODO: switch off of SQLlite for this to work
-			prisma.Blueprint.createMany({ ...blueprintList }),
-		])
+	}).catch((error: Error) => {
+		// eslint-disable-next-line no-console
+		console.log('Blueprints API error\n', error)
 	})
 }
