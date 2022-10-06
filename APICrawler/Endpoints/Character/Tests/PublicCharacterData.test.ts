@@ -2,7 +2,6 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-// comment
 import publicCharacterData from '../PublicCharacterData'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 
