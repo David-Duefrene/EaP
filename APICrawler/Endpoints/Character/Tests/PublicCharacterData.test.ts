@@ -2,10 +2,10 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import publicCharacterData from '../PublicCharacterData'
+import PublicCharacterData from '../PublicCharacterSheet'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 
-describe('publicCharacterData', () => {
+describe('PublicCharacterData', () => {
 	afterEach(() => {
 		vi.restoreAllMocks()
 	})
@@ -31,7 +31,7 @@ describe('publicCharacterData', () => {
 			default: { Character: { upsert: vi.fn().mockResolvedValue({ }) } },
 		}))
 
-		publicCharacterData({ characterID: '1', accessToken: 'Token' })
+		PublicCharacterData({ characterID: '1', accessToken: 'Token' })
 
 		expect(ESIRequest).toBeCalledTimes(1)
 		expect(ESIRequest).toBeCalledWith('characters/1')
