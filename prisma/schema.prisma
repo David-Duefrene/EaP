@@ -1,67 +1,76 @@
 generator client {
-  provider = "prisma-client-js"
+	provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db?connection_limit=1&pool_timeout=0"
+	provider = "sqlite"
+	url      = "file:./dev.db?connection_limit=1&pool_timeout=0"
 }
 
 model Character {
-  key        	 Int @id @default(autoincrement())
-  name      	 String @unique
-  createdAt 	 DateTime @default(now())
-  updatedAt 	 DateTime @updatedAt
-  characterID	 String @unique
-  characterSheet CharacterSheet[]
-  agentResearch	 AgentResearch[]
-  blueprint		 Blueprint[]
-  corpHistory	 CorpHistory[]
+	key        	 	Int @id @default(autoincrement())
+	name      	 	String @unique
+	createdAt 	 	DateTime @default(now())
+	updatedAt 	 	DateTime @updatedAt
+	characterID	 	String @unique
+	characterSheet	CharacterSheet[]
+	agentResearch	AgentResearch[]
+	blueprint		Blueprint[]
+	corpHistory	 	CorpHistory[]
+	Fatigue		 	Fatigue?
 }
 
 model CharacterSheet {
-  key        	 Int @id
-  character 	 Character @relation(fields: [key], references: [key])
-  allianceID 	 Int
-  birthday  	 DateTime
-  bloodlineID 	 Int
-  corporationID  Int
-  description 	 String
-  gender 		 String
-  name 			 String @unique
-  raceID 		 Int
-  securityStatus Float
+	key				Int @id
+	character 	 	Character @relation(fields: [key], references: [key])
+	allianceID 	 	Int
+	birthday  	 	DateTime
+	bloodlineID 	Int
+	corporationID	Int
+	description 	String
+	gender 		 	String
+	name 			String @unique
+	raceID 		 	Int
+	securityStatus	Float
 }
 
 model AgentResearch {
-  key			 	Int @id
-  characterID	 	Int
-  character		 	Character @relation(fields: [key], references: [key])
-  agentID		 	Int
-  pointsPerDay   	Float
-  remainderPoints 	Float
-  skillTypeID		Int
-  startedAt			String
+	key			 		Int @id
+	characterID			Int
+	character		 	Character @relation(fields: [key], references: [key])
+	agentID				Int
+	pointsPerDay		Float
+	remainderPoints		Float
+	skillTypeID			Int
+	startedAt			String
 }
 
 model Blueprint {
-  characterID	 	    String
-  itemID      	        BigInt @unique
-  character		 	    Character @relation(fields: [characterID], references: [characterID])
-  locationFlag          String
-  locationID            BigInt
-  materialEfficiency 	Int
-  quantity              Int
-  runs                  Int
-  timeEfficiency        Int
-  typeID                Int
+	characterID				String
+	itemID					BigInt @unique
+	character				Character @relation(fields: [characterID], references: [characterID])
+	locationFlag			String
+	locationID				BigInt
+	materialEfficiency		Int
+	quantity				Int
+	runs					Int
+	timeEfficiency			Int
+	typeID					Int
 }
 
 model CorpHistory {
-  characterID    String
-  character 	 Character @relation(fields: [characterID], references: [characterID])
-  corporationID  Int
-  recordID 	     Int @unique
-  startDate  	 DateTime
-  isDeleted 	 Boolean @default(false)
+	characterID			String
+	character			Character @relation(fields: [characterID], references: [characterID])
+	corporationID		Int
+	recordID			Int @unique
+	startDate			DateTime
+	isDeleted			Boolean @default(false)
+}
+
+model Fatigue {
+	characterID		String @unique
+	character		Character @relation(fields: [characterID], references: [characterID])
+	lastJumpDate	DateTime
+	lastUpdateDate	DateTime
+	fatigueExpires	DateTime
 }
