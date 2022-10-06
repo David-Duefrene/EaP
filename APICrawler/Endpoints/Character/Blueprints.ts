@@ -8,11 +8,11 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}/blueprints`, accessToken).then((result: { data: Array<Blueprint> }) => {
-		return result.data.forEach((blueprint) => {
+		return result.data.forEach(async (blueprint) => {
 			const { itemID } = blueprint
 			const blueprintData = { ...blueprint }
 
-			prisma.Blueprint.upsert({
+			await prisma.Blueprint.upsert({
 				where: { itemID },
 				update: { ...blueprintData, characterID },
 				create: { ...blueprintData, characterID },
