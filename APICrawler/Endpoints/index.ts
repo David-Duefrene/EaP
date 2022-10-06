@@ -1,5 +1,5 @@
 import publicCharacterData from './Character/publicCharacterData'
-import agentResearch from './Character/agentResearch'
+import agentResearch from './Character/AgentResearch'
 import blueprint from './Character/Blueprints'
 import corpHistory from './Character/CorpHistory'
 
