@@ -2,7 +2,7 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import PublicCharacterData from '../PublicCharacterData'
+import PublicCharacterData from '../PublicCharacterSheet'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 
 describe('PublicCharacterData', () => {
