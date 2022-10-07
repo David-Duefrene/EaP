@@ -29,11 +29,9 @@ export default (characterAuthData: CharacterAuthData) => {
 				},
 			},
 		}).catch((error: Error) => {
-			// eslint-disable-next-line no-console
-			console.error('public char error\n', error)
+			throw new Error('public character sheet prisma error\n', { cause: error })
 		})
 	}).catch((error: Error) => {
-		// eslint-disable-next-line no-console
-		console.error('public char error\n', error)
+		throw new Error('public character sheet API error\n', { cause: error })
 	})
 }

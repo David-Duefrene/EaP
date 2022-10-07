@@ -17,12 +17,10 @@ export default (characterAuthData: CharacterAuthData) => {
 				update: { ...blueprintData, characterID },
 				create: { ...blueprintData, characterID },
 			}).catch((error: Error) => {
-				// eslint-disable-next-line no-console
-				console.log('Blueprints prisma error\n', error)
+				throw new Error('Blueprints prisma error\n', { cause: error })
 			})
 		})
 	}).catch((error: Error) => {
-		// eslint-disable-next-line no-console
-		console.log('Blueprints API error\n', error)
+		throw new Error('Blueprints API error\n', { cause: error })
 	})
 }
