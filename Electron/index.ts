@@ -37,7 +37,7 @@ const createWindow = () => {
 	}
 
 	// TODO create a proper message system
-	child.on('message', (message) => {
+	child.on('message', (message: any) => {
 		if (message.type === 'url') {
 			shell.openExternal(message.message)
 		} else if (message.type === 'token') {
@@ -59,10 +59,14 @@ const createWindow = () => {
 				delete charList[name]
 				electronStore.set('characters', charList)
 			}
+		} else if (message.type === 'log') {
+			console.log('log')
+			const { error } = message.message
+			console.log(error)
 		}
 	})
 
-	ipcMain.on('Login', (event) => {
+	ipcMain.on('Login', (event: { preventDefault: () => void }) => {
 		event.preventDefault()
 		console.log('Login')
 		child.send({ type: 'Login', message: 'Login' })
@@ -82,7 +86,7 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
 	createWindow()
-}).catch((err) => {
+}).catch((err: Error) => {
 	console.log(err)
 })
 
@@ -91,3 +95,5 @@ app.on('window-all-closed', () => {
 		app.quit()
 	}
 })
+
+export {}

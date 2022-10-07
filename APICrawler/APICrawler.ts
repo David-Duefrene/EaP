@@ -2,9 +2,10 @@ import Auth from './Auth/auth'
 import endpoints from './Endpoints/index'
 
 type Message = { 'type': string, 'message': string | Record<string, string> };
+type ErrorMessage = { 'type': string, 'message': Error };
 
 //* Checks for process.send & sends it, this is to prevent Typescript errors
-const defaultSendMessage = (message: Message) => {
+const defaultSendMessage = (message: Message | ErrorMessage) => {
 	if (process.send) {
 		process.send(message)
 	}
@@ -27,9 +28,13 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 					return
 				}
 				endpoints.forEach((endpoint) => {
+					// TODO: fix characterName error - is it needed?
 					endpoint({ ...characterTokens, characterName }).catch((error: Error) => {
-						// eslint-disable-next-line no-console
-						console.log(error)
+						const message ={
+							type: 'error',
+							message: error,
+						}
+						sendMessage(message)
 					})
 				})
 			})
