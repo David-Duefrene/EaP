@@ -60,9 +60,8 @@ const createWindow = () => {
 				electronStore.set('characters', charList)
 			}
 		} else if (message.type === 'log') {
-			console.log('log')
-			const { error } = message.message
-			console.log(error)
+			console.log('Electron log')
+			console.log(message)
 		}
 	})
 
@@ -70,12 +69,6 @@ const createWindow = () => {
 		event.preventDefault()
 		console.log('Login')
 		child.send({ type: 'Login', message: 'Login' })
-		/*
-		 * Child.on('error', (err) => {
-		 * 	console.log(err);
-		 * });
-		 * controller.abort(); // Stops the child process
-		 */
 	})
 
 	/*
