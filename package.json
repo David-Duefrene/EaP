@@ -4,7 +4,7 @@
   "description": "Eve online API Project",
   "main": "index.ts",
   "scripts": {
-    "start": "concurrently -k \"npm run dev-React\" \"npm run build-Auth\"",
+    "start": "concurrently -k \"npm run dev-React\" \"npm run build-Auth\" \"npm run build-Electron\"",
     "test": "vitest",
     "dev-Electron": "electron ./Electron/vite-build/index.es.js",
     "dev-React": "vite ./React",

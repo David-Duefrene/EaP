@@ -16,11 +16,9 @@ export default (characterAuthData: CharacterAuthData) => {
 			update: { ...fatigueData, characterID },
 			create: { ...fatigueData, characterID },
 		}).catch((error: Error) => {
-			// eslint-disable-next-line no-console
-			console.log('Fatigue prisma error\n', error)
+			throw new Error('Fatigue prisma error\n', { cause: error })
 		})
 	}).catch((error: Error) => {
-		// eslint-disable-next-line no-console
-		console.log('Fatigue API error\n', error)
+		throw new Error('Fatigue API error\n', { cause: error })
 	})
 }

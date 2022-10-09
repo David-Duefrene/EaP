@@ -16,12 +16,10 @@ export default (characterAuthData: CharacterAuthData) => {
 				update: { ...corpHistory, characterID },
 				create: { ...corpHistory, characterID },
 			}).catch((error: Error) => {
-				// eslint-disable-next-line no-console
-				console.log('CorpHistory prisma error\n', error)
+				throw new Error('CorpHistory prisma error\n', { cause: error })
 			})
 		})
 	}).catch((error: Error) => {
-		// eslint-disable-next-line no-console
-		console.error('CorpHistory network error\n', error)
+		throw new Error('CorpHistory API error\n', { cause: error })
 	})
 }

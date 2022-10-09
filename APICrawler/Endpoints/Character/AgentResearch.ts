@@ -21,10 +21,11 @@ export default (characterAuthData: CharacterAuthData) => {
 					create: {
 						data: { ...agentData },
 					},
+				}).catch((error: Error) => {
+					throw new Error('Agent research prisma error\n', { cause: error })
 				})
 			})
 		}).catch((error: Error) => {
-			// eslint-disable-next-line no-console
-			console.log('Agent research error\n', error)
+			throw new Error('Agent research API error\n', { cause: error })
 		})
 }

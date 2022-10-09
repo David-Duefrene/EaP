@@ -27,10 +27,25 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 					return
 				}
 				endpoints.forEach((endpoint) => {
-					endpoint({ ...characterTokens, characterName }).catch((error: Error) => {
-						// eslint-disable-next-line no-console
-						console.log(error)
-					})
+					// TODO: fix characterName error - is it needed?
+					endpoint({ ...characterTokens, characterName })
+						.catch((error: Error) => {
+							const { message, cause } = error
+							let myCause = null
+							if (cause) {
+								myCause = cause
+							}
+
+							const newMessage ={
+								type: 'log',
+								message: message,
+								data: {
+									cause: myCause,
+								},
+							}
+
+							sendMessage(newMessage)
+						})
 				})
 			})
 		}
