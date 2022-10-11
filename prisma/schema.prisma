@@ -74,3 +74,15 @@ model Fatigue {
 	lastUpdateDate	DateTime
 	fatigueExpires	DateTime
 }
+
+model Medal {
+	characterID		String
+	corporationID 	Int
+	date 			DateTime
+	description		String
+	issuerID 		Int
+	medalID 		Int @unique
+	reason 			String
+	status			String
+	title 			String
+}
