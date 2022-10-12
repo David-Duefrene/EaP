@@ -12,6 +12,7 @@ export default (characterAuthData: CharacterAuthData) => {
 			const medalData = { ...medal }
 			delete medalData.graphics
 
+			// TODO - add graphics here after switching to postgres
 			await prisma.Medal.upsert({
 				where: { medalID: medalData.medalID },
 				update: { ...medalData, characterID },
