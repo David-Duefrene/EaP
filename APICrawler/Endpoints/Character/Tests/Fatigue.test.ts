@@ -12,7 +12,7 @@ describe('fatigue', () => {
 	})
 
 	test('should be able to get fatigue', async () => {
-		vi.mock('../../../axiosRequests/ESIRequest', async () => ({
+		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: {
 					lastJumpDate: new Date('2022-10-06T02:09:38.981Z'),
@@ -22,7 +22,7 @@ describe('fatigue', () => {
 			}),
 		}))
 
-		vi.mock('../../../../prisma/PrismaClient', async () => ({
+		vi.mock('../../../../prisma/PrismaClient', () => ({
 			default: {
 				Fatigue: {
 					upsert: vi.fn().mockResolvedValue(null),

@@ -12,7 +12,7 @@ describe('blueprints', () => {
 	})
 
 	test('should be able to get blueprints', async () => {
-		vi.mock('../../../axiosRequests/ESIRequest', async () => ({
+		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
 					itemID: 1,
@@ -27,7 +27,7 @@ describe('blueprints', () => {
 			),
 		}))
 
-		vi.mock('../../../../prisma/PrismaClient', async () => ({
+		vi.mock('../../../../prisma/PrismaClient', () => ({
 			default: {
 				Blueprint: {
 					upsert: vi.fn().mockResolvedValue(null),

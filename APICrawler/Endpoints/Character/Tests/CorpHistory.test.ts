@@ -12,7 +12,7 @@ describe('corpHistory', () => {
 	})
 
 	test('should be able to get corp history', async () => {
-		vi.mock('../../../axiosRequests/ESIRequest', async () => ({
+		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
 					recordID: 1,
@@ -22,7 +22,7 @@ describe('corpHistory', () => {
 			}),
 		}))
 
-		vi.mock('../../../../prisma/PrismaClient', async () => ({
+		vi.mock('../../../../prisma/PrismaClient', () => ({
 			default: {
 				CorpHistory: {
 					upsert: vi.fn().mockResolvedValue(null),
