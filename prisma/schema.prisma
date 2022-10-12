@@ -64,7 +64,7 @@ model CorpHistory {
 	characterID			String
 	character			Character @relation(fields: [characterID], references: [characterID])
 	corporationID		Int
-	recordID			BigInt @unique
+	recordID			Int @unique
 	startDate			DateTime
 	isDeleted			Boolean @default(false)
 }
@@ -105,8 +105,8 @@ model Notification {
 	characterID		String
 	character		Character @relation(fields: [characterID], references: [characterID])
 	isRead			Boolean @default(false)
-	notificationID	BigInt @unique
-	senderID		BigInt
+	notificationID	Int @unique
+	senderID		Int
 	senderType		String
 	text			String
 	timestamp		DateTime
