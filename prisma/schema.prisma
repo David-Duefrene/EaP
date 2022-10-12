@@ -62,7 +62,7 @@ model CorpHistory {
 	characterID			String
 	character			Character @relation(fields: [characterID], references: [characterID])
 	corporationID		Int
-	recordID			Int @unique
+	recordID			BigInt @unique
 	startDate			DateTime
 	isDeleted			Boolean @default(false)
 }
@@ -75,11 +75,22 @@ model Fatigue {
 	fatigueExpires	DateTime
 }
 
+model Graphic {
+	key				Int @id @default(autoincrement())
+	medalID			Int
+	color 			Int
+	graphic			String
+	layer 			Int
+	part 			Int
+	medal 			Medal @relation(fields: [medalID], references: [medalID])
+}
+
 model Medal {
 	characterID		String
 	corporationID 	Int
 	date 			DateTime
 	description		String
+	graphics		Graphic[]
 	issuerID 		Int
 	medalID 		Int @unique
 	reason 			String

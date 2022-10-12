@@ -64,7 +64,7 @@ describe('PublicCharacterData', () => {
 							bloodlineID: 1,
 							corporationID: 1,
 							description: 'description',
-						}
+						},
 					},
 				},
 				name: 'name',
