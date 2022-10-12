@@ -18,6 +18,8 @@ model Character {
 	blueprint		Blueprint[]
 	corpHistory	 	CorpHistory[]
 	Fatigue		 	Fatigue?
+	Medals		 	Medal[]
+	Notifications	Notification[]
 }
 
 model CharacterSheet {
@@ -87,6 +89,7 @@ model Graphic {
 
 model Medal {
 	characterID		String
+	character		Character @relation(fields: [characterID], references: [characterID])
 	corporationID 	Int
 	date 			DateTime
 	description		String
@@ -96,4 +99,16 @@ model Medal {
 	reason 			String
 	status			String
 	title 			String
+}
+
+model Notification {
+	characterID		String
+	character		Character @relation(fields: [characterID], references: [characterID])
+	isRead			Boolean @default(false)
+	notificationID	BigInt @unique
+	senderID		BigInt
+	senderType		String
+	text			String
+	timestamp		DateTime
+	type			String
 }
