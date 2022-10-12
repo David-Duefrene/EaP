@@ -12,7 +12,7 @@ describe('medals', () => {
 	})
 
 	test('should be able to get medals', async () => {
-		vi.mock('../../../axiosRequests/ESIRequest', async () => ({
+		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
 					medalID: 1,
@@ -28,7 +28,7 @@ describe('medals', () => {
 			}),
 		}))
 
-		vi.mock('../../../../prisma/PrismaClient', async () => ({
+		vi.mock('../../../../prisma/PrismaClient', () => ({
 			default: {
 				Medal: {
 					upsert: vi.fn().mockResolvedValue(null),
