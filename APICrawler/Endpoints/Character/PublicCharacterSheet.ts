@@ -6,12 +6,12 @@ import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosType
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID } = characterAuthData
 
-	return ESIRequest(`characters/${characterID}`).then((result: { data: Character }) => {
+	return ESIRequest(`characters/${characterID}`).then(async (result: { data: Character }) => {
 		const { name } = result.data
 		const characterData = { name, characterID }
 		const sheetData = { ...result.data }
 
-		return prisma.Character.upsert({
+		await prisma.Character.upsert({
 			where: { characterID },
 			update: {
 				...characterData,
