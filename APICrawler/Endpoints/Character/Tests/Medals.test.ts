@@ -13,27 +13,25 @@ describe('medals', () => {
 
 	test('should be able to get medals', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', async () => ({
-			default: vi.fn().mockResolvedValue(
-				Promise.resolve({
-					data: [ {
-						medalID: 1,
-						reason: 'reason',
-						status: 'status',
-						issuerID: 1,
-						issued: new Date('2022-10-06T02:09:38.981Z'),
-						title: 'title',
-						description: 'description',
-						corporationID: 1,
-						characterID: 1,
-					} ],
-				}),
-			),
+			default: vi.fn().mockResolvedValue({
+				data: [ {
+					medalID: 1,
+					reason: 'reason',
+					status: 'status',
+					issuerID: 1,
+					issued: new Date('2022-10-06T02:09:38.981Z'),
+					title: 'title',
+					description: 'description',
+					corporationID: 1,
+					characterID: 1,
+				} ],
+			}),
 		}))
 
 		vi.mock('../../../../prisma/PrismaClient', async () => ({
 			default: {
 				Medal: {
-					upsert: vi.fn().mockResolvedValue(Promise.resolve()),
+					upsert: vi.fn().mockResolvedValue(null),
 				},
 			},
 		}))

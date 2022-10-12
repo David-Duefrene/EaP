@@ -13,21 +13,19 @@ describe('corpHistory', () => {
 
 	test('should be able to get corp history', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', async () => ({
-			default: vi.fn().mockResolvedValue(
-				Promise.resolve({
-					data: [ {
-						recordID: 1,
-						corporationID: 1,
-						startDate: new Date('2022-10-06T02:09:38.981Z'),
-					} ],
-				}),
-			),
+			default: vi.fn().mockResolvedValue({
+				data: [ {
+					recordID: 1,
+					corporationID: 1,
+					startDate: new Date('2022-10-06T02:09:38.981Z'),
+				} ],
+			}),
 		}))
 
 		vi.mock('../../../../prisma/PrismaClient', async () => ({
 			default: {
 				CorpHistory: {
-					upsert: vi.fn().mockResolvedValue(Promise.resolve()),
+					upsert: vi.fn().mockResolvedValue(null),
 				},
 			},
 		}))
