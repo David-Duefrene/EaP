@@ -21,6 +21,7 @@ model Character {
 	Medals		 			Medal[]
 	Notifications			Notification[]
 	ContactNotifications	ContactNotification[]
+	CorpRoles				CorpRoles?
 }
 
 model CharacterSheet {
@@ -122,4 +123,14 @@ model ContactNotification {
 	sendDate				DateTime
 	senderCharacterID		Int
 	standingLevel			Float
+}
+
+model CorpRoles {
+	characterID				String @unique
+	character				Character @relation(fields: [characterID], references: [characterID])
+	//TODO: make all rols lists of strings after Postgres is implemented
+	roles					String
+	rolesAtBase				String
+	rolesAtHQ				String
+	rolesAtOther			String
 }
