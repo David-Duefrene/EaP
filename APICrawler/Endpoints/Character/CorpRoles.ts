@@ -7,12 +7,12 @@ import CorpRoles from '../../../Types/APIResponses/EveOfficial/CorpRoles.types'
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
-	return ESIRequest(`characters/${characterID}/roles`, accessToken).then((result: { data: CorpRoles }) => {
+	return ESIRequest(`characters/${characterID}/roles`, accessToken).then(async (result: { data: CorpRoles }) => {
 		const {
 			roles, rolesAtBase, rolesAtHQ, rolesAtOther,
 		} = result.data
 
-		prisma.CorpRoles.upsert({
+		await prisma.CorpRoles.upsert({
 			where: { characterID },
 			update: {
 				roles: JSON.stringify(roles),
