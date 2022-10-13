@@ -9,8 +9,9 @@ import notifications from './Character/Notifications'
 import contactNotifications from './Character/ContactNotification'
 import corpRoles from './Character/CorpRoles'
 import standings from './Character/Standings'
+import title from './Character/Title'
 
 export default [
 	publicCharacterData, agentResearch, blueprint, corpHistory, fatigue, medals, notifications, contactNotifications,
-	corpRoles, standings,
+	corpRoles, standings, title,
 ]
