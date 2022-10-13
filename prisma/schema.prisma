@@ -23,6 +23,7 @@ model Character {
 	ContactNotifications	ContactNotification[]
 	CorpRoles				CorpRoles?
 	Standings				Standings[]
+	Title					Title?
 }
 
 model CharacterSheet {
@@ -142,4 +143,11 @@ model Standings {
 	fromID					Int @unique
 	fromType				String
 	standing				Float
+}
+
+model Title {
+	characterID				String @unique
+	character				Character @relation(fields: [characterID], references: [characterID])
+	titleID					Int
+	name					String
 }
