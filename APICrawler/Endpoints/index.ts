@@ -5,7 +5,8 @@ import corpHistory from './Character/CorpHistory'
 import fatigue from './Character/Fatigue'
 import medals from './Character/Medals'
 import notifications from './Character/Notifications'
+import contactNotifications from './Character/ContactNotification'
 
 export default [
-	publicCharacterData, agentResearch, blueprint, corpHistory, fatigue, medals, notifications,
+	publicCharacterData, agentResearch, blueprint, corpHistory, fatigue, medals, notifications, contactNotifications,
 ]
