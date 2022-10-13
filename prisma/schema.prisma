@@ -8,43 +8,44 @@ datasource db {
 }
 
 model Character {
-	key        	 	Int @id @default(autoincrement())
-	name      	 	String @unique
-	createdAt 	 	DateTime @default(now())
-	updatedAt 	 	DateTime @updatedAt
-	characterID	 	String @unique
-	characterSheet	CharacterSheet[]
-	agentResearch	AgentResearch[]
-	blueprint		Blueprint[]
-	corpHistory	 	CorpHistory[]
-	Fatigue		 	Fatigue?
-	Medals		 	Medal[]
-	Notifications	Notification[]
+	key        	 			Int @id @default(autoincrement())
+	name      	 			String @unique
+	createdAt 	 			DateTime @default(now())
+	updatedAt 	 			DateTime @updatedAt
+	characterID	 			String @unique
+	characterSheet			CharacterSheet[]
+	agentResearch			AgentResearch[]
+	blueprint				Blueprint[]
+	corpHistory	 			CorpHistory[]
+	Fatigue		 			Fatigue?
+	Medals		 			Medal[]
+	Notifications			Notification[]
+	ContactNotifications	ContactNotification[]
 }
 
 model CharacterSheet {
-	key				Int @id
-	character 	 	Character @relation(fields: [key], references: [key])
-	allianceID 	 	Int
-	birthday  	 	DateTime
-	bloodlineID 	Int
-	corporationID	Int
-	description 	String
-	gender 		 	String
-	name 			String @unique
-	raceID 		 	Int
-	securityStatus	Float
+	key						Int @id
+	character 	 			Character @relation(fields: [key], references: [key])
+	allianceID 	 			Int
+	birthday  	 			DateTime
+	bloodlineID 			Int
+	corporationID			Int
+	description 			String
+	gender 		 			String
+	name 					String @unique
+	raceID 		 			Int
+	securityStatus			Float
 }
 
 model AgentResearch {
-	key			 		Int @id
-	characterID			Int
-	character		 	Character @relation(fields: [key], references: [key])
-	agentID				Int
-	pointsPerDay		Float
-	remainderPoints		Float
-	skillTypeID			Int
-	startedAt			String
+	key			 			Int @id
+	characterID				Int
+	character		 		Character @relation(fields: [key], references: [key])
+	agentID					Int
+	pointsPerDay			Float
+	remainderPoints			Float
+	skillTypeID				Int
+	startedAt				String
 }
 
 model Blueprint {
@@ -61,54 +62,64 @@ model Blueprint {
 }
 
 model CorpHistory {
-	characterID			String
-	character			Character @relation(fields: [characterID], references: [characterID])
-	corporationID		Int
-	recordID			Int @unique
-	startDate			DateTime
-	isDeleted			Boolean @default(false)
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
+	corporationID			Int
+	recordID				Int @unique
+	startDate				DateTime
+	isDeleted				Boolean @default(false)
 }
 
 model Fatigue {
-	characterID		String @unique
-	character		Character @relation(fields: [characterID], references: [characterID])
-	lastJumpDate	DateTime
-	lastUpdateDate	DateTime
-	fatigueExpires	DateTime
+	characterID				String @unique
+	character				Character @relation(fields: [characterID], references: [characterID])
+	lastJumpDate			DateTime
+	lastUpdateDate			DateTime
+	fatigueExpires			DateTime
 }
 
 model Graphic {
-	key				Int @id @default(autoincrement())
-	medalID			Int
-	color 			Int
-	graphic			String
-	layer 			Int
-	part 			Int
-	medal 			Medal @relation(fields: [medalID], references: [medalID])
+	key						Int @id @default(autoincrement())
+	medalID					Int
+	color 					Int
+	graphic					String
+	layer 					Int
+	part 					Int
+	medal 					Medal @relation(fields: [medalID], references: [medalID])
 }
 
 model Medal {
-	characterID		String
-	character		Character @relation(fields: [characterID], references: [characterID])
-	corporationID 	Int
-	date 			DateTime
-	description		String
-	graphics		Graphic[]
-	issuerID 		Int
-	medalID 		Int @unique
-	reason 			String
-	status			String
-	title 			String
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
+	corporationID 			Int
+	date 					DateTime
+	description				String
+	graphics				Graphic[]
+	issuerID 				Int
+	medalID 				Int @unique
+	reason 					String
+	status					String
+	title 					String
 }
 
 model Notification {
-	characterID		String
-	character		Character @relation(fields: [characterID], references: [characterID])
-	isRead			Boolean @default(false)
-	notificationID	Int @unique
-	senderID		Int
-	senderType		String
-	text			String
-	timestamp		DateTime
-	type			String
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
+	isRead					Boolean @default(false)
+	notificationID			Int @unique
+	senderID				Int
+	senderType				String
+	text					String
+	timestamp				DateTime
+	type					String
+}
+
+model ContactNotification {
+	characterID				String
+	notification			Character @relation(fields: [characterID], references: [characterID])
+	message 				String
+	notificationID			Int @unique
+	sendDate				DateTime
+	senderCharacterID		Int
+	standingLevel			Float
 }
