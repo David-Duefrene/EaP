@@ -8,7 +8,7 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}/blueprints`, accessToken).then((result: { data: Array<Blueprint> }) => {
-		return result.data.forEach(async (blueprint) => {
+		result.data.forEach(async (blueprint) => {
 			const { itemID } = blueprint
 			const blueprintData = { ...blueprint }
 

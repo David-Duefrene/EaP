@@ -8,7 +8,7 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}/medals`, accessToken).then((result: { data: Array<Medal>}) => {
-		return result.data.forEach(async (medal: Medal) => {
+		result.data.forEach(async (medal: Medal) => {
 			const medalData = { ...medal }
 			delete medalData.graphics
 
