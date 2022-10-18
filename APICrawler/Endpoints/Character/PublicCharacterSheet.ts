@@ -16,10 +16,7 @@ export default (characterAuthData: CharacterAuthData) => {
 			update: {
 				...characterData,
 				characterSheet: {
-					update: {
-						data: { ...sheetData },
-						where: { name },
-					},
+					update: { ...sheetData },
 				},
 			},
 			create: {

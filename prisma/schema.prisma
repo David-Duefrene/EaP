@@ -7,147 +7,152 @@ datasource db {
 	url      = env("DATABASE_URL")
 }
 
+enum Gender {
+	female
+	male
+}
+
 model Character {
 	key        	 			Int @id @default(autoincrement())
 	name      	 			String @unique
 	createdAt 	 			DateTime @default(now())
 	updatedAt 	 			DateTime @updatedAt
 	characterID	 			String @unique
-	characterSheet			CharacterSheet[]
-	agentResearch			AgentResearch[]
-	blueprint				Blueprint[]
-	corpHistory	 			CorpHistory[]
-	Fatigue		 			Fatigue?
-	Medals		 			Medal[]
-	Notifications			Notification[]
-	ContactNotifications	ContactNotification[]
-	CorpRoles				CorpRoles?
-	Standings				Standings[]
-	Title					Title?
+	characterSheet			CharacterSheet?
+	// agentResearch			AgentResearch[]
+	// blueprint				Blueprint[]
+	// corpHistory	 			CorpHistory[]
+	// Fatigue		 			Fatigue?
+	// Medals		 			Medal[]
+	// Notifications			Notification[]
+	// ContactNotifications	ContactNotification[]
+	// CorpRoles				CorpRoles?
+	// Standings				Standings[]
+	// Title					Title?
 }
 
 model CharacterSheet {
-	key						Int @id
-	character 	 			Character @relation(fields: [key], references: [key])
-	allianceID 	 			Int
+	characterID				String @unique
+	character 	 			Character @relation(fields: [characterID], references: [characterID])
+	allianceID 	 			BigInt
 	birthday  	 			DateTime
-	bloodlineID 			Int
+	bloodlineID 			Int // TODO {STATIC-ASSETS} convert to enum
 	corporationID			Int
 	description 			String
-	gender 		 			String
+	gender 		 			Gender
 	name 					String @unique
-	raceID 		 			Int
+	raceID 		 			Int // TODO {STATIC-ASSETS} convert to enum
 	securityStatus			Float
 }
 
-model AgentResearch {
-	key			 			Int @id
-	characterID				Int
-	character		 		Character @relation(fields: [key], references: [key])
-	agentID					Int
-	pointsPerDay			Float
-	remainderPoints			Float
-	skillTypeID				Int
-	startedAt				String
-}
+// model AgentResearch {
+// 	key			 			Int @id
+// 	characterID				Int
+// 	character		 		Character @relation(fields: [key], references: [key])
+// 	agentID					Int
+// 	pointsPerDay			Float
+// 	remainderPoints			Float
+// 	skillTypeID				Int
+// 	startedAt				String
+// }
 
-model Blueprint {
-	characterID				String
-	itemID					BigInt @unique
-	character				Character @relation(fields: [characterID], references: [characterID])
-	locationFlag			String
-	locationID				BigInt
-	materialEfficiency		Int
-	quantity				Int
-	runs					Int
-	timeEfficiency			Int
-	typeID					Int
-}
+// model Blueprint {
+// 	characterID				BigInt
+// 	itemID					Int @unique
+// 	character				Character @relation(fields: [characterID], references: [characterID])
+// 	locationFlag			String
+// 	locationID				BigInt
+// 	materialEfficiency		Int
+// 	quantity				Int
+// 	runs					Int
+// 	timeEfficiency			Int
+// 	typeID					Int
+// }
 
-model CorpHistory {
-	characterID				String
-	character				Character @relation(fields: [characterID], references: [characterID])
-	corporationID			Int
-	recordID				Int @unique
-	startDate				DateTime
-	isDeleted				Boolean @default(false)
-}
+// model CorpHistory {
+// 	characterID				Int
+// 	character				Character @relation(fields: [characterID], references: [characterID])
+// 	corporationID			Int
+// 	recordID				Int @unique
+// 	startDate				DateTime
+// 	isDeleted				Boolean @default(false)
+// }
 
-model Fatigue {
-	characterID				String @unique
-	character				Character @relation(fields: [characterID], references: [characterID])
-	lastJumpDate			DateTime
-	lastUpdateDate			DateTime
-	fatigueExpires			DateTime
-}
+// model Fatigue {
+// 	characterID				Int @unique
+// 	character				Character @relation(fields: [characterID], references: [characterID])
+// 	lastJumpDate			DateTime
+// 	lastUpdateDate			DateTime
+// 	fatigueExpires			DateTime
+// }
 
-model Graphic {
-	key						Int @id @default(autoincrement())
-	medalID					Int
-	color 					Int
-	graphic					String
-	layer 					Int
-	part 					Int
-	medal 					Medal @relation(fields: [medalID], references: [medalID])
-}
+// model Graphic {
+// 	key						Int @id @default(autoincrement())
+// 	medalID					Int
+// 	color 					Int
+// 	graphic					String
+// 	layer 					Int
+// 	part 					Int
+// 	medal 					Medal @relation(fields: [medalID], references: [medalID])
+// }
 
-model Medal {
-	characterID				String
-	character				Character @relation(fields: [characterID], references: [characterID])
-	corporationID 			Int
-	date 					DateTime
-	description				String
-	graphics				Graphic[]
-	issuerID 				Int
-	medalID 				Int @unique
-	reason 					String
-	status					String
-	title 					String
-}
+// model Medal {
+// 	characterID				BigInt
+// 	character				Character @relation(fields: [characterID], references: [characterID])
+// 	corporationID 			Int
+// 	date 					DateTime
+// 	description				String
+// 	graphics				Graphic[]
+// 	issuerID 				Int
+// 	medalID 				Int @unique
+// 	reason 					String
+// 	status					String
+// 	title 					String
+// }
 
-model Notification {
-	characterID				String
-	character				Character @relation(fields: [characterID], references: [characterID])
-	isRead					Boolean @default(false)
-	notificationID			Int @unique
-	senderID				Int
-	senderType				String
-	text					String
-	timestamp				DateTime
-	type					String
-}
+// model Notification {
+// 	characterID				BigInt
+// 	character				Character @relation(fields: [characterID], references: [characterID])
+// 	isRead					Boolean @default(false)
+// 	notificationID			Int @unique
+// 	senderID				Int
+// 	senderType				String
+// 	text					String
+// 	timestamp				DateTime
+// 	type					String
+// }
 
-model ContactNotification {
-	characterID				String
-	notification			Character @relation(fields: [characterID], references: [characterID])
-	message 				String
-	notificationID			Int @unique
-	sendDate				DateTime
-	senderCharacterID		Int
-	standingLevel			Float
-}
+// model ContactNotification {
+// 	characterID				BigInt
+// 	notification			Character @relation(fields: [characterID], references: [characterID])
+// 	message 				String
+// 	notificationID			Int @unique
+// 	sendDate				DateTime
+// 	senderCharacterID		Int
+// 	standingLevel			Float
+// }
 
-model CorpRoles {
-	characterID				String @unique
-	character				Character @relation(fields: [characterID], references: [characterID])
-	//TODO: make all rols lists of strings after Postgres is implemented
-	roles					String
-	rolesAtBase				String
-	rolesAtHQ				String
-	rolesAtOther			String
-}
+// model CorpRoles {
+// 	characterID				BigInt @unique
+// 	character				Character @relation(fields: [characterID], references: [characterID])
+// 	//TODO: make all rols lists of strings after Postgres is implemented
+// 	roles					String
+// 	rolesAtBase				String
+// 	rolesAtHQ				String
+// 	rolesAtOther			String
+// }
 
-model Standings {
-	characterID				String
-	character				Character @relation(fields: [characterID], references: [characterID])
-	fromID					Int @unique
-	fromType				String
-	standing				Float
-}
+// model Standings {
+// 	characterID				BigInt
+// 	character				Character @relation(fields: [characterID], references: [characterID])
+// 	fromID					Int @unique
+// 	fromType				String
+// 	standing				Float
+// }
 
-model Title {
-	characterID				String @unique
-	character				Character @relation(fields: [characterID], references: [characterID])
-	titleID					Int
-	name					String
-}
+// model Title {
+// 	characterID				BigInt @unique
+// 	character				Character @relation(fields: [characterID], references: [characterID])
+// 	titleID					Int
+// 	name					String
+// }
