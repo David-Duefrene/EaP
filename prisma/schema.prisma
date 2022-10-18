@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-	provider = "sqlite"
-	url      = "file:./dev.db?connection_limit=1&pool_timeout=0"
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
 }
 
 model Character {
