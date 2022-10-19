@@ -91,6 +91,11 @@ enum LocationFlag {
 	Module
 }
 
+enum Status {
+	public
+	private
+}
+
 model Character {
 	key        	 			Int @id @default(autoincrement())
 	name      	 			String @unique
@@ -102,7 +107,7 @@ model Character {
 	blueprint				Blueprint[]
 	corpHistory	 			CorpHistory[]
 	Fatigue		 			Fatigue?
-	// Medals		 			Medal[]
+	Medals		 			Medal[]
 	// Notifications			Notification[]
 	// ContactNotifications	ContactNotification[]
 	// CorpRoles				CorpRoles?
@@ -163,29 +168,18 @@ model Fatigue {
 	jumpFatigueExpireDate	DateTime
 }
 
-// model Graphic {
-// 	key						Int @id @default(autoincrement())
-// 	medalID					Int
-// 	color 					Int
-// 	graphic					String
-// 	layer 					Int
-// 	part 					Int
-// 	medal 					Medal @relation(fields: [medalID], references: [medalID])
-// }
-
-// model Medal {
-// 	characterID				BigInt
-// 	character				Character @relation(fields: [characterID], references: [characterID])
-// 	corporationID 			Int
-// 	date 					DateTime
-// 	description				String
-// 	graphics				Graphic[]
-// 	issuerID 				Int
-// 	medalID 				Int @unique
-// 	reason 					String
-// 	status					String
-// 	title 					String
-// }
+model Medal {
+	character				Character[]
+	corporationID 			Int
+	date 					DateTime
+	description				String
+	graphics				String
+	issuerID 				Int
+	medalID 				Int @id
+	reason 					String
+	status					Status
+	title 					String
+}
 
 // model Notification {
 // 	characterID				BigInt

@@ -1,5 +1,6 @@
 import Auth from './Auth/auth'
 import endpoints from './Endpoints/index'
+import publicCharacterData from './Endpoints/Character/PublicCharacterSheet'
 
 type Message = { 'type': string, 'message': string | Record<string, string> };
 
@@ -22,30 +23,33 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 
 	receiveMessage((message: Message) => {
 		if (message.type === 'refreshAPI') {
-			Object.entries(auth.characterList).forEach(([ characterName, characterTokens ]) => {
+			Object.entries(auth.characterList).forEach(async ([ characterName, characterTokens ]) => {
 				if (characterTokens.characterID < 0) {
 					return
 				}
-				endpoints.forEach((endpoint) => {
-					// TODO: fix characterName error - is it needed?
-					endpoint({ ...characterTokens, characterName })
-						.catch((error: Error) => {
-							const { message, cause } = error
-							let myCause = null
-							if (cause) {
-								myCause = cause
-							}
 
-							const newMessage ={
-								type: 'log',
-								message: message,
-								data: {
-									cause: myCause,
-								},
-							}
+				publicCharacterData({ ...characterTokens }).then(() => {
+					endpoints.forEach((endpoint) => {
+						// TODO: fix characterName error - is it needed?
+						endpoint({ ...characterTokens, characterName })
+							.catch((error: Error) => {
+								const { message, cause } = error
+								let myCause = null
+								if (cause) {
+									myCause = cause
+								}
 
-							sendMessage(newMessage)
-						})
+								const newMessage ={
+									type: 'log',
+									message: message,
+									data: {
+										cause: myCause,
+									},
+								}
+
+								sendMessage(newMessage)
+							})
+					})
 				})
 			})
 		}
