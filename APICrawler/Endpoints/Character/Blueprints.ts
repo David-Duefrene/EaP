@@ -14,8 +14,8 @@ export default (characterAuthData: CharacterAuthData) => {
 
 			await prisma.Blueprint.upsert({
 				where: { itemID },
-				update: { ...blueprintData, characterID },
-				create: { ...blueprintData, characterID },
+				update: { ...blueprintData, character: { connect: { characterID } } },
+				create: { ...blueprintData, character: { connect: { characterID } } },
 			}).catch((error: Error) => {
 				throw new Error('Blueprints prisma error\n', { cause: error })
 			})

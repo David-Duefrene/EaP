@@ -13,8 +13,8 @@ export default (characterAuthData: CharacterAuthData) => {
 
 			await prisma.CorpHistory.upsert({
 				where: { recordID },
-				update: { ...corpHistory, characterID },
-				create: { ...corpHistory, characterID },
+				update: { ...corpHistory, character: { connect: { characterID } } },
+				create: { ...corpHistory, character: { connect: { characterID } } },
 			}).catch((error: Error) => {
 				throw new Error('CorpHistory prisma error\n', { cause: error })
 			})

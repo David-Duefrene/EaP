@@ -100,7 +100,7 @@ model Character {
 	characterSheet			CharacterSheet?
 	agentResearch			AgentResearch[]
 	blueprint				Blueprint[]
-	// corpHistory	 			CorpHistory[]
+	corpHistory	 			CorpHistory[]
 	// Fatigue		 			Fatigue?
 	// Medals		 			Medal[]
 	// Notifications			Notification[]
@@ -125,9 +125,8 @@ model CharacterSheet {
 }
 
 model AgentResearch {
-	characterID				String
-	character		 		Character @relation(fields: [characterID], references: [characterID])
-	agentID					Int @unique
+	character		 		Character[]
+	agentID					Int @id
 	pointsPerDay			Float
 	remainderPoints			Float
 	skillTypeID				Int
@@ -135,11 +134,10 @@ model AgentResearch {
 }
 
 model Blueprint {
-	characterID				String
-	itemID					Int @unique
-	character				Character @relation(fields: [characterID], references: [characterID])
+	itemID					Int @id
+	character				Character[]
 	locationFlag			LocationFlag
-	locationID				BigInt
+	locationID				Int
 	materialEfficiency		Int
 	quantity				Int
 	runs					Int
@@ -147,14 +145,13 @@ model Blueprint {
 	typeID					Int
 }
 
-// model CorpHistory {
-// 	characterID				Int
-// 	character				Character @relation(fields: [characterID], references: [characterID])
-// 	corporationID			Int
-// 	recordID				Int @unique
-// 	startDate				DateTime
-// 	isDeleted				Boolean @default(false)
-// }
+model CorpHistory {
+	character				Character[]
+	corporationID			Int
+	recordID				Int @id
+	startDate				DateTime
+	isDeleted				Boolean @default(false)
+}
 
 // model Fatigue {
 // 	characterID				Int @unique
