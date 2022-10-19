@@ -12,14 +12,14 @@ enum BlueprintLocationFlags {
 }
 
 type Blueprint = {
-    itemId: string,
+    itemID: string,
     locationFlag: BlueprintLocationFlags,
-    locationId: string,
+    locationID: string,
     materialEfficiency: number,
     quantity: number,
     runs: number,
     timeEfficiency: number,
-    typeId: number,
+    typeID: number,
 }
 
 export default Blueprint

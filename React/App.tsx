@@ -19,12 +19,12 @@ const App = () => {
 
 	// TODO: Need to determine if no characters exist and display a message to the user
 	if (characterSheets.length === 0) {
-		return <div>Loading...</div>
+		return <div><AddCharacter /></div>
 	}
 
 	const cardList = characters.map((el, key) => {
 		const {
-			allianceID, birthday, bloodLineID, corporationID, gender, raceID, securityStatus,
+			allianceID, birthday, bloodlineID, corporationID, gender, raceID, securityStatus,
 		} = characterSheets[key]
 		return (
 			<div key={key} className='Card'>
@@ -34,7 +34,7 @@ const App = () => {
 					<li>Character ID: {el.characterID}</li>
 					<li>Alliance ID: {allianceID}</li>
 					<li>Character birthday: {`${birthday}`}</li>
-					<li>Bloodline ID: {bloodLineID}</li>
+					<li>Bloodline ID: {bloodlineID}</li>
 					<li>Corp ID:{corporationID}</li>
 					<li>Gender: {gender}</li>
 					<li>Race ID: {raceID}</li>

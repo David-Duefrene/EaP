@@ -11,10 +11,13 @@ export default (path: string, accessToken = '', server='tranquility') => {
 
 	const convertKeys = (obj: any) => {
 		const newData = {}
-
+		// TODO map this to a new object
 		Object.keys(obj).forEach((key) => {
-			newData[key.replace(/([-_][a-z])/ig, (letter) => {
-				return letter.toUpperCase().replace('_', '')
+			newData[key.replace(/([-_][a-z]{2})/ig, (letter) => {
+				if (letter === '_id') return 'ID'
+				else if (letter === '_hq') return 'HQ'
+
+				return letter[1].toUpperCase() + letter[2]
 			})] = obj[key]
 		})
 		return newData

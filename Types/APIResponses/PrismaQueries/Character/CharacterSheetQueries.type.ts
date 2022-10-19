@@ -3,7 +3,7 @@ type CharacterQuery = {
 	name: string,
 	allianceID: number,
 	birthday: string | Date,
-	bloodLineID: number,
+	bloodlineID: number,
 	corporationID: number,
 	description: string,
 	gender: 'male' | 'female',

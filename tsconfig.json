@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["React", "vite.config.ts"],
+  "include": ["React", "APICrawler", "Electron", "vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
