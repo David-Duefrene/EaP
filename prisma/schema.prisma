@@ -338,7 +338,7 @@ model Character {
 	Fatigue		 			Fatigue?
 	Medals		 			Medal[]
 	Notifications			Notification[]
-	// ContactNotifications	ContactNotification[]
+	ContactNotifications	ContactNotification[]
 	// CorpRoles				CorpRoles?
 	// Standings				Standings[]
 	// Title					Title?
@@ -422,15 +422,15 @@ model Notification {
 	type					MessageType
 }
 
-// model ContactNotification {
-// 	characterID				BigInt
-// 	notification			Character @relation(fields: [characterID], references: [characterID])
-// 	message 				String
-// 	notificationID			Int @unique
-// 	sendDate				DateTime
-// 	senderCharacterID		Int
-// 	standingLevel			Float
-// }
+model ContactNotification {
+	characterID				String
+	notification			Character[]
+	message 				String
+	notificationID			Int @id
+	sendDate				DateTime
+	senderCharacterID		Int
+	standingLevel			Float
+}
 
 // model CorpRoles {
 // 	characterID				BigInt @unique
