@@ -24,6 +24,12 @@ describe('medals', () => {
 					description: 'description',
 					corporationID: 1,
 					characterID: 1,
+					graphics: {
+						color: 1,
+						graphic: 'graphic',
+						layer: 1,
+						part: 1,
+					},
 				} ],
 			}),
 		}))
@@ -51,11 +57,23 @@ describe('medals', () => {
 			description: 'description',
 			corporationID: 1,
 			characterID: 1,
+			graphics: JSON.stringify({
+				color: 1,
+				graphic: 'graphic',
+				layer: 1,
+				part: 1,
+			}),
+
 		}
 		expect(prisma.Medal.upsert).toBeCalledWith({
 			where: { medalID: 1 },
-			update: { ...mockData, characterID: '1' },
-			create: { ...mockData, characterID: '1' },
+			update: {
+				...mockData,
+				character: {
+					connect: { characterID: '1' },
+				},
+			},
+			create: { ...mockData, characterID: 1 },
 		})
 	})
 })

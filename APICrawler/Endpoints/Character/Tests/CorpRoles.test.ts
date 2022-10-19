@@ -37,10 +37,10 @@ describe('corpRoles', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/roles', 'Token')
 		expect(prisma.CorpRoles.upsert).toBeCalledTimes(1)
 		const mockData = {
-			roles: '["Director"]',
-			rolesAtBase: '["Director"]',
-			rolesAtHQ: '["Director"]',
-			rolesAtOther: '["Director"]',
+			roles: [ 'Director' ],
+			rolesAtBase: [ 'Director' ],
+			rolesAtHQ: [ 'Director' ],
+			rolesAtOther: [ 'Director' ],
 		}
 
 		expect(prisma.CorpRoles.upsert).toBeCalledWith({
