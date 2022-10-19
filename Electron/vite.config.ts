@@ -13,5 +13,7 @@ export default defineConfig({
 			name: 'index',
 			fileName: 'index',
 		},
+		watch: {},
+		sourcemap: true,
 	},
 })

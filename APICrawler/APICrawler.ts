@@ -1,5 +1,6 @@
 import Auth from './Auth/auth'
-import publicCharacterData from './Endpoints/Character/publicCharacterData'
+import endpoints from './Endpoints/index'
+import publicCharacterData from './Endpoints/Character/PublicCharacterSheet'
 
 type Message = { 'type': string, 'message': string | Record<string, string> };
 
@@ -22,13 +23,33 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 
 	receiveMessage((message: Message) => {
 		if (message.type === 'refreshAPI') {
-			Object.values(auth.characterList).forEach(({ characterID }) => {
-				if (characterID < 0) {
+			Object.entries(auth.characterList).forEach(async ([ characterName, characterTokens ]) => {
+				if (characterTokens.characterID < 0) {
 					return
 				}
-				publicCharacterData(characterID).catch((error: Error) => {
-					// eslint-disable-next-line no-console
-					console.log(error)
+
+				publicCharacterData({ ...characterTokens }).then(() => {
+					endpoints.forEach((endpoint) => {
+						// TODO: fix characterName error - is it needed?
+						endpoint({ ...characterTokens, characterName })
+							.catch((error: Error) => {
+								const { message, cause } = error
+								let myCause = null
+								if (cause) {
+									myCause = cause
+								}
+
+								const newMessage ={
+									type: 'log',
+									message: message,
+									data: {
+										cause: myCause,
+									},
+								}
+
+								sendMessage(newMessage)
+							})
+					})
 				})
 			})
 		}
