@@ -8,26 +8,10 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}/roles`, accessToken).then(async (result: { data: CorpRoles }) => {
-		const {
-			roles, rolesAtBase, rolesAtHQ, rolesAtOther,
-		} = result.data
-
 		await prisma.CorpRoles.upsert({
 			where: { characterID },
-			update: {
-				roles: JSON.stringify(roles),
-				rolesAtBase: JSON.stringify(rolesAtBase),
-				rolesAtHQ: JSON.stringify(rolesAtHQ),
-				rolesAtOther: JSON.stringify(rolesAtOther),
-				characterID,
-			},
-			create: {
-				roles: JSON.stringify(roles),
-				rolesAtBase: JSON.stringify(rolesAtBase),
-				rolesAtHQ: JSON.stringify(rolesAtHQ),
-				rolesAtOther: JSON.stringify(rolesAtOther),
-				characterID,
-			},
+			update: { ...result.data, characterID },
+			create: { ...result.data, characterID },
 		}).catch((error: Error) => {
 			throw new Error('CorpRoles prisma error\n', { cause: error })
 		})
