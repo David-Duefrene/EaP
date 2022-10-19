@@ -8,13 +8,10 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}/fatigue`, accessToken).then((result: Fatigue) => {
-		const { data } = result
-		const fatigueData = { ...data }
-
 		return prisma.Fatigue.upsert({
 			where: { characterID },
-			update: { ...fatigueData, characterID },
-			create: { ...fatigueData, characterID },
+			update: { ...result.data, characterID },
+			create: { ...result.data, characterID },
 		}).catch((error: Error) => {
 			throw new Error('Fatigue prisma error\n', { cause: error })
 		})

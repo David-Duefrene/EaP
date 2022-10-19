@@ -10,13 +10,20 @@ export default (characterAuthData: CharacterAuthData) => {
 	return ESIRequest(`characters/${characterID}/medals`, accessToken).then((result: { data: Array<Medal>}) => {
 		result.data.forEach(async (medal: Medal) => {
 			const medalData = { ...medal }
+			const graphics = medal.graphics
 			delete medalData.graphics
 
-			// TODO - add graphics here after switching to postgres
 			await prisma.Medal.upsert({
 				where: { medalID: medalData.medalID },
-				update: { ...medalData, characterID },
-				create: { ...medalData, characterID },
+				update: {
+					...medalData,
+					character: { connect: { characterID } },
+					graphics: JSON.stringify(graphics),
+				},
+				create: {
+					...medalData,
+					graphics: JSON.stringify(graphics),
+				},
 			}).catch((error: Error) => {
 				throw new Error('Medals prisma error\n', { cause: error })
 			})

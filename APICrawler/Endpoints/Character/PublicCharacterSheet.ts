@@ -9,23 +9,19 @@ export default (characterAuthData: CharacterAuthData) => {
 	return ESIRequest(`characters/${characterID}`).then(async (result: { data: Character }) => {
 		const { name } = result.data
 		const characterData = { name, characterID }
-		const sheetData = { ...result.data }
 
 		await prisma.Character.upsert({
 			where: { characterID },
 			update: {
 				...characterData,
 				characterSheet: {
-					update: {
-						data: { ...sheetData },
-						where: { name },
-					},
+					update: { ...result.data },
 				},
 			},
 			create: {
 				...characterData,
 				characterSheet: {
-					create: { ...sheetData },
+					create: { ...result.data },
 				},
 			},
 		}).catch((error: Error) => {

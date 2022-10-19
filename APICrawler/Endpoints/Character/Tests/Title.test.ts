@@ -39,8 +39,8 @@ describe('title', () => {
 			titleID: 1,
 		}
 		expect(prisma.Title.upsert).toBeCalledWith({
-			where: { characterID: '1' },
-			update: { ...mockData, characterID: '1' },
+			where: { titleID: 1 },
+			update: { ...mockData },
 			create: { ...mockData, characterID: '1' },
 		})
 	})

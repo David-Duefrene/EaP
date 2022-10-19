@@ -42,8 +42,18 @@ describe('corpHistory', () => {
 		}
 		expect(prisma.CorpHistory.upsert).toBeCalledWith({
 			where: { recordID: 1 },
-			update: { ...mockData, characterID: '1' },
-			create: { ...mockData, characterID: '1' },
+			update: {
+				...mockData,
+				character: {
+					connect: { characterID: '1' },
+				},
+			},
+			create: {
+				...mockData,
+				character: {
+					connect: { characterID: '1' },
+				},
+			},
 		})
 	})
 })

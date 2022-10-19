@@ -55,16 +55,13 @@ describe('PublicCharacterData', () => {
 				characterID: '1',
 				characterSheet: {
 					update: {
-						where: { name: 'name' },
-						data: {
-							name: 'name',
-							characterID: 1,
-							ancestryID: 1,
-							birthday: new Date('2022-10-06T02:09:38.981Z'),
-							bloodlineID: 1,
-							corporationID: 1,
-							description: 'description',
-						},
+						name: 'name',
+						characterID: 1,
+						ancestryID: 1,
+						birthday: new Date('2022-10-06T02:09:38.981Z'),
+						bloodlineID: 1,
+						corporationID: 1,
+						description: 'description',
 					},
 				},
 				name: 'name',

@@ -2,7 +2,7 @@
   "name": "eap",
   "version": "0.0.0",
   "description": "Eve online API Project",
-  "main": "index.ts",
+  "main": "electron/vite-build/index.es.js",
   "scripts": {
     "start": "concurrently -k \"npm run dev-React\" \"npm run build-Auth\" \"npm run build-Electron\"",
     "test": "vitest",

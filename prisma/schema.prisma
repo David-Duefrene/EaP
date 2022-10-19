@@ -3,8 +3,383 @@ generator client {
 }
 
 datasource db {
-	provider = "sqlite"
-	url      = "file:./dev.db?connection_limit=1&pool_timeout=0"
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
+}
+
+enum Gender {
+	female
+	male
+}
+
+enum LocationFlag {
+	AutoFit
+	Cargo
+	CorpseBay
+	DroneBay
+	FleetHangar
+	Deliveries
+	HiddenModifiers
+	Hangar
+	HangarAll
+	LoSlot0
+	LoSlot1
+	LoSlot2
+	LoSlot3
+	LoSlot4
+	LoSlot5
+	LoSlot6
+	LoSlot7
+	MedSlot0
+	MedSlot1
+	MedSlot2
+	MedSlot3
+	MedSlot4
+	MedSlot5
+	MedSlot6
+	MedSlot7
+	HiSlot0
+	HiSlot1
+	HiSlot2
+	HiSlot3
+	HiSlot4
+	HiSlot5
+	HiSlot6
+	HiSlot7
+	AssetSafety
+	Locked
+	Unlocked
+	Implant
+	QuafeBay
+	RigSlot0
+	RigSlot1
+	RigSlot2
+	RigSlot3
+	RigSlot4
+	RigSlot5
+	RigSlot6
+	RigSlot7
+	ShipHangar
+	SpecializedFuelBay
+	SpecializedOreHold
+	SpecializedGasHold
+	SpecializedMineralHold
+	SpecializedSalvageHold
+	SpecializedShipHold
+	SpecializedSmallShipHold
+	SpecializedMediumShipHold
+	SpecializedLargeShipHold
+	SpecializedIndustrialShipHold
+	SpecializedAmmoHold
+	SpecializedCommandCenterHold
+	SpecializedPlanetaryCommoditiesHold
+	SpecializedMaterialBay
+	SubSystemSlot0
+	SubSystemSlot1
+	SubSystemSlot2
+	SubSystemSlot3
+	SubSystemSlot4
+	SubSystemSlot5
+	SubSystemSlot6
+	SubSystemSlot7
+	FighterBay
+	FighterTube0
+	FighterTube1
+	FighterTube2
+	FighterTube3
+	FighterTube4
+	Module
+}
+
+enum Status {
+	public
+	private
+}
+
+enum MessageType {
+	AcceptedAlly
+	AcceptedSurrender
+	AgentRetiredTrigravian
+	AllAnchoringMsg
+	AllMaintenanceBillMsg
+	AllStrucInvulnerableMsg
+	AllStructVulnerableMsg
+	AllWarCorpJoinedAllianceMsg
+	AllWarDeclaredMsg
+	AllWarInvalidatedMsg
+	AllWarRetractedMsg
+	AllWarSurrenderMsg
+	AllianceCapitalChanged
+	AllianceWarDeclaredV2
+	AllyContractCancelled
+	AllyJoinedWarAggressorMsg
+	AllyJoinedWarAllyMsg
+	AllyJoinedWarDefenderMsg
+	BattlePunishFriendlyFire
+	BillOutOfMoneyMsg
+	BillPaidCorpAllMsg
+	BountyClaimMsg
+	BountyESSShared
+	BountyESSTaken
+	BountyPlacedAlliance
+	BountyPlacedChar
+	BountyPlacedCorp
+	BountyYourBountyClaimed
+	BuddyConnectContactAdd
+	CharAppAcceptMsg
+	CharAppRejectMsg
+	CharAppWithdrawMsg
+	CharLeftCorpMsg
+	CharMedalMsg
+	CharTerminationMsg
+	CloneActivationMsg
+	CloneActivationMsg2
+	CloneMovedMsg
+	CloneRevokedMsg1
+	CloneRevokedMsg2
+	CombatOperationFinished
+	ContactAdd
+	ContactEdit
+	ContainerPasswordMsg
+	ContractRegionChangedToPochven
+	CorpAllBillMsg
+	CorpAppAcceptMsg
+	CorpAppInvitedMsg
+	CorpAppNewMsg
+	CorpAppRejectCustomMsg
+	CorpAppRejectMsg
+	CorpBecameWarEligible
+	CorpDividendMsg
+	CorpFriendlyFireDisableTimerCompleted
+	CorpFriendlyFireDisableTimerStarted
+	CorpFriendlyFireEnableTimerCompleted
+	CorpFriendlyFireEnableTimerStarted
+	CorpKicked
+	CorpLiquidationMsg
+	CorpNewCEOMsg
+	CorpNewsMsg
+	CorpNoLongerWarEligible
+	CorpOfficeExpirationMsg
+	CorpStructLostMsg
+	CorpTaxChangeMsg
+	CorpVoteCEORevokedMsg
+	CorpVoteMsg
+	CorpWarDeclaredMsg
+	CorpWarDeclaredV2
+	CorpWarFightingLegalMsg
+	CorpWarInvalidatedMsg
+	CorpWarRetractedMsg
+	CorpWarSurrenderMsg
+	CustomsMsg
+	DeclareWar
+	DistrictAttacked
+	DustAppAcceptedMsg
+	ESSMainBankLink
+	EntosisCaptureStarted
+	ExpertSystemExpired
+	ExpertSystemExpiryImminent
+	FWAllianceKickMsg
+	FWAllianceWarningMsg
+	FWCharKickMsg
+	FWCharRankGainMsg
+	FWCharRankLossMsg
+	FWCharWarningMsg
+	FWCorpJoinMsg
+	FWCorpKickMsg
+	FWCorpLeaveMsg
+	FWCorpWarningMsg
+	FacWarCorpJoinRequestMsg
+	FacWarCorpJoinWithdrawMsg
+	FacWarCorpLeaveRequestMsg
+	FacWarCorpLeaveWithdrawMsg
+	FacWarLPDisqualifiedEvent
+	FacWarLPDisqualifiedKill
+	FacWarLPPayoutEvent
+	FacWarLPPayoutKill
+	GameTimeAdded
+	GameTimeReceived
+	GameTimeSent
+	GiftReceived
+	IHubDestroyedByBillFailure
+	IncursionCompletedMsg
+	IndustryOperationFinished
+	IndustryTeamAuctionLost
+	IndustryTeamAuctionWon
+	InfrastructureHubBillAboutToExpire
+	InsuranceExpirationMsg
+	InsuranceFirstShipMsg
+	InsuranceInvalidatedMsg
+	InsuranceIssuedMsg
+	InsurancePayoutMsg
+	InvasionCompletedMsg
+	InvasionSystemLogin
+	InvasionSystemStart
+	JumpCloneDeletedMsg1
+	JumpCloneDeletedMsg2
+	KillReportFinalBlow
+	KillReportVictim
+	KillRightAvailable
+	KillRightAvailableOpen
+	KillRightEarned
+	KillRightUnavailable
+	KillRightUnavailableOpen
+	KillRightUsed
+	LocateCharMsg
+	MadeWarMutual
+	MercOfferRetractedMsg
+	MercOfferedNegotiationMsg
+	MissionCanceledTriglavian
+	MissionOfferExpirationMsg
+	MissionTimeoutMsg
+	MoonminingAutomaticFracture
+	MoonminingExtractionCancelled
+	MoonminingExtractionFinished
+	MoonminingExtractionStarted
+	MoonminingLaserFired
+	MutualWarExpired
+	MutualWarInviteAccepted
+	MutualWarInviteRejected
+	MutualWarInviteSent
+	NPCStandingsGained
+	NPCStandingsLost
+	OfferToAllyRetracted
+	OfferedSurrender
+	OfferedToAlly
+	OfficeLeaseCanceledInsufficientStandings
+	OldLscMessages
+	OperationFinished
+	OrbitalAttacked
+	OrbitalReinforced
+	OwnershipTransferred
+	RaffleCreated
+	RaffleExpired
+	RaffleFinished
+	ReimbursementMsg
+	ResearchMissionAvailableMsg
+	RetractsWar
+	SeasonalChallengeCompleted
+	SovAllClaimAquiredMsg
+	SovAllClaimLostMsg
+	SovCommandNodeEventStarted
+	SovCorpBillLateMsg
+	SovCorpClaimFailMsg
+	SovDisruptorMsg
+	SovStationEnteredFreeport
+	SovStructureDestroyed
+	SovStructureReinforced
+	SovStructureSelfDestructCancel
+	SovStructureSelfDestructFinished
+	SovStructureSelfDestructRequested
+	SovereigntyIHDamageMsg
+	SovereigntySBUDamageMsg
+	SovereigntyTCUDamageMsg
+	StationAggressionMsg1
+	StationAggressionMsg2
+	StationConquerMsg
+	StationServiceDisabled
+	StationServiceEnabled
+	StationStateChangeMsg
+	StoryLineMissionAvailableMsg
+	StructureAnchoring
+	StructureCourierContractChanged
+	StructureDestroyed
+	StructureFuelAlert
+	StructureImpendingAbandonmentAssetsAtRisk
+	StructureItemsDelivered
+	StructureItemsMovedToSafety
+	StructureLostArmor
+	StructureLostShields
+	StructureOnline
+	StructureServicesOffline
+	StructureUnanchoring
+	StructureUnderAttack
+	StructureWentHighPower
+	StructureWentLowPower
+	StructuresJobsCancelled
+	StructuresJobsPaused
+	StructuresReinforcementChanged
+	TowerAlertMsg
+	TowerResourceAlertMsg
+	TransactionReversalMsg
+	TutorialMsg
+	WarAdopted
+	WarAllyInherited
+	WarAllyOfferDeclinedMsg
+	WarConcordInvalidates
+	WarDeclared
+	WarEndedHqSecurityDrop
+	WarHQRemovedFromSpace
+	WarInherited
+	WarInvalid
+	WarRetracted
+	WarRetractedByConcord
+	WarSurrenderDeclinedMsg
+	WarSurrenderOfferMsg
+}
+
+enum SenderType {
+	character
+	corporation
+	alliance
+	faction
+	other
+}
+
+enum CorpRole {
+	Account_Take_1
+	Account_Take_2
+	Account_Take_3
+	Account_Take_4
+	Account_Take_5
+	Account_Take_6
+	Account_Take_7
+	Accountant
+	Auditor
+	Communications_Officer
+	Config_Equipment
+	Config_Starbase_Equipment
+	Container_Take_1
+	Container_Take_2
+	Container_Take_3
+	Container_Take_4
+	Container_Take_5
+	Container_Take_6
+	Container_Take_7
+	Contract_Manager
+	Diplomat
+	Director
+	Factory_Manager
+	Fitting_Manager
+	Hangar_Query_1
+	Hangar_Query_2
+	Hangar_Query_3
+	Hangar_Query_4
+	Hangar_Query_5
+	Hangar_Query_6
+	Hangar_Query_7
+	Hangar_Take_1
+	Hangar_Take_2
+	Hangar_Take_3
+	Hangar_Take_4
+	Hangar_Take_5
+	Hangar_Take_6
+	Hangar_Take_7
+	Junior_Accountant
+	Personnel_Manager
+	Rent_Factory_Facility
+	Rent_Office
+	Rent_Research_Facility
+	Security_Officer
+	Starbase_Defense_Operator
+	Starbase_Fuel_Technician
+	Station_Manager
+	Trader
+}
+
+enum NPCStandingType {
+	agent
+	npc_corp
+	faction
 }
 
 model Character {
@@ -13,7 +388,7 @@ model Character {
 	createdAt 	 			DateTime @default(now())
 	updatedAt 	 			DateTime @updatedAt
 	characterID	 			String @unique
-	characterSheet			CharacterSheet[]
+	characterSheet			CharacterSheet?
 	agentResearch			AgentResearch[]
 	blueprint				Blueprint[]
 	corpHistory	 			CorpHistory[]
@@ -23,28 +398,28 @@ model Character {
 	ContactNotifications	ContactNotification[]
 	CorpRoles				CorpRoles?
 	Standings				Standings[]
-	Title					Title?
+	Title					Title[]
 }
 
 model CharacterSheet {
-	key						Int @id
-	character 	 			Character @relation(fields: [key], references: [key])
-	allianceID 	 			Int
+	characterID				String @unique
+	character 	 			Character @relation(fields: [characterID], references: [characterID])
+	allianceID 	 			Int?
 	birthday  	 			DateTime
 	bloodlineID 			Int
 	corporationID			Int
-	description 			String
-	gender 		 			String
+	description 			String?
+	factionID 	 			Int?
+	gender 		 			Gender
 	name 					String @unique
 	raceID 		 			Int
-	securityStatus			Float
+	securityStatus			Float?
+	title 					String?
 }
 
 model AgentResearch {
-	key			 			Int @id
-	characterID				Int
-	character		 		Character @relation(fields: [key], references: [key])
-	agentID					Int
+	character		 		Character[]
+	agentID					Int @id
 	pointsPerDay			Float
 	remainderPoints			Float
 	skillTypeID				Int
@@ -52,11 +427,10 @@ model AgentResearch {
 }
 
 model Blueprint {
-	characterID				String
-	itemID					BigInt @unique
-	character				Character @relation(fields: [characterID], references: [characterID])
-	locationFlag			String
-	locationID				BigInt
+	itemID					Int @id
+	character				Character[]
+	locationFlag			LocationFlag
+	locationID				Int
 	materialEfficiency		Int
 	quantity				Int
 	runs					Int
@@ -65,89 +439,76 @@ model Blueprint {
 }
 
 model CorpHistory {
-	characterID				String
-	character				Character @relation(fields: [characterID], references: [characterID])
+	character				Character[]
 	corporationID			Int
-	recordID				Int @unique
+	recordID				Int @id
 	startDate				DateTime
 	isDeleted				Boolean @default(false)
 }
 
 model Fatigue {
-	characterID				String @unique
+	characterID				String @id
 	character				Character @relation(fields: [characterID], references: [characterID])
 	lastJumpDate			DateTime
 	lastUpdateDate			DateTime
-	fatigueExpires			DateTime
-}
-
-model Graphic {
-	key						Int @id @default(autoincrement())
-	medalID					Int
-	color 					Int
-	graphic					String
-	layer 					Int
-	part 					Int
-	medal 					Medal @relation(fields: [medalID], references: [medalID])
+	jumpFatigueExpireDate	DateTime
 }
 
 model Medal {
-	characterID				String
-	character				Character @relation(fields: [characterID], references: [characterID])
+	character				Character[]
 	corporationID 			Int
 	date 					DateTime
 	description				String
-	graphics				Graphic[]
+	graphics				String
 	issuerID 				Int
-	medalID 				Int @unique
+	medalID 				Int @id
 	reason 					String
-	status					String
+	status					Status
 	title 					String
 }
 
 model Notification {
 	characterID				String
-	character				Character @relation(fields: [characterID], references: [characterID])
+	character				Character[]
 	isRead					Boolean @default(false)
-	notificationID			Int @unique
+	notificationID			Int @id
 	senderID				Int
-	senderType				String
-	text					String
+	senderType				SenderType
+	text					String?
 	timestamp				DateTime
-	type					String
+	type					MessageType
 }
 
 model ContactNotification {
 	characterID				String
-	notification			Character @relation(fields: [characterID], references: [characterID])
+	notification			Character[]
 	message 				String
-	notificationID			Int @unique
+	notificationID			Int @id
 	sendDate				DateTime
 	senderCharacterID		Int
 	standingLevel			Float
 }
 
 model CorpRoles {
-	characterID				String @unique
+	characterID				String @id
 	character				Character @relation(fields: [characterID], references: [characterID])
-	//TODO: make all rols lists of strings after Postgres is implemented
-	roles					String
-	rolesAtBase				String
-	rolesAtHQ				String
-	rolesAtOther			String
+	roles					CorpRole[]
+	rolesAtBase				CorpRole[]
+	rolesAtHQ				CorpRole[]
+	rolesAtOther			CorpRole[]
 }
 
 model Standings {
 	characterID				String
-	character				Character @relation(fields: [characterID], references: [characterID])
-	fromID					Int @unique
-	fromType				String
+	character				Character[]
+	fromID					Int @id
+	fromType				NPCStandingType
 	standing				Float
 }
 
 model Title {
-	characterID				String @unique
-	character				Character @relation(fields: [characterID], references: [characterID])
-	titleID					Int
+	characterID				String
+	character				Character[]
+	titleID					Int @id
 	name					String
 }

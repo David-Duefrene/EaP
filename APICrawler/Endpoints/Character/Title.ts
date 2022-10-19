@@ -9,9 +9,11 @@ export default (characterAuthData: CharacterAuthData) => {
 
 	return ESIRequest(`characters/${characterID}/titles`, accessToken).then((result: { data: Array<Title> }) => {
 		result.data.forEach(async (title) => {
+			const { titleID } = title
+
 			await prisma.Title.upsert({
-				where: { characterID },
-				update: { ...title, characterID },
+				where: { titleID },
+				update: { ...title },
 				create: { ...title, characterID },
 			}).catch((error: Error) => {
 				throw new Error('Title prisma error\n', { cause: error })
