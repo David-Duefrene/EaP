@@ -376,6 +376,12 @@ enum CorpRole {
 	Trader
 }
 
+enum NPCStandingType {
+	agent
+	npc_corp
+	faction
+}
+
 model Character {
 	key        	 			Int @id @default(autoincrement())
 	name      	 			String @unique
@@ -391,8 +397,8 @@ model Character {
 	Notifications			Notification[]
 	ContactNotifications	ContactNotification[]
 	CorpRoles				CorpRoles?
-	// Standings				Standings[]
-	// Title					Title?
+	Standings				Standings[]
+	Title					Title[]
 }
 
 model CharacterSheet {
@@ -492,17 +498,17 @@ model CorpRoles {
 	rolesAtOther			CorpRole[]
 }
 
-// model Standings {
-// 	characterID				BigInt
-// 	character				Character @relation(fields: [characterID], references: [characterID])
-// 	fromID					Int @unique
-// 	fromType				String
-// 	standing				Float
-// }
+model Standings {
+	characterID				String
+	character				Character[]
+	fromID					Int @id
+	fromType				NPCStandingType
+	standing				Float
+}
 
-// model Title {
-// 	characterID				BigInt @unique
-// 	character				Character @relation(fields: [characterID], references: [characterID])
-// 	titleID					Int
-// 	name					String
-// }
+model Title {
+	characterID				String
+	character				Character[]
+	titleID					Int @id
+	name					String
+}
