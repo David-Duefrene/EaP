@@ -28,16 +28,9 @@ const App = () => {
 		} = characterSheets[key]
 		return (
 			<div key={key} className='Card'>
-<<<<<<< HEAD
-				<div className='CardHeader'>
-					<h3>{el.name}</h3>
-				</div>
-				<ul className='CardBody'>
-=======
 				<img className='Portrait' src={`https://images.evetech.net/characters/${el.characterID}/portrait?tenant=tranquility&size=256`} />
 				<ul className='CardBody'>
 					<li>{el.name}</li>
->>>>>>> 109b5e4b39793ce40c2324ac7f40f0e12bd70d6f
 					<li>Character ID: {el.characterID}</li>
 					<li>Alliance ID: {allianceID}</li>
 					<li>Character birthday: {`${birthday}`}</li>
