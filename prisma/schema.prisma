@@ -101,7 +101,7 @@ model Character {
 	agentResearch			AgentResearch[]
 	blueprint				Blueprint[]
 	corpHistory	 			CorpHistory[]
-	// Fatigue		 			Fatigue?
+	Fatigue		 			Fatigue?
 	// Medals		 			Medal[]
 	// Notifications			Notification[]
 	// ContactNotifications	ContactNotification[]
@@ -113,15 +113,17 @@ model Character {
 model CharacterSheet {
 	characterID				String @unique
 	character 	 			Character @relation(fields: [characterID], references: [characterID])
-	allianceID 	 			BigInt
+	allianceID 	 			Int?
 	birthday  	 			DateTime
 	bloodlineID 			Int
 	corporationID			Int
-	description 			String
+	description 			String?
+	factionID 	 			Int?
 	gender 		 			Gender
 	name 					String @unique
 	raceID 		 			Int
-	securityStatus			Float
+	securityStatus			Float?
+	title 					String?
 }
 
 model AgentResearch {
@@ -153,13 +155,13 @@ model CorpHistory {
 	isDeleted				Boolean @default(false)
 }
 
-// model Fatigue {
-// 	characterID				Int @unique
-// 	character				Character @relation(fields: [characterID], references: [characterID])
-// 	lastJumpDate			DateTime
-// 	lastUpdateDate			DateTime
-// 	fatigueExpires			DateTime
-// }
+model Fatigue {
+	characterID				String @id
+	character				Character @relation(fields: [characterID], references: [characterID])
+	lastJumpDate			DateTime
+	lastUpdateDate			DateTime
+	jumpFatigueExpireDate	DateTime
+}
 
 // model Graphic {
 // 	key						Int @id @default(autoincrement())
