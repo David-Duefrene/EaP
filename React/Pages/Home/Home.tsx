@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 
 const { PrismaClient } = require('@prisma/client')
 
-import AddCharacter from './AddCharacter/AddCharacter'
+import AddCharacter from '../../AddCharacter/AddCharacter'
 import './App.css'
-import CharacterQuery from '../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
+import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 
 const prisma = new PrismaClient()
 
-const App = () => {
+const Home = () => {
 	const [ characters, setCharacters ] = useState<CharacterQuery[]>([])
 	const [ characterSheets, setCharacterSheets ] = useState<CharacterQuery[]>([])
 
@@ -52,4 +52,4 @@ const App = () => {
 	)
 }
 
-export default App
+export default Home
