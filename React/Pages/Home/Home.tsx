@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 
 const { PrismaClient } = require('@prisma/client')
 
-import AddCharacter from '../../AddCharacter/AddCharacter'
-import './App.css'
+import AddCharacter from '../../Components/AddCharacter/AddCharacter'
+import CharacterCard from '../../Components/CharacterCard/CharacterCard'
+import './Home.css'
 import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 
 const prisma = new PrismaClient()
@@ -24,23 +25,22 @@ const Home = () => {
 
 	const cardList = characters.map((el, key) => {
 		const {
-			allianceID, birthday, bloodlineID, corporationID, gender, raceID, securityStatus,
+			allianceID, birthday, bloodlineID, corporationID, gender, raceID, securityStatus, description,
 		} = characterSheets[key]
 		return (
-			<div key={key} className='Card'>
-				<img className='Portrait' src={`https://images.evetech.net/characters/${el.characterID}/portrait?tenant=tranquility&size=256`} />
-				<ul className='CardBody'>
-					<li>{el.name}</li>
-					<li>Character ID: {el.characterID}</li>
-					<li>Alliance ID: {allianceID}</li>
-					<li>Character birthday: {`${birthday}`}</li>
-					<li>Bloodline ID: {bloodlineID}</li>
-					<li>Corp ID:{corporationID}</li>
-					<li>Gender: {gender}</li>
-					<li>Race ID: {raceID}</li>
-					<li>Security Status: {securityStatus}</li>
-				</ul>
-			</div>
+			<CharacterCard
+				key={key}
+				characterID={el.characterID}
+				name={el.name}
+				allianceID={allianceID}
+				birthday={birthday}
+				bloodlineID={bloodlineID}
+				corporationID={corporationID}
+				gender={gender}
+				raceID={raceID}
+				securityStatus={securityStatus}
+				description={description}
+			/>
 		)
 	})
 
