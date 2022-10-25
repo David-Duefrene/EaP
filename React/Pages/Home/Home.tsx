@@ -24,22 +24,13 @@ const Home = () => {
 	}
 
 	const cardList = characters.map((el, key) => {
-		const {
-			allianceID, birthday, bloodlineID, corporationID, gender, raceID, securityStatus, description,
-		} = characterSheets[key]
 		return (
 			<CharacterCard
 				key={key}
-				characterID={el.characterID}
-				name={el.name}
-				allianceID={allianceID}
-				birthday={birthday}
-				bloodlineID={bloodlineID}
-				corporationID={corporationID}
-				gender={gender}
-				raceID={raceID}
-				securityStatus={securityStatus}
-				description={description}
+				character={{
+					...el,
+					...characterSheets[key],
+				}}
 			/>
 		)
 	})
