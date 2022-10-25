@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 import './CharacterCard.css'
 const CharacterCard = (props: { character: CharacterQuery }) => {
@@ -8,7 +8,7 @@ const CharacterCard = (props: { character: CharacterQuery }) => {
 	} = props.character
 
 	return (
-		<div key={characterID} className='Card'>
+		<Link key={characterID} className='Card' to={`character/${characterID}`}>
 			<img alt={`${name}'s character portrait`} className='Portrait' src={`https://images.evetech.net/characters/${characterID}/portrait?tenant=tranquility&size=256`} />
 			<ul className='CardBody'>
 				<li>{name}</li>
@@ -21,7 +21,7 @@ const CharacterCard = (props: { character: CharacterQuery }) => {
 				<li>Race ID: {raceID}</li>
 				<li>Security Status: {securityStatus}</li>
 			</ul>
-		</div>
+		</Link>
 	)
 }
 
