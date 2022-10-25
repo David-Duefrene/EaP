@@ -1,7 +1,7 @@
 import React from 'react'
 
 import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
-
+import './CharacterCard.css'
 const CharacterCard = (props: CharacterQuery) => {
 	const {
 		characterID, name, allianceID, birthday, bloodlineID, corporationID, gender, raceID, securityStatus,
