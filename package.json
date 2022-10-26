@@ -5,7 +5,7 @@
   "main": "electron/vite-build/index.es.js",
   "scripts": {
     "start": "concurrently -k \"npm run dev-React\" \"npm run build-Auth\" \"npm run build-Electron\"",
-    "test": "vitest --",
+    "test": "vitest",
     "dev-Electron": "electron ./Electron/vite-build/index.es.js",
     "dev-React": "vite ./React",
     "build-Electron": "vite build ./Electron",
