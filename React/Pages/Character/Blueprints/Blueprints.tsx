@@ -15,7 +15,7 @@ const Blueprints = () => {
 	}, [ characterID ])
 
 	return (
-		<table className=''>
+		<table>
 			<caption>Blueprints</caption>
 			<thead>
 				<tr>
