@@ -43,9 +43,9 @@ const Blueprints = () => {
 				{blueprints.map((el, key) => {
 					return (
 						<tr key={key}>
-							<td>{el.itemID}</td>
+							<td>{el.itemID.toString()}</td>
 							<td>{el.locationFlag}</td>
-							<td>{el.locationID}</td>
+							<td>{el.locationID.toString()}</td>
 							<td>{el.materialEfficiency}</td>
 							<td>{el.quantity}</td>
 							<td>{el.runs}</td>

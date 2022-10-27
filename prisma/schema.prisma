@@ -427,10 +427,10 @@ model AgentResearch {
 }
 
 model Blueprint {
-	itemID					Int @id
+	itemID					BigInt @id
 	character				Character[]
 	locationFlag			LocationFlag
-	locationID				Int
+	locationID				BigInt
 	materialEfficiency		Int
 	quantity				Int
 	runs					Int
