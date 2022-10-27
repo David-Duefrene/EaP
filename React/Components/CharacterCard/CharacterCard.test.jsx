@@ -41,10 +41,6 @@ describe('CharacterCard', () => {
 
 	afterEach(cleanup)
 
-	test('should render the character card', () => {
-		expect(screen).toMatchSnapshot()
-	})
-
 	test('should render the character name', () => {
 		expect(screen.getByText(character.name)).toBeTruthy()
 	})
