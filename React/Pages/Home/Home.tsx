@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 const { PrismaClient } = require('@prisma/client')
 
-import AddCharacter from '../../Components/AddCharacter/AddCharacter'
+import AddCharacter from '../../Components/Buttons/AddCharacter/AddCharacter'
 import CharacterCard from '../../Components/CharacterCard/CharacterCard'
 import './Home.css'
 import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
