@@ -1,5 +1,5 @@
 /* make anchor tag look like a button */
-a {
+Button {
 	display: inline-block;
 	padding: 0.5em 1em;
 	text-decoration: none;
