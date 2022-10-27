@@ -1,15 +1,19 @@
 // @vitest-environment jsdom
 import React from 'react'
+import {
+	createBrowserRouter, createRoutesFromElements, RouterProvider, Route,
+} from 'react-router-dom'
 
 import {
 	expect, test, afterEach, describe, beforeEach,
 } from 'vitest'
-import { cleanup, render } from '@testing-library/react'
+import {
+	cleanup, render, screen,
+} from '@testing-library/react'
 
 import CharacterCard from './CharacterCard'
 
 describe('CharacterCard', () => {
-	let wrapper
 	const character = {
 		characterID: 123,
 		name: 'Test Name',
@@ -24,48 +28,52 @@ describe('CharacterCard', () => {
 	}
 
 	beforeEach(() => {
-		wrapper = render(<CharacterCard character={character} />)
+		/*
+		 * This is a workaround for the following issue:
+		 * Link needs to be rendered inside a Router
+		 * // TODO: Remove this workaround when link is refactored into the home page
+		 */
+		const router = createBrowserRouter(createRoutesFromElements(
+			<Route path='/' element={<CharacterCard character={character} />} />,
+		))
+		render(<RouterProvider router={router}></RouterProvider>)
 	})
 
 	afterEach(cleanup)
 
-	test('should render the character card', () => {
-		expect(wrapper).toMatchSnapshot()
-	})
-
 	test('should render the character name', () => {
-		expect(wrapper.getByText(character.name)).toBeTruthy()
+		expect(screen.getByText(character.name)).toBeTruthy()
 	})
 
 	test('should render the character ID', () => {
-		expect(wrapper.getByText(`Character ID: ${character.characterID}`)).toBeTruthy()
+		expect(screen.getByText(`Character ID: ${character.characterID}`)).toBeTruthy()
 	})
 
 	test('should render the character Alliance ID', () => {
-		expect(wrapper.getByText(`Alliance ID: ${character.allianceID}`)).toBeTruthy()
+		expect(screen.getByText(`Alliance ID: ${character.allianceID}`)).toBeTruthy()
 	})
 
 	test('should render the character birthday', () => {
-		expect(wrapper.getByText(`Character birthday: ${character.birthday}`)).toBeTruthy()
+		expect(screen.getByText(`Character birthday: ${character.birthday}`)).toBeTruthy()
 	})
 
 	test('should render the character Bloodline ID', () => {
-		expect(wrapper.getByText(`Bloodline ID: ${character.bloodlineID}`)).toBeTruthy()
+		expect(screen.getByText(`Bloodline ID: ${character.bloodlineID}`)).toBeTruthy()
 	})
 
 	test('should render the character Corp ID', () => {
-		expect(wrapper.getByText(`Corp ID: ${character.corporationID}`)).toBeTruthy()
+		expect(screen.getByText(`Corp ID: ${character.corporationID}`)).toBeTruthy()
 	})
 
 	test('should render the character Gender', () => {
-		expect(wrapper.getByText(`Gender: ${character.gender}`)).toBeTruthy()
+		expect(screen.getByText(`Gender: ${character.gender}`)).toBeTruthy()
 	})
 
 	test('should render the character Race ID', () => {
-		expect(wrapper.getByText(`Race ID: ${character.raceID}`)).toBeTruthy()
+		expect(screen.getByText(`Race ID: ${character.raceID}`)).toBeTruthy()
 	})
 
 	test('should render the character Security Status', () => {
-		expect(wrapper.getByText(`Security Status: ${character.securityStatus}`)).toBeTruthy()
+		expect(screen.getByText(`Security Status: ${character.securityStatus}`)).toBeTruthy()
 	})
 })
