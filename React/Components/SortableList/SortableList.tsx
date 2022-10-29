@@ -6,7 +6,7 @@
  */
 import React from 'react'
 
-const SortableList = (props: any) => {
+const SortableList = (props: { data: Record<string, any>[] }) => {
 	const { data } = props
 
 	const keys = Object.keys(data[0])
@@ -17,7 +17,7 @@ const SortableList = (props: any) => {
 		)
 	})
 
-	const tableBody = data.map((el: any, key: number) => {
+	const tableBody = data.map((el, key) => {
 		return (
 			<tr key={`Row-item-${key}`}>
 				{keys.map((key, i) => {
