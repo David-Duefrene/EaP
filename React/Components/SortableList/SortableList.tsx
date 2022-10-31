@@ -2,14 +2,20 @@ import React, { useState } from 'react'
 
 const SortableList = (props: { data: Record<string, any>[] }) => {
 	const { data } = props
-	const [ sortConfig, setSortConfig ] = useState('itemID')
+
+	if (data.length === 0) {
+		return (
+			<div>No data to display</div>
+		)
+	}
 
 	const keys = Object.keys(data[0])
+	const [ sortConfig, setSortConfig ] = useState(keys[0])
 
 	const tableHeader = keys.map((el, key) => {
 		return (
 			<th key={`Col-label-${key}`}>
-				<button onClick={() => setSortConfig(el)}>
+				<button type='button' onClick={() => setSortConfig(el)}>
 					{el}
 				</button>
 			</th>
