@@ -1,20 +1,26 @@
-/*
- * Step 1: convert key from camelCase to normal case
- * Step 2: put key in a <thead> <td> tag
- * Step 3: put value from key inside of a <tbody> <td> tag
- * Step 4: TODO: add sort functions to each key
- */
-import React from 'react'
+import React, { useState } from 'react'
 
 const SortableList = (props: { data: Record<string, any>[] }) => {
 	const { data } = props
+	const [ sortConfig, setSortConfig ] = useState('itemID')
 
 	const keys = Object.keys(data[0])
 
 	const tableHeader = keys.map((el, key) => {
 		return (
-			<th key={`Col-label-${key}`}>{el}</th>
+			<th key={`Col-label-${key}`}>
+				<button onClick={() => setSortConfig(el)}>
+					{el}
+				</button>
+			</th>
 		)
+	})
+
+	data.sort((a, b) => {
+		if (a[sortConfig] > b[sortConfig]) {
+			return 1
+		}
+		return -1
 	})
 
 	const tableBody = data.map((el, key) => {

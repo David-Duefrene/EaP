@@ -24,6 +24,7 @@ module.exports = {
 	],
 	rules: {
 		'@typescript-eslint/no-var-requires': 'off',
+		'@typescript-eslint/ban-ts-comment': 'off',
 		camelcase: [ 'error', { ignoreDestructuring: true } ],
 	},
 	overrides: [
