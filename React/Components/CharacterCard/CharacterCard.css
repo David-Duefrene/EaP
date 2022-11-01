@@ -1,10 +1,15 @@
 .Card {
 	display: flex;
 	margin: 1%;
-	background-color: #282c34;
+	background-color: var(--main-color);
 	color: white;
 	border-radius: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 0px 7px var(--accent-color);
+	transition: filter 1s;
+}
+
+.Card:hover, .Card:focus {
+	filter: sepia(60%);
 }
 
 .Portrait {
