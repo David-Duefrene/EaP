@@ -12,7 +12,7 @@ import CSS from './AddCharacter.module.css'
  * @returns {JSX.Element}
  */
 const AddCharacter = () => {
-	return <img className={CSS.Login} src={LoginWhite} alt='Add new character' onClick={() => ipcRenderer.send('Login')} />
+	return <img tabIndex={0} className={CSS.Login} src={LoginWhite} alt='Add new character' onClick={() => ipcRenderer.send('Login')} />
 }
 
 export default AddCharacter

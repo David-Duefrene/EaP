@@ -8,7 +8,7 @@
 	transition: filter 1s;
 }
 
-.Card:hover {
+.Card:hover, .Card:focus {
 	filter: sepia(60%);
 }
 

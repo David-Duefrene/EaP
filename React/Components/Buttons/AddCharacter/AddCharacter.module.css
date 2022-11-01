@@ -1,4 +1,4 @@
-.Login:hover {
+.Login:hover, .Login:focus {
 	filter: invert(80%);
 	transition: filter 1s;
 
