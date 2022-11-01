@@ -9,7 +9,7 @@ import React from 'react'
  * @returns {JSX.Element}
  */
 const AddCharacter = () => {
-	return <button onClick={() => ipcRenderer.send('Login')}>Login</button>
+	return <button type='button' onClick={() => ipcRenderer.send('Login')}>Login</button>
 }
 
 export default AddCharacter
