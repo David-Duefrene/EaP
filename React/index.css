@@ -29,11 +29,18 @@ button {
 	padding: 5px;
 	margin: 5px;
 	cursor: pointer;
+	transition: all .5s;
 }
 
-button:hover {
+button:hover, button:focus {
 	background-color: var(--accent-color);
 	color: var(--main-color);
+}
+
+button:active {
+	background-color: var(--main-color);
+	color: var(--accent-color);
+	transition: all 0.1s;
 }
 
 code {

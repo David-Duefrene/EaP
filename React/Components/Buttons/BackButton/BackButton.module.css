@@ -8,6 +8,7 @@
 	border-bottom: solid 4px #627295;
 	border-radius: 3px;
 	cursor: pointer;
+	transition: all .5s;
 }
 
 .Button:hover, .Button:focus {
