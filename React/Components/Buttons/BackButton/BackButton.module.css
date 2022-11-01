@@ -10,6 +10,6 @@
 	cursor: pointer;
 }
 
-.Button:hover {
-	background: #627295;
+.Button:hover, .Button:focus {
+	filter: invert(90%);
 }

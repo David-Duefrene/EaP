@@ -7,7 +7,7 @@ const BackButton = () => {
 	const navigate = useNavigate()
 
 	return (
-		<a className={CSS.Button} onClick={() => navigate(-1)}>Back</a>
+		<a tabIndex={0} className={CSS.Button} onClick={() => navigate(-1)}>Back</a>
 	)
 }
 
