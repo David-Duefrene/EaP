@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 
-const SortableList = (props: { data: Record<string, any>[] }) => {
+const SortableList = (props: { data: Record<string, any>[] | Record<string, any> }) => {
 	const { data } = props
 
 	if (data.length === 0) {
-		return (
-			<div>No data to display</div>
-		)
+		return <div>No data to display</div>
 	}
 
+	// @ts-ignore
 	const keys = Object.keys(data[0])
 	const [ sortConfig, setSortConfig ] = useState(keys[0])
 
@@ -22,9 +22,9 @@ const SortableList = (props: { data: Record<string, any>[] }) => {
 		)
 	})
 
-	data.sort((a, b) => {
+	data.sort((a: Record<string, string | number>, b: Record<string, string | number>) => {
 		if (typeof a[sortConfig] === 'string' && typeof b[sortConfig] === 'string') {
-			return a[sortConfig].localeCompare(b[sortConfig])
+			return a[sortConfig].toLocaleString().localeCompare(b[sortConfig].toLocaleString())
 		}
 
 		if (a[sortConfig] > b[sortConfig]) {
@@ -33,7 +33,7 @@ const SortableList = (props: { data: Record<string, any>[] }) => {
 		return -1
 	})
 
-	const tableBody = data.map((el, key) => {
+	const tableBody = data.map((el: Record<string, any>, key: number) => {
 		return (
 			<tr key={`Row-item-${key}`}>
 				{keys.map((key, i) => {
@@ -50,13 +50,9 @@ const SortableList = (props: { data: Record<string, any>[] }) => {
 	return (
 		<table>
 			<thead>
-				<tr>
-					{tableHeader}
-				</tr>
+				<tr>{tableHeader}</tr>
 			</thead>
-			<tbody>
-				{tableBody}
-			</tbody>
+			<tbody>{tableBody}</tbody>
 		</table>
 	)
 }
