@@ -49,27 +49,14 @@ describe('Blueprint', () => {
 		expect(screen.getByText('Loading...')).toBeTruthy()
 	})
 
-	// test('renders table head', async () => {
-	// 	await waitForElementToBeRemoved(() => screen.getByText('Loading...'))
-	// 	expect(screen.getByText('Item ID')).toBeTruthy()
-	// 	expect(screen.getByText('Location Flag')).toBeTruthy()
-	// 	expect(screen.getByText('Location ID')).toBeTruthy()
-	// 	expect(screen.getByText('ME')).toBeTruthy()
-	// 	expect(screen.getByText('Quantity')).toBeTruthy()
-	// 	expect(screen.getByText('Runs')).toBeTruthy()
-	// 	expect(screen.getByText('TE')).toBeTruthy()
-	// 	expect(screen.getByText('Type ID')).toBeTruthy()
-	// })
-
-	test('renders table body', async () => {
+	test('renders a back button', async () => {
 		await waitForElementToBeRemoved(() => screen.getByText('Loading...'))
-		expect(screen.getByText('1')).toBeTruthy()
-		expect(screen.getByText('locationFlagText')).toBeTruthy()
-		expect(screen.getByText('2')).toBeTruthy()
-		expect(screen.getByText('3')).toBeTruthy()
-		expect(screen.getByText('4')).toBeTruthy()
-		expect(screen.getByText('5')).toBeTruthy()
-		expect(screen.getByText('6')).toBeTruthy()
-		expect(screen.getByText('7')).toBeTruthy()
+		const button = await screen.findByText('Back')
+		expect(button.tabIndex).toEqual(0)
+	})
+
+	test('renders a table', async () => {
+		await waitForElementToBeRemoved(() => screen.getByText('Loading...'))
+		expect(screen.findAllByRole('table')).toBeTruthy()
 	})
 })
