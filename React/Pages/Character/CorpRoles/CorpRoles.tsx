@@ -47,11 +47,11 @@ const CorpRolesList = () => {
 							{corpRoles.rolesAtBase.map((el, key) => <td key={key}>{el}</td>)}
 						</tr>
 						<tr>
-							<th>Roles At HQ</th>
+							<td>Roles At HQ</td>
 							{corpRoles.rolesAtHQ.map((el, key) => <td key={key}>{el}</td>)}
 						</tr>
 						<tr>
-							<th>Roles At Other</th>
+							<td>Roles At Other</td>
 							{corpRoles.rolesAtOther.map((el, key) => <td key={key}>{el}</td>)}
 						</tr>
 					</tbody>
