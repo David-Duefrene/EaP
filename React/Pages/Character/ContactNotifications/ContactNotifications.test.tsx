@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import React from 'react'
 import {
-	createBrowserRouter, createRoutesFromElements, RouterProvider, Route,
+	createBrowserRouter, createRoutesFromElements, RouterProvider, Route, waitForElementToBeRemoved,
 } from 'react-router-dom'
 
 import {
@@ -17,6 +17,7 @@ describe('ContactNotifications', () => {
 			<Route path='/' element={<ContactNotifications />} />,
 		))
 		render(<RouterProvider router={router}></RouterProvider>)
+		await waitForElementToBeRemoved(() => screen.getByText('Loading...'))
 		const button = await screen.findByText('Back')
 		expect(button.tabIndex).toEqual(0)
 	})

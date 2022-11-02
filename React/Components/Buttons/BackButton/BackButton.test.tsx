@@ -5,11 +5,9 @@ import {
 } from 'react-router-dom'
 
 import {
-	expect, test, afterEach, describe, beforeEach,
+	expect, test, describe,
 } from 'vitest'
-import {
-	cleanup, render, screen,
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import BackButton from './BackButton'
 
