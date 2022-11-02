@@ -5,7 +5,7 @@ import prisma from '../../../../prisma/PrismaClient'
 import BackButton from '../../../Components/Buttons/BackButton/BackButton'
 import SortableList from '../../../Components/SortableList/SortableList'
 // import './ContactNotifications.css'
-import ContactNotifications from '../../../../Types/APIResponses/EveOfficial/ContactNotifications.types'
+import ContactNotification from '../../../../Types/APIResponses/EveOfficial/ContactNotifications.types'
 
 const ContactNotifications = () => {
 	const [ contactNotifications, setContactNotifications ] = useState<ContactNotifications[]>([])
@@ -14,7 +14,7 @@ const ContactNotifications = () => {
 
 	useEffect(() => {
 		prisma.contactNotification.findMany({ where: { characterID } })
-			.then((d: ContactNotifications[]) => {
+			.then((d: ContactNotification[]) => {
 				setContactNotifications(d)
 				setIsLoading(false)
 			})
