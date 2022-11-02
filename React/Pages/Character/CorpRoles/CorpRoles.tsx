@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom'
 
 import prisma from '../../../../prisma/PrismaClient'
 import BackButton from '../../../Components/Buttons/BackButton/BackButton'
-import CorpRoles, { Roles } from '../../../../Types/APIResponses/EveOfficial/CorpRoles.types'
+import CorpRole, { Roles } from '../../../../Types/APIResponses/EveOfficial/CorpRoles.types'
 import CSS from './CorpRoles.module.css'
 
-const CorpRolesList = () => {
-	const [ corpRoles, setCorpRoles ] = useState<CorpRoles>({
+const CorpRoles = () => {
+	const [ corpRoles, setCorpRoles ] = useState<CorpRole>({
 		roles: [ Roles.None ],
 		rolesAtHQ: [ Roles.None ],
 		rolesAtBase: [ Roles.None ],
@@ -19,7 +19,7 @@ const CorpRolesList = () => {
 	useEffect(() => {
 		prisma.corpRoles.findUnique(
 			{ where: { characterID } },
-		).then((d: CorpRoles) => {
+		).then((d: CorpRole) => {
 			setCorpRoles(d)
 			setIsLoading(false)
 		})
@@ -61,4 +61,4 @@ const CorpRolesList = () => {
 	)
 }
 
-export default CorpRolesList
+export default CorpRoles
