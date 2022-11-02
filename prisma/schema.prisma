@@ -374,6 +374,7 @@ enum CorpRole {
 	Starbase_Fuel_Technician
 	Station_Manager
 	Trader
+	None
 }
 
 enum NPCStandingType {
@@ -492,10 +493,10 @@ model ContactNotification {
 model CorpRoles {
 	characterID				String @id
 	character				Character @relation(fields: [characterID], references: [characterID])
-	roles					CorpRole[]
-	rolesAtBase				CorpRole[]
-	rolesAtHQ				CorpRole[]
-	rolesAtOther			CorpRole[]
+	roles					CorpRole[] @default([None])
+	rolesAtBase				CorpRole[] @default([None])
+	rolesAtHQ				CorpRole[] @default([None])
+	rolesAtOther			CorpRole[] @default([None])
 }
 
 model Standings {
