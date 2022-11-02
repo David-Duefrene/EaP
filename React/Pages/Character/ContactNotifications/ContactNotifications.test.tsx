@@ -1,13 +1,15 @@
 // @vitest-environment jsdom
 import React from 'react'
 import {
-	createBrowserRouter, createRoutesFromElements, RouterProvider, Route, waitForElementToBeRemoved,
+	createBrowserRouter, createRoutesFromElements, RouterProvider, Route,
 } from 'react-router-dom'
 
 import {
 	expect, test, describe,
 } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import {
+	render, screen, waitForElementToBeRemoved,
+} from '@testing-library/react'
 
 import ContactNotifications from './ContactNotifications'
 
