@@ -6,7 +6,7 @@ import BackButton from '../../../Components/Buttons/BackButton/BackButton'
 import SortableList from '../../../Components/SortableList/SortableList'
 import CorpHistory from '../../../../Types/APIResponses/EveOfficial/CorpHistory.types'
 
-const CorpHistory = () => {
+const CorpHistoryList = () => {
 	const [ corpHistory, setCorpHistory ] = useState<CorpHistory[]>([])
 	const [ isLoading, setIsLoading ] = useState(true)
 	const { characterID } = useParams<{ characterID: string }>()
@@ -34,4 +34,4 @@ const CorpHistory = () => {
 	)
 }
 
-export default CorpHistory
+export default CorpHistoryList
