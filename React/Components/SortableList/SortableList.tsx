@@ -23,6 +23,10 @@ const SortableList = (props: { data: Record<string, any>[] }) => {
 	})
 
 	data.sort((a, b) => {
+		if (typeof a[sortConfig] === 'string' && typeof b[sortConfig] === 'string') {
+			return a[sortConfig].localeCompare(b[sortConfig])
+		}
+
 		if (a[sortConfig] > b[sortConfig]) {
 			return 1
 		}
