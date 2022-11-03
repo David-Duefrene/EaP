@@ -15,7 +15,7 @@ import Standings from './Pages/Character/Standings/Standings'
 import Titles from './Pages/Character/Titles/Titles'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
 
-import NavBar from './Components/NavBar/NavBar'
+import NavBar from './Components/NavBars/MainNavBar'
 import './index.css'
 
 const routes =

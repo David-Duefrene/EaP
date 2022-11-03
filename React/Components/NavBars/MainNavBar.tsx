@@ -4,14 +4,15 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import BackButton from '../Buttons/BackButton/BackButton'
 import Home from '../Buttons/Home/HomeButton'
 import AddCharacter from '../Buttons/AddCharacter/AddCharacter'
-import CSS from './NavBar.module.css'
+import CharacterNavBar from '../NavBars/CharacterNavBar/CharacterNavBar'
+import CSS from './MainNavBar.module.css'
 
 const NavBar = () => {
 	const currentSection = useLocation().pathname.split('/')[1]
 
 	const sections = {
 		'': <AddCharacter />,
-		character: <h2>Char Sub</h2>,
+		character: <CharacterNavBar />,
 	}
 
 	return (
