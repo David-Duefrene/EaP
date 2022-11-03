@@ -1,0 +1,11 @@
+.NavBar {
+	display: inline-flex;
+	justify-content: left;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.NavBar > * {
+	margin: 0px;
+}
