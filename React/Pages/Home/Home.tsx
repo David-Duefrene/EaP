@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 const { PrismaClient } = require('@prisma/client')
 
-import AddCharacter from '../../Components/Buttons/AddCharacter/AddCharacter'
 import CharacterCard from '../../Components/CharacterCard/CharacterCard'
 import './Home.css'
 import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
@@ -20,7 +19,7 @@ const Home = () => {
 
 	// TODO: Need to determine if no characters exist and display a message to the user
 	if (characterSheets.length === 0) {
-		return <div><AddCharacter /></div>
+		return <div />
 	}
 
 	const cardList = characters.map((el, key) => {
@@ -37,7 +36,6 @@ const Home = () => {
 
 	return (
 		<div className='App'>
-			<AddCharacter />
 			{cardList}
 		</div>
 	)
