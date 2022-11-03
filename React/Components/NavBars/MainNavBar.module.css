@@ -8,4 +8,13 @@
 
 .NavBar > * {
 	margin: 0px;
+	border-radius: 0;
+}
+
+a:first-child {
+	border-radius: 5px 0  0 5px;
+}
+
+a:last-child {
+	border-radius: 0 5px 5px 0;
 }

@@ -1,0 +1,21 @@
+.Nav {
+	display: inline-block;
+	padding: 0.5em 1em;
+	text-decoration: none;
+	background: var(--main-color);
+	filter: invert(90%) opacity(50%);
+	color: var(--main-off-color);
+	border-bottom: solid 4px #627295;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: all .5s;
+}
+
+.Nav:hover, .Nav:focus {
+	filter: invert(90%);
+}
+
+.Active {
+	background-color: pink;
+
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import BackButton from '../Buttons/BackButton/BackButton'
 import Home from '../Buttons/Home/HomeButton'
@@ -10,7 +10,7 @@ import CSS from './MainNavBar.module.css'
 const NavBar = () => {
 	const currentSection = useLocation().pathname.split('/')[1]
 
-	const sections = {
+	const sections: Record<string, JSX.Element> = {
 		'': <AddCharacter />,
 		character: <CharacterNavBar />,
 	}

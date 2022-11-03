@@ -1,20 +1,21 @@
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
 
+import Nav from '../../Buttons/Nav/Nav'
 import CSS from './CharacterNavBar.module.css'
 const CharacterNavBar = () => {
 	const characterID = useLocation().pathname.split('/')[2]
 
 	return (
 		<>
-			<Link className={CSS.Button} to={`./character/${characterID}/blueprints`}>Blueprints</Link>
-			<Link className={CSS.Button} to={`./character/${characterID}/contact-notification`}>Contact Notifications</Link>
-			<Link className={CSS.Button} to={`./character/${characterID}/corp-history`}>Corp History </Link>
-			<Link className={CSS.Button} to={`./character/${characterID}/corp-roles`}>Roles</Link>
-			<Link className={CSS.Button} to={`./character/${characterID}/medal-list`}>Medals</Link>
-			<Link className={CSS.Button} to={`./character/${characterID}/notifications`}>Notifications</Link>
-			<Link className={CSS.Button} to={`./character/${characterID}/standings`}>Standings</Link>
-			<Link className={CSS.Button} to={`./character/${characterID}/titles`}>Titles</Link>
+			<Nav className={CSS.Button} URL={`./character/${characterID}/blueprints`}>Blueprints</Nav>
+			<Nav className={CSS.Button} URL={`./character/${characterID}/contact-notification`}>Contact Notifications</Nav>
+			<Nav className={CSS.Button} URL={`./character/${characterID}/corp-history`}>Corp History </Nav>
+			<Nav className={CSS.Button} URL={`./character/${characterID}/corp-roles`}>Roles</Nav>
+			<Nav className={CSS.Button} URL={`./character/${characterID}/medal-list`}>Medals</Nav>
+			<Nav className={CSS.Button} URL={`./character/${characterID}/notifications`}>Notifications</Nav>
+			<Nav className={CSS.Button} URL={`./character/${characterID}/standings`}>Standings</Nav>
+			<Nav className={CSS.Button} URL={`./character/${characterID}/titles`}>Titles</Nav>
 		</>
 	)
 }
