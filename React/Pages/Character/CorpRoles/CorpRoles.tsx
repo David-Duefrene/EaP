@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import prisma from '../../../../prisma/PrismaClient'
-import BackButton from '../../../Components/Buttons/BackButton/BackButton'
 import CorpRole, { Roles } from '../../../../Types/APIResponses/EveOfficial/CorpRoles.types'
 import CSS from './CorpRoles.module.css'
 
@@ -25,16 +24,9 @@ const CorpRoles = () => {
 		})
 	}, [ characterID ])
 
-	if (isLoading) {
-		return (
-			<div>Loading...</div>
-		)
-	}
-
-	return (
+	return isLoading ? <h1>Loading...</h1> :
 		<>
 			<h1>Corp Roles</h1>
-			<BackButton />
 			<div className={CSS.RoleChart}>
 				<table>
 					<tbody>
@@ -58,7 +50,6 @@ const CorpRoles = () => {
 				</table>
 			</div>
 		</>
-	)
 }
 
 export default CorpRoles
