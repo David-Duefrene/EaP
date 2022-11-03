@@ -14,19 +14,21 @@ import CorpHistory from './Pages/Character/CorpHistory/CorpHistory'
 import CorpRoles from './Pages/Character/CorpRoles/CorpRoles'
 import MedalList from './Pages/Character/Medals/MedalList'
 import Notifications from './Pages/Character/Notifications/Notifications'
+import Standings from './Pages/Character/Standings/Standings'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
 import './index.css'
 
 const router = createBrowserRouter(createRoutesFromElements(
 	<>
 		<Route path='/' element={<Home />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID' element={<Notifications />} errorElement={<ErrorPage />} />
+		<Route path='character/:characterID' element={<Standings />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/blueprints' element={<Blueprints />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/contact-notification' element={<ContactNotifications />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/corp-history' element={<CorpHistory />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/corp-roles' element={<CorpRoles />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/medal-list' element={<MedalList />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/notifications' element={<Notifications />} errorElement={<ErrorPage />} />
+		<Route path='character/:characterID/standings' element={<Standings />} errorElement={<ErrorPage />} />
 	</>,
 ))
 
