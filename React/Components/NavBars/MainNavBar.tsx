@@ -16,10 +16,12 @@ const NavBar = () => {
 	}
 
 	return (
-		<div className={CSS.NavBar}>
-			<BackButton />
-			{currentSection !== '' ? <Home /> : null}
-			{sections[currentSection]}
+		<div className={CSS.Splash}>
+			<div className={CSS.NavBar}>
+				<BackButton />
+				{currentSection !== '' ? <Home /> : null}
+				{sections[currentSection]}
+			</div>
 		</div>
 	)
 }

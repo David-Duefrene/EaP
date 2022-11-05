@@ -10,7 +10,7 @@ const CorpHistoryList = () => {
 	const { characterID } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		prisma.corpHistory.findMany({ where: { characterID } })
+		prisma.corpHistory.findMany({ where: { character: { every: { characterID } } } })
 			.then((d: CorpHistory[]) => {
 				setCorpHistory(d)
 			})

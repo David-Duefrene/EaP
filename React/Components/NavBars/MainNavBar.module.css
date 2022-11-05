@@ -1,9 +1,13 @@
 .NavBar {
-	display: inline-flex;
-	justify-content: left;
-	align-items: center;
-	width: 100%;
-	height: 100%;
+	margin-top: 2em;
+}
+
+.Splash {
+	background-color: var(--main-color);
+	z-index: 1;
+	position: sticky;
+	top: 0; left: 25%;
+	height: 10vh;
 }
 
 .NavBar > * {
