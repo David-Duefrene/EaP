@@ -1,12 +1,9 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 
-import CSS from './HomeButton.module.css'
+import Nav from '../Nav/Nav'
 
 const BackButton = () => {
-	const navigate = useNavigate()
-
-	return <a tabIndex={0} className={CSS.Button} onClick={() => navigate('./')}>Home</a>
+	return <Nav URL='/'>Home</Nav>
 }
 
 export default BackButton

@@ -2,6 +2,7 @@ html {
 	--main-color: #282c34;
 	--main-off-color: white;
 	--accent-color: #61dafb;
+	--highlight-color: #1f8ead;
 }
 
 body {
@@ -20,9 +21,10 @@ body {
 	color: var(--main-off-color);
 }
 
-button {
-	background-color: var(--main-color);
-	filter: brightness(80%);
+button, .Button {
+	display: inline-block;
+	background-image: radial-gradient(var(--highlight-color), var(--main-color));
+	padding: 0.5em 1em;
 	color: var(--main-off-color);
 	border: 1px solid var(--main-off-color);
 	border-radius: 5px;
@@ -30,11 +32,11 @@ button {
 	margin: 5px;
 	cursor: pointer;
 	transition: all .5s;
+	height: 1em;
 }
 
-button:hover, button:focus {
-	background-color: var(--accent-color);
-	color: var(--main-color);
+button:hover, button:focus, .Active, .Button:hover, .Button:focus {
+	filter: invert(90%);
 }
 
 button:active {

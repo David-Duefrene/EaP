@@ -1,21 +1,13 @@
-.Nav {
-	display: inline-block;
+a.Nav, img.Nav {
 	padding: 0.5em 1em;
+	margin: 0;
 	text-decoration: none;
-	background: var(--main-color);
-	filter: invert(90%) opacity(50%);
-	color: var(--main-off-color);
-	border-bottom: solid 4px #627295;
-	border-radius: 3px;
+	border: unset;
+	border-bottom: solid 4px var(--highlight-color);
 	cursor: pointer;
-	transition: all .5s;
 }
 
-.Nav:hover, .Nav:focus {
-	filter: invert(90%);
-}
-
-.Active {
-	background-color: pink;
-
+.Item {
+	list-style-type: none;
+	display: inline-block;
 }

@@ -15,10 +15,10 @@
 	border-radius: 0;
 }
 
-a:first-child {
+.Navbar:first-child {
 	border-radius: 5px 0  0 5px;
 }
 
-a:last-child {
+.Navbar:last-child {
 	border-radius: 0 5px 5px 0;
 }

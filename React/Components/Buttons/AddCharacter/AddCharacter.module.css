@@ -1,8 +1,0 @@
-.Login:hover, .Login:focus {
-	filter: invert(80%);
-	transition: filter .5s;
-
-	@media (prefers-reduced-motion) {
-		transition: none;
-	}
-}
