@@ -57,12 +57,6 @@ describe('Notifications', () => {
 		expect(screen.getByText('Loading...')).toBeTruthy()
 	})
 
-	test('renders a back button', async () => {
-		await waitForElementToBeRemoved(() => screen.getByText('Loading...'))
-		const button = await screen.findByText('Back')
-		expect(button.tabIndex).toEqual(0)
-	})
-
 	test('renders a table', async () => {
 		await waitForElementToBeRemoved(() => screen.getByText('Loading...'))
 		expect(screen.findAllByRole('table')).toBeTruthy()

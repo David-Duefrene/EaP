@@ -42,12 +42,6 @@ describe('ContactNotifications', () => {
 		render(<RouterProvider router={router}></RouterProvider>)
 	})
 
-	test('should render a back button', async () => {
-		await waitForElementToBeRemoved(() => screen.getByText('Loading...'))
-		const button = await screen.findByText('Back')
-		expect(button.tabIndex).toEqual(0)
-	})
-
 	test('should render a Table', () => {
 		const table = screen.findAllByRole('table')
 		expect(table).toBeTruthy()
