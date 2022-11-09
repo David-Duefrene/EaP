@@ -1,0 +1,44 @@
+.Head {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+th {
+	padding: 0;
+	border: unset;
+}
+
+
+tr:nth-child(odd) {
+	background-color: darkgrey;
+}
+
+.Me {
+	background-color: var(--main-color);
+}
+
+.Me button {
+	padding: .5em;
+	border: unset;
+	padding: .5em;
+}
+
+tr:nth-child(even) {
+	background-color: grey;
+}
+
+tr:nth-child(5n +5) {
+	background-color: rgb(199, 199, 18);
+	color: var(--main-color)
+}
+
+tr:nth-child(10n +10) {
+	background-color: orange;
+	color: var(--main-color)
+}
+
+tr:nth-child(25n +25) {
+	background-color: red;
+	color: var(--main-color)
+}

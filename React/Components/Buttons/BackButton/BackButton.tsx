@@ -1,13 +1,17 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import CSS from './BackButton.module.css'
+import Nav from '../Nav/Nav'
 
 const BackButton = () => {
 	const navigate = useNavigate()
 
 	return (
-		<a tabIndex={0} className={CSS.Button} onClick={() => navigate(-1)}>Back</a>
+		<Nav
+			URL=''
+			onClick={() => navigate(-1)} >
+				Back
+		</Nav>
 	)
 }
 

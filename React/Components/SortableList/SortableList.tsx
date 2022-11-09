@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 
+import CSS from './SortableList.module.css'
+
 const SortableList = (props: { data: Record<string, any>[] | Record<string, any> }) => {
 	const { data } = props
 
@@ -14,8 +16,8 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 
 	const tableHeader = keys.map((el, key) => {
 		return (
-			<th key={`Col-label-${key}`}>
-				<button type='button' onClick={() => setSortConfig(el)}>
+			<th className={CSS.Me} key={`Col-label-${key}`}>
+				<button className={CSS.Head} type='button' onClick={() => setSortConfig(el)}>
 					{el}
 				</button>
 			</th>

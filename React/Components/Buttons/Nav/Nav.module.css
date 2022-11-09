@@ -1,0 +1,17 @@
+li.Nav {
+	margin: 0;
+	border-radius: 0;
+	border: unset;
+	border-bottom: solid 4px var(--highlight-color);
+	cursor: pointer;
+	list-style-type: none;
+	display: inline-block;
+	height: unset;
+}
+
+.Nav > a {
+	color: var(--off-main-color);
+	padding: 1em;
+	padding-bottom: 1.5em;
+	text-decoration: none;
+}

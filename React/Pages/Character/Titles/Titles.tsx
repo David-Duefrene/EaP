@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import prisma from '../../../../prisma/PrismaClient'
-import BackButton from '../../../Components/Buttons/BackButton/BackButton'
 import SortableList from '../../../Components/SortableList/SortableList'
 import Title from '../../../../Types/APIResponses/EveOfficial/Title.types'
 
@@ -21,7 +20,6 @@ const Titles = () => {
 	return titles ?
 		<>
 			<h1>Titles</h1>
-			<BackButton />
 			<SortableList data={titles} />
 		</> : <h1>Loading...</h1>
 }

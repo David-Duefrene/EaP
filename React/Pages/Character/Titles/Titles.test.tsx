@@ -48,11 +48,6 @@ describe('Titles', () => {
 		expect(screen.getByText('Loading...')).toBeTruthy()
 	})
 
-	test('renders a back button', async () => {
-		await waitForElementToBeRemoved(() => screen.getByText('Loading...'))
-		expect(screen.getByText('Back')).toBeTruthy()
-	})
-
 	test('renders a table', async () => {
 		await waitForElementToBeRemoved(() => screen.getByText('Loading...'))
 		expect(screen.getByRole('table')).toBeTruthy()
