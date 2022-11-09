@@ -50,12 +50,14 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 	})
 
 	return (
-		<table>
-			<thead>
-				<tr>{tableHeader}</tr>
-			</thead>
-			<tbody>{tableBody}</tbody>
-		</table>
+		<div className={CSS.Content}>
+			<table>
+				<thead>
+					<tr>{tableHeader}</tr>
+				</thead>
+				<tbody>{tableBody}</tbody>
+			</table>
+		</div>
 	)
 }
 

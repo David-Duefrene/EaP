@@ -469,7 +469,6 @@ model Medal {
 }
 
 model Notification {
-	characterID				String
 	character				Character[]
 	isRead					Boolean @default(false)
 	notificationID			Int @id
@@ -481,7 +480,6 @@ model Notification {
 }
 
 model ContactNotification {
-	characterID				String
 	notification			Character[]
 	message 				String
 	notificationID			Int @id
@@ -500,7 +498,6 @@ model CorpRoles {
 }
 
 model Standings {
-	characterID				String
 	character				Character[]
 	fromID					Int @id
 	fromType				NPCStandingType
@@ -508,7 +505,6 @@ model Standings {
 }
 
 model Title {
-	characterID				String
 	character				Character[]
 	titleID					Int @id
 	name					String
