@@ -31,7 +31,7 @@
     "eslint-config-vigilant-octo-train": "0.0.4",
     "eslint-plugin-react": "7.31.10",
     "jsdom": "20.0.2",
-    "prisma": "4.5.0",
+    "prisma": "4.6.0",
     "prisma-merge": "0.2.0",
     "typescript": "4.8.4",
     "vite": "2.9.15",
