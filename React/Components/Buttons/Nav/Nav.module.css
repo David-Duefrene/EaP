@@ -1,13 +1,17 @@
-a.Nav, img.Nav {
-	padding: 0.5em 1em;
+li.Nav {
 	margin: 0;
-	text-decoration: none;
+	border-radius: 0;
 	border: unset;
 	border-bottom: solid 4px var(--highlight-color);
 	cursor: pointer;
-}
-
-.Item {
 	list-style-type: none;
 	display: inline-block;
+	height: unset;
+}
+
+.Nav > a {
+	color: var(--off-main-color);
+	padding: 1em;
+	padding-bottom: 1.5em;
+	text-decoration: none;
 }

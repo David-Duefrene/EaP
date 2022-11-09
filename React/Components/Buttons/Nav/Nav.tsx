@@ -8,9 +8,8 @@ const Nav = (props: { URL: string, children: string }) => {
 	const currentURL = useLocation().pathname
 
 	return (
-		<li className={CSS.Item}>
+		<li className={`Button ${CSS.Nav} ${currentButton === currentURL ? 'Active' : ''}`}>
 			<Link
-				className={`Button ${CSS.Nav} ${currentButton === currentURL ? 'Active' : ''}`}
 				to={props.URL} >
 				{props.children}
 			</Link>
