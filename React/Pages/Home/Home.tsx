@@ -20,7 +20,7 @@ const Home = () => {
 
 	// TODO: Need to determine if no characters exist and display a message to the user
 	if (characterSheets.length === 0) {
-		return <div />
+		return <AddCharacter />
 	}
 
 	const cardList = characters.map((el, key) => {

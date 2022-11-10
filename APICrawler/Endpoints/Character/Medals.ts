@@ -22,6 +22,7 @@ export default (characterAuthData: CharacterAuthData) => {
 				},
 				create: {
 					...medalData,
+					character: { connect: { characterID } },
 					graphics: JSON.stringify(graphics),
 				},
 			}).catch((error: Error) => {

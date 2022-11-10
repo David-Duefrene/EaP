@@ -11,13 +11,17 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 	}
 
 	// @ts-ignore
-	const keys = Object.keys(data[0])
-	const [ sortConfig, setSortConfig ] = useState(keys[0])
+	const keys = Object.keys(data[0]) // Pulls key from 1st object
+	const [ sortConfig, setSortConfig ] = useState(keys[0]) // Sets default sort to first key
+	const [ sortDirection, setSortDirection ] = useState('asc') // Sets default sort direction to ascending
 
 	const tableHeader = keys.map((el, key) => {
 		return (
 			<th className={CSS.Me} key={`Col-label-${key}`}>
-				<button className={CSS.Head} type='button' onClick={() => setSortConfig(el)}>
+				<button className={CSS.Head} type='button' onClick={() => {
+					setSortConfig(el)
+					setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+				}}>
 					{el}
 				</button>
 			</th>
@@ -25,14 +29,24 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 	})
 
 	data.sort((a: Record<string, string | number>, b: Record<string, string | number>) => {
+		if (sortDirection === 'asc') {
+			if (typeof a[sortConfig] === 'string' && typeof b[sortConfig] === 'string') {
+				return a[sortConfig].toLocaleString().localeCompare(b[sortConfig].toLocaleString())
+			}
+
+			if (a[sortConfig] > b[sortConfig]) {
+				return 1
+			}
+			return -1
+		}
 		if (typeof a[sortConfig] === 'string' && typeof b[sortConfig] === 'string') {
-			return a[sortConfig].toLocaleString().localeCompare(b[sortConfig].toLocaleString())
+			return b[sortConfig].toLocaleString().localeCompare(a[sortConfig].toLocaleString())
 		}
 
 		if (a[sortConfig] > b[sortConfig]) {
-			return 1
+			return -1
 		}
-		return -1
+		return 1
 	})
 
 	const tableBody = data.map((el: Record<string, any>, key: number) => {
