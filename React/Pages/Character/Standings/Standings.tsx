@@ -11,7 +11,7 @@ const Standings = () => {
 
 	useEffect(() => {
 		prisma.Standings.findMany(
-			{ where: { character: { every: { characterID } } } },
+			{ where: { characterID } },
 		).then((d: Standing) => {
 			setStandings(d)
 		})

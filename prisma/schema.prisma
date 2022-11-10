@@ -419,7 +419,8 @@ model CharacterSheet {
 }
 
 model AgentResearch {
-	character		 		Character[]
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
 	agentID					Int @id
 	pointsPerDay			Float
 	remainderPoints			Float
@@ -429,7 +430,8 @@ model AgentResearch {
 
 model Blueprint {
 	itemID					BigInt @id
-	character				Character[]
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
 	locationFlag			LocationFlag
 	locationID				BigInt
 	materialEfficiency		Int
@@ -440,7 +442,8 @@ model Blueprint {
 }
 
 model CorpHistory {
-	character				Character[]
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
 	corporationID			Int
 	recordID				Int @id
 	startDate				DateTime
@@ -456,7 +459,8 @@ model Fatigue {
 }
 
 model Medal {
-	character				Character[]
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
 	corporationID 			Int
 	date 					DateTime
 	description				String
@@ -469,7 +473,8 @@ model Medal {
 }
 
 model Notification {
-	character				Character[]
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
 	isRead					Boolean @default(false)
 	notificationID			Int @id
 	senderID				Int
@@ -480,7 +485,8 @@ model Notification {
 }
 
 model ContactNotification {
-	notification			Character[]
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
 	message 				String
 	notificationID			Int @id
 	sendDate				DateTime
@@ -498,14 +504,16 @@ model CorpRoles {
 }
 
 model Standings {
-	character				Character[]
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
 	fromID					Int @id
 	fromType				NPCStandingType
 	standing				Float
 }
 
 model Title {
-	character				Character[]
+	characterID				String
+	character				Character @relation(fields: [characterID], references: [characterID])
 	titleID					Int @id
 	name					String
 }

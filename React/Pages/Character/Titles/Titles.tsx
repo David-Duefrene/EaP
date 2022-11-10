@@ -11,7 +11,7 @@ const Titles = () => {
 
 	useEffect(() => {
 		prisma.Title.findMany(
-			{ where: { character: { every: { characterID } } } },
+			{ where: { characterID } },
 		).then((d: Title) => {
 			setTitles(d)
 		})

@@ -11,7 +11,7 @@ const Blueprints = () => {
 	const { characterID } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		prisma.blueprint.findMany({ where: { character: { every: { characterID } } } })
+		prisma.blueprint.findMany({ where: { characterID } })
 			.then((d: Blueprint[]) => {
 				setBlueprints(d)
 			})

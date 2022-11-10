@@ -11,7 +11,7 @@ const MedalList = () => {
 
 	useEffect(() => {
 		prisma.Medal.findMany(
-			{ where: { character: { every: { characterID } } } },
+			{ where: { characterID } },
 		).then((d: Medal) => {
 			setMedals(d)
 		})

@@ -11,7 +11,7 @@ const Notifications = () => {
 
 	useEffect(() => {
 		prisma.Notification.findMany(
-			{ where: { character: { every: { characterID } } } },
+			{ where: { characterID } },
 		).then((d: Notification) => {
 			setNotifications(d)
 		})
