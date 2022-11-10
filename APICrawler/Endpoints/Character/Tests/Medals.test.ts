@@ -69,11 +69,12 @@ describe('medals', () => {
 			where: { medalID: 1 },
 			update: {
 				...mockData,
-				character: {
-					connect: { characterID: '1' },
-				},
+				character: { connect: { characterID: '1' } },
 			},
-			create: { ...mockData, characterID: 1 },
+			create: {
+				...mockData,
+				character: { connect: { characterID: '1' } },
+			},
 		})
 	})
 })

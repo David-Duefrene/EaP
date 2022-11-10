@@ -55,7 +55,10 @@ describe('blueprints', () => {
 				...mockData,
 				character: { connect: { characterID: '1' } },
 			},
-			create: { ...mockData },
+			create: {
+				...mockData,
+				character: { connect: { characterID: '1' } },
+			},
 		})
 	})
 })
