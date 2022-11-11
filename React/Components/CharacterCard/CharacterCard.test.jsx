@@ -42,7 +42,7 @@ describe('CharacterCard', () => {
 	afterEach(cleanup)
 
 	test('should render the character name', () => {
-		expect(screen.getByText(character.name)).toBeTruthy()
+		expect(screen.getByText(`Name: ${character.name}`)).toBeTruthy()
 	})
 
 	test('should render the character ID', () => {
@@ -50,27 +50,27 @@ describe('CharacterCard', () => {
 	})
 
 	test('should render the character Alliance ID', () => {
-		expect(screen.getByText(`Alliance ID: ${character.allianceID}`)).toBeTruthy()
+		expect(screen.getByText(`Alliance: ${character.allianceID}`)).toBeTruthy()
 	})
 
 	test('should render the character birthday', () => {
-		expect(screen.getByText(`Character birthday: ${character.birthday}`)).toBeTruthy()
+		expect(screen.getByText(`Birthday: ${character.birthday}`)).toBeTruthy()
 	})
 
 	test('should render the character Bloodline ID', () => {
-		expect(screen.getByText(`Bloodline ID: ${character.bloodlineID}`)).toBeTruthy()
+		expect(screen.getByText(`Bloodline: ${character.bloodlineID}`)).toBeTruthy()
 	})
 
 	test('should render the character Corp ID', () => {
-		expect(screen.getByText(`Corp ID: ${character.corporationID}`)).toBeTruthy()
+		expect(screen.getByText(`Corporation: ${character.corporationID}`)).toBeTruthy()
 	})
 
 	test('should render the character Gender', () => {
 		expect(screen.getByText(`Gender: ${character.gender}`)).toBeTruthy()
 	})
 
-	test('should render the character Race ID', () => {
-		expect(screen.getByText(`Race ID: ${character.raceID}`)).toBeTruthy()
+	test('should render the character Race', () => {
+		expect(screen.getByText(`Race: ${character.raceID}`)).toBeTruthy()
 	})
 
 	test('should render the character Security Status', () => {
