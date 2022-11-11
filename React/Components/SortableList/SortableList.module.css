@@ -1,4 +1,4 @@
-.Head {
+.HeadButton {
 	width: 100%;
 	height: 100%;
 	margin: 0;
@@ -14,11 +14,12 @@ tr:nth-child(odd) {
 	background-color: darkgrey;
 }
 
-.Me {
-	background-color: var(--main-color);
+th.HeadCell {
+	border: unset;
+	display: table-cell;
 }
 
-.Me button {
+.HeadCell button {
 	padding: .5em;
 	border: unset;
 	padding: .5em;
