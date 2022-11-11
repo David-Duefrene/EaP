@@ -6,6 +6,7 @@
 	border-radius: 10px;
 	box-shadow: 0px 0px 7px var(--accent-color);
 	transition: filter 1s;
+	text-decoration: none;
 }
 
 .Card:hover, .Card:focus {
