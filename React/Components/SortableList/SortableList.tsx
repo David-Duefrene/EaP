@@ -15,14 +15,24 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 	const [ sortConfig, setSortConfig ] = useState(keys[0]) // Sets default sort to first key
 	const [ sortDirection, setSortDirection ] = useState('asc') // Sets default sort direction to ascending
 
+	const insertSpace = (str: string) => {
+		if (str.slice(-2) === 'ID') {
+			str = str.slice(0, -2)
+		}
+
+		return str.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => {
+			return str.toUpperCase()
+		})
+	}
+
 	const tableHeader = keys.map((el, key) => {
 		return (
-			<th className={CSS.Me} key={`Col-label-${key}`}>
-				<button className={CSS.Head} type='button' onClick={() => {
+			<th className={`Button ${CSS.HeadCell}`} key={`Col-label-${key}`}>
+				<button className={CSS.HeadButton} type='button' onClick={() => {
 					setSortConfig(el)
 					setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
 				}}>
-					{el}
+					{insertSpace(el)}
 				</button>
 			</th>
 		)
