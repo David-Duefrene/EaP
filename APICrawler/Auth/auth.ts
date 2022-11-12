@@ -148,7 +148,7 @@ class Auth {
 
 		const refreshToken = this.characterList[characterName].refreshToken
 		const payload = `grant_type=refresh_token&refresh_token=${refreshToken}&client_id=${env.CLIENT_ID}`
-
+		console.log(payload)
 		return GetAuth(payload).then((response) => {
 			const accessToken = response.data.access_token
 			const refreshToken = response.data.refresh_token
@@ -195,11 +195,7 @@ class Auth {
 			jwksUri: 'https://login.eveonline.com/oauth/jwks/',
 			timeout: 30000, // Defaults to 30s
 		})
-		/*
-		 * // TODO: Needs new axios request missing headers
-		 * https://docs.esi.evetech.net/docs/sso/refreshing_access_tokens.html
-		 * See Native Applications section
-		 */
+
 		return jwtVerifier.getSigningKey('JWT-Signature-Key').then((key) => {
 			return jwt.verify(accessToken, key.getPublicKey(), { algorithms: [ 'RS256' ] })
 		}).catch((error: Error) => {
