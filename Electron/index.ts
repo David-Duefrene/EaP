@@ -9,7 +9,9 @@ const {
 const Store = require('electron-store')
 const electronStore = new Store()
 
-const createWindow = () => {
+import PrismaClient from '../prisma/PrismaClient'
+
+const createWindow = async () => {
 	const win = new BrowserWindow({
 		width: 800,
 		height: 600,
@@ -24,26 +26,25 @@ const createWindow = () => {
 	const { signal } = controller
 	const child = fork('./APICrawler/vite-build/ElectronEntry.es.js', { signal })
 
-	// Pull all tokens from the store
-	const characterList = electronStore.get('characters', '')
-	if (characterList.length > 1) {
+	const characterIDList = await PrismaClient.character.findMany()
+	if (characterIDList.length > 1) {
 		const charDict = {}
-		for (const character of characterList) {
-			const buffer = Buffer.from(electronStore.get(character))
+		characterIDList.forEach((char: { name: string }) => {
+			const buffer = Buffer.from(electronStore.get(char.name))
 			const decryptedBuffer = safeStorage.decryptString(buffer)
-			charDict[character] = decryptedBuffer
-		}
+			charDict[char.name] = decryptedBuffer
+		})
 		child.send({ type: 'CharList', message: charDict })
 	}
 
 	// TODO create a proper message system
-	child.on('message', (message: any) => {
+	child.on('message', async (message: any) => {
 		if (message.type === 'url') {
 			shell.openExternal(message.message)
 		} else if (message.type === 'token') {
 			const name = message.message.name
 			const token = safeStorage.encryptString(message.message.refreshToken)
-			const charList = electronStore.get('characters', '')
+			const charList = await PrismaClient.character.findMany()
 
 			if (!charList.includes(name)) {
 				charList[name] = token

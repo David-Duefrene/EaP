@@ -90,7 +90,7 @@ class Auth {
 	// Private Methods
 
 	//* Handles the OAuth callback from EVEO
-	private handleOAuthCallback(data, verifier) {
+	private handleOAuthCallback(data, verifier: string) {
 		// Get the authCode from the URL
 		const authCode = data.toString().split(' ')[1].match(/(?<=code=).*(?=&)/)[0]
 		const postData = `grant_type=authorization_code&code=${authCode}&code_verifier=${verifier}&client_id=${env.CLIENT_ID}`
@@ -102,10 +102,9 @@ class Auth {
 			this.verifyJWT(accessToken).then((decodedJWT) => {
 				this.updateToken(refreshToken, decodedJWT, accessToken)
 			})
-		}).catch((error) => {
+		}).catch((error: Error) => {
 			// TODO: Make a logging system
-			console.log(`error: ${error}`)
-			console.log(error.response.data)
+			console.log(`OAuth error: ${error}`)
 		})
 	}
 
@@ -151,20 +150,19 @@ class Auth {
 		const payload = `grant_type=refresh_token&refresh_token=${refreshToken}&client_id=${env.CLIENT_ID}`
 
 		return GetAuth(payload).then((response) => {
-			const accessToken = response.data.accessToken
-			const refreshToken = response.data.refreshToken
+			const accessToken = response.data.access_token
+			const refreshToken = response.data.refresh_token
+
 			return this.verifyJWT(accessToken).then((decoded) => {
 				this.updateToken(refreshToken, decoded, accessToken)
 				return {
 					'name': decoded.name, accessToken, refreshToken,
 				}
-			}).catch((error) => {
-				console.log(`error: ${error}`)
-				console.log(error.response.data)
+			}).catch((error: Error) => {
+				console.log(`verifyJWT error: ${error}`)
 			})
-		}).catch((error) => {
-			console.log(`error: ${error}`)
-			console.log(error.response.data)
+		}).catch((error: Error) => {
+			console.log(`GetAuth error: ${error}`)
 		})
 	}
 
@@ -192,14 +190,20 @@ class Auth {
 	}
 
 	//* Verifies a JWT token
-	private verifyJWT(accessToken) {
+	private verifyJWT(accessToken: string) {
 		const jwtVerifier = jwksClient({
-			jwksUri: 'https://login.eveonline.com/oauth/jwks',
-			requestHeaders: {},
+			jwksUri: 'https://login.eveonline.com/oauth/jwks/',
 			timeout: 30000, // Defaults to 30s
 		})
+		/*
+		 * // TODO: Needs new axios request missing headers
+		 * https://docs.esi.evetech.net/docs/sso/refreshing_access_tokens.html
+		 * See Native Applications section
+		 */
 		return jwtVerifier.getSigningKey('JWT-Signature-Key').then((key) => {
 			return jwt.verify(accessToken, key.getPublicKey(), { algorithms: [ 'RS256' ] })
+		}).catch((error: Error) => {
+			console.log(`jwtVerifier.getSigningKey error: ${error}`)
 		})
 	}
 }
