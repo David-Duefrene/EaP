@@ -393,7 +393,7 @@ model Character {
 	name      	 			String @unique
 	createdAt 	 			DateTime @default(now())
 	updatedAt 	 			DateTime @updatedAt
-	characterID	 			String @unique
+	characterID	 			BigInt @unique
 	characterSheet			CharacterSheet?
 	agentResearch			AgentResearch[]
 	blueprint				Blueprint[]
@@ -408,7 +408,7 @@ model Character {
 }
 
 model CharacterSheet {
-	characterID				String @unique
+	characterID				BigInt @unique
 	character 	 			Character @relation(fields: [characterID], references: [characterID])
 	allianceID 	 			Int?
 	birthday  	 			DateTime
@@ -419,23 +419,23 @@ model CharacterSheet {
 	gender 		 			Gender
 	name 					String @unique
 	raceID 		 			Int
-	securityStatus			Float?
+	securityStatus			Float @default(0)
 	title 					String?
 }
 
 model AgentResearch {
-	characterID				String
+	characterID				BigInt
 	character				Character @relation(fields: [characterID], references: [characterID])
-	agentID					Int @id
+	agentID					Int @id // TODO: This is not unique, agent can be researched by multiple characters
 	pointsPerDay			Float
 	remainderPoints			Float
 	skillTypeID				Int
-	startedAt				String
+	startedAt				DateTime
 }
 
 model Blueprint {
 	itemID					BigInt @id
-	ownerID	  				String
+	ownerID	  				BigInt
 	owner  					Character @relation(fields: [ownerID], references: [characterID])
 	ownerType				OwnerType @default(character)
 	locationFlag			LocationFlag
@@ -448,7 +448,7 @@ model Blueprint {
 }
 
 model CorpHistory {
-	characterID				String
+	characterID				BigInt
 	character				Character @relation(fields: [characterID], references: [characterID])
 	corporationID			Int
 	recordID				Int @id
@@ -457,7 +457,7 @@ model CorpHistory {
 }
 
 model Fatigue {
-	characterID				String @id
+	characterID				BigInt @id
 	character				Character @relation(fields: [characterID], references: [characterID])
 	lastJumpDate			DateTime
 	lastUpdateDate			DateTime
@@ -465,24 +465,24 @@ model Fatigue {
 }
 
 model Medal {
-	characterID				String
+	characterID				BigInt
 	character				Character @relation(fields: [characterID], references: [characterID])
 	corporationID 			Int
 	date 					DateTime
 	description				String
 	graphics				String
 	issuerID 				Int
-	medalID 				Int @id
+	medalID 				Int @id // TODO: can be issues to multiple characters
 	reason 					String
 	status					Status
 	title 					String
 }
 
 model Notification {
-	characterID				String
+	characterID				BigInt
 	character				Character @relation(fields: [characterID], references: [characterID])
 	isRead					Boolean @default(false)
-	notificationID			Int @id
+	notificationID			BigInt @id
 	senderID				Int
 	senderType				SenderType
 	text					String?
@@ -491,7 +491,7 @@ model Notification {
 }
 
 model ContactNotification {
-	characterID				String
+	characterID				BigInt
 	character				Character @relation(fields: [characterID], references: [characterID])
 	message 				String
 	notificationID			Int @id
@@ -501,7 +501,7 @@ model ContactNotification {
 }
 
 model CorpRoles {
-	characterID				String @id
+	characterID				BigInt @id
 	character				Character @relation(fields: [characterID], references: [characterID])
 	roles					CorpRole[] @default([None])
 	rolesAtBase				CorpRole[] @default([None])
@@ -510,7 +510,7 @@ model CorpRoles {
 }
 
 model Standings {
-	characterID				String
+	characterID				BigInt
 	character				Character @relation(fields: [characterID], references: [characterID])
 	fromID					Int @id
 	fromType				NPCStandingType
@@ -518,7 +518,7 @@ model Standings {
 }
 
 model Title {
-	characterID				String
+	characterID				BigInt
 	character				Character @relation(fields: [characterID], references: [characterID])
 	titleID					Int @id
 	name					String
