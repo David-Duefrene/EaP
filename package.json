@@ -11,7 +11,8 @@
     "build-Electron": "vite build ./Electron",
     "build-Auth": "vite build ./APICrawler",
     "studio": "npx prisma studio",
-    "migrate": "npx prisma migrate dev"
+    "migrate": "npx prisma migrate dev",
+	"generate": "npx prisma migrate dev --create-only"
   },
   "author": "",
   "license": "MIT",

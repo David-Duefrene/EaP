@@ -7,6 +7,11 @@ datasource db {
 	url      = env("DATABASE_URL")
 }
 
+enum OwnerType {
+	character
+	corporation
+}
+
 enum Gender {
 	female
 	male
@@ -430,8 +435,9 @@ model AgentResearch {
 
 model Blueprint {
 	itemID					BigInt @id
-	characterID				String
-	character				Character @relation(fields: [characterID], references: [characterID])
+	ownerID	  				String
+	owner  					Character @relation(fields: [ownerID], references: [characterID])
+	ownerType				OwnerType @default(character)
 	locationFlag			LocationFlag
 	locationID				BigInt
 	materialEfficiency		Int
