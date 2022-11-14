@@ -16,7 +16,7 @@ describe('PublicCharacterData', () => {
 			default: vi.fn().mockResolvedValue({
 				data: {
 					name: 'name',
-					characterID: 1,
+					characterID: 1n,
 					ancestryID: 1,
 					birthday: new Date('2022-10-06T02:09:38.981Z'),
 					bloodlineID: 1,
@@ -35,13 +35,13 @@ describe('PublicCharacterData', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1')
 		expect(prisma.Character.upsert).toBeCalledTimes(1)
 		const mockData = {
-			where: { characterID: '1' },
+			where: { characterID: 1n },
 			create: {
-				characterID: '1',
+				characterID: 1n,
 				characterSheet: {
 					create: {
 						name: 'name',
-						characterID: 1,
+						characterID: 1n,
 						ancestryID: 1,
 						birthday: new Date('2022-10-06T02:09:38.981Z'),
 						bloodlineID: 1,
@@ -52,11 +52,11 @@ describe('PublicCharacterData', () => {
 				name: 'name',
 			},
 			update: {
-				characterID: '1',
+				characterID: 1n,
 				characterSheet: {
 					update: {
 						name: 'name',
-						characterID: 1,
+						characterID: 1n,
 						ancestryID: 1,
 						birthday: new Date('2022-10-06T02:09:38.981Z'),
 						bloodlineID: 1,

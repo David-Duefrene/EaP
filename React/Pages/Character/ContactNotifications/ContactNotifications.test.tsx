@@ -1,11 +1,8 @@
 // @vitest-environment jsdom
 import React from 'react'
-import {
-	createBrowserRouter, createRoutesFromElements, RouterProvider, Route,
-} from 'react-router-dom'
 
 import {
-	cleanup, render, screen, waitForElementToBeRemoved,
+	cleanup, render, screen,
 } from '@testing-library/react'
 
 import ContactNotifications from './ContactNotifications'
@@ -36,10 +33,7 @@ describe('ContactNotifications', () => {
 			cleanup()
 		})
 
-		const router = createBrowserRouter(createRoutesFromElements(
-			<Route path='/' element={<ContactNotifications />} />,
-		))
-		render(<RouterProvider router={router}></RouterProvider>)
+		render(<ContactNotifications />)
 	})
 
 	test('should render a Table', () => {

@@ -1,8 +1,5 @@
 // @vitest-environment jsdom
 import React from 'react'
-import {
-	createBrowserRouter, createRoutesFromElements, RouterProvider, Route,
-} from 'react-router-dom'
 
 import {
 	expect, test, afterEach, describe, beforeEach, vi,
@@ -35,11 +32,7 @@ describe('Blueprint', () => {
 			},
 		}))
 
-		const router = createBrowserRouter(createRoutesFromElements(
-			<Route path='/' element={<Blueprints />} />,
-		))
-
-		render(<RouterProvider router={router} />)
+		render(<Blueprints />)
 	})
 
 	afterEach(cleanup)

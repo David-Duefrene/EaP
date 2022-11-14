@@ -7,8 +7,7 @@ import Standing from '../../../../Types/APIResponses/EveOfficial/Standings.types
 
 const Standings = () => {
 	const [ standings, setStandings ] = useState<Standing>()
-	const { characterID } = useParams<{ characterID: string }>()
-	if (characterID === undefined) return <h1>Character ID invalid</h1>
+	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
 		prisma.Standings.findMany(

@@ -53,11 +53,11 @@ describe('blueprints', () => {
 			where: { itemID: 1 },
 			update: {
 				...mockData,
-				character: { connect: { characterID: '1' } },
+				owner: { connect: { characterID: '1' } },
 			},
 			create: {
 				...mockData,
-				character: { connect: { characterID: '1' } },
+				owner: { connect: { characterID: '1' } },
 			},
 		})
 	})

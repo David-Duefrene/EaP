@@ -7,8 +7,7 @@ import Notification from '../../../../Types/APIResponses/EveOfficial/Notificatio
 
 const Notifications = () => {
 	const [ notifications, setNotifications ] = useState<Notification>()
-	const { characterID } = useParams<{ characterID: string }>()
-	if (characterID === undefined) return <h1>Character ID invalid</h1>
+	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
 		prisma.Notification.findMany(
