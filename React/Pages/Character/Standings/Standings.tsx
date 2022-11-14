@@ -7,11 +7,11 @@ import Standing from '../../../../Types/APIResponses/EveOfficial/Standings.types
 
 const Standings = () => {
 	const [ standings, setStandings ] = useState<Standing>()
-	const { characterID } = useParams<{ characterID: string }>()
+	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
 		prisma.Standings.findMany(
-			{ where: { characterID } },
+			{ where: { characterID: BigInt(characterID) } },
 		).then((d: Standing) => {
 			setStandings(d)
 		})

@@ -13,11 +13,11 @@ const CorpRoles = () => {
 		rolesAtOther: [ Roles.None ],
 	})
 	const [ isLoading, setIsLoading ] = useState(true)
-	const { characterID } = useParams<{ characterID: string }>()
+	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
 		prisma.corpRoles.findUnique(
-			{ where: { characterID } },
+			{ where: { characterID: BigInt(characterID) } },
 		).then((d: CorpRole) => {
 			setCorpRoles(d)
 			setIsLoading(false)

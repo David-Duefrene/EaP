@@ -31,7 +31,7 @@ class Auth {
 	service: string
 	sendMessage: SendMessage
 	characterList: Record<string, {
-		accessToken: string, refreshToken: string, expiration: Date, characterID: number,
+		accessToken: string, refreshToken: string, expiration: Date, characterID: bigint,
 	}>
 
 	constructor(sendMessage = defaultSendMessage, receiveMessage = defaultReceiveMessage) {
@@ -46,7 +46,7 @@ class Auth {
 				for (const [ name, refreshToken ] of Object.entries(message.message)) {
 					console.log(`${name} - ${refreshToken}`)
 					this.characterList[name] = {
-						accessToken: '', refreshToken, expiration: new Date, characterID: -1,
+						accessToken: '', refreshToken, expiration: new Date, characterID: BigInt(-1),
 					}
 				}
 				this.refreshAllTokens()
@@ -177,7 +177,7 @@ class Auth {
 	private updateToken(refreshToken: string, decodedJWT, accessToken = '') {
 		const expiration = new Date()
 		expiration.setMinutes(expiration.getMinutes() + 19)
-		const characterID = decodedJWT.sub.split(':')[2]
+		const characterID = BigInt(decodedJWT.sub.split(':')[2])
 		this.characterList[decodedJWT.name] = {
 			accessToken, refreshToken, expiration, characterID,
 		}
@@ -185,7 +185,6 @@ class Auth {
 			message: {
 				'name': decodedJWT.name,
 				'refreshToken': refreshToken,
-				characterID,
 			} })
 	}
 

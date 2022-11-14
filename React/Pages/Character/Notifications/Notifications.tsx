@@ -7,11 +7,11 @@ import Notification from '../../../../Types/APIResponses/EveOfficial/Notificatio
 
 const Notifications = () => {
 	const [ notifications, setNotifications ] = useState<Notification>()
-	const { characterID } = useParams<{ characterID: string }>()
+	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
 		prisma.Notification.findMany(
-			{ where: { characterID } },
+			{ where: { characterID: BigInt(characterID) } },
 		).then((d: Notification) => {
 			setNotifications(d)
 		})

@@ -11,6 +11,8 @@ const electronStore = new Store()
 
 import PrismaClient from '../prisma/PrismaClient'
 
+import type { Character } from '@prisma/client'
+
 const createWindow = async () => {
 	const win = new BrowserWindow({
 		width: 800,
@@ -22,14 +24,16 @@ const createWindow = async () => {
 			// Preload: path.join(__dirname, 'preload.js'),
 		},
 	})
+
 	const controller = new AbortController()
 	const { signal } = controller
 	const child = fork('./APICrawler/vite-build/ElectronEntry.es.js', { signal })
 
 	const characterIDList = await PrismaClient.character.findMany()
-	if (characterIDList.length > 1) {
-		const charDict = {}
-		characterIDList.forEach((char: { name: string }) => {
+
+	if (characterIDList.length > 0) {
+		const charDict: Record<string, Character> = {}
+		characterIDList.forEach((char: Character) => {
 			const buffer = Buffer.from(electronStore.get(char.name))
 			const decryptedBuffer = safeStorage.decryptString(buffer)
 			charDict[char.name] = decryptedBuffer
@@ -42,6 +46,12 @@ const createWindow = async () => {
 		if (message.type === 'url') {
 			shell.openExternal(message.message)
 		} else if (message.type === 'token') {
+			// @ts-ignore
+			BigInt.prototype.toJSON = function () {
+				// Allows electron to store the characterID
+				return this.toString()
+			}
+
 			const name = message.message.name
 			const token = safeStorage.encryptString(message.message.refreshToken)
 			const charList = await PrismaClient.character.findMany()
@@ -72,16 +82,14 @@ const createWindow = async () => {
 		child.send({ type: 'Login', message: 'Login' })
 	})
 
-	/*
-	 * TODO check if in dev or build
-	 */
+	// TODO check if in dev or build
 	win.loadURL('http://localhost:3000')
 }
 
 app.whenReady().then(() => {
 	createWindow()
 }).catch((err: Error) => {
-	console.log(err)
+	console.log('app.whenReady error\n', err)
 })
 
 app.on('window-all-closed', () => {

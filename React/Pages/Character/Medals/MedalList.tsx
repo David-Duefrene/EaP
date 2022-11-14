@@ -7,11 +7,11 @@ import Medal from '../../../../Types/APIResponses/EveOfficial/Medals.types'
 
 const MedalList = () => {
 	const [ medals, setMedals ] = useState<Medal>()
-	const { characterID } = useParams<{ characterID: string }>()
+	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
 		prisma.Medal.findMany(
-			{ where: { characterID } },
+			{ where: { characterID: BigInt(characterID) } },
 		).then((d: Medal) => {
 			setMedals(d)
 		})

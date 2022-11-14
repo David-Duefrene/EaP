@@ -7,10 +7,10 @@ import ContactNotification from '../../../../Types/APIResponses/EveOfficial/Cont
 
 const ContactNotifications = () => {
 	const [ contactNotifications, setContactNotifications ] = useState<ContactNotification[]>()
-	const { characterID } = useParams<{ characterID: string }>()
+	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		prisma.contactNotification.findMany({ where: { characterID } })
+		prisma.contactNotification.findMany({ where: { characterID: BigInt(characterID) } })
 			.then((d: ContactNotification[]) => {
 				setContactNotifications(d)
 			})

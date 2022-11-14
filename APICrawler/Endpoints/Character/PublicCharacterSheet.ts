@@ -8,10 +8,10 @@ export default (characterAuthData: CharacterAuthData) => {
 
 	return ESIRequest(`characters/${characterID}`).then(async (result: { data: Character }) => {
 		const { name } = result.data
-		const characterData = { name, characterID }
+		const characterData = { name, characterID: BigInt(characterID) }
 
 		await prisma.Character.upsert({
-			where: { characterID },
+			where: { characterID: BigInt(characterID) },
 			update: {
 				...characterData,
 				characterSheet: {
