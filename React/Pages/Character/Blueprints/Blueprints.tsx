@@ -9,9 +9,10 @@ import SortableList from '../../../Components/SortableList/SortableList'
 const Blueprints = () => {
 	const [ blueprints, setBlueprints ] = useState<Blueprint[]>([])
 	const { characterID } = useParams<{ characterID: string }>()
+	if (characterID === undefined) return <h1>Character ID invalid</h1>
 
 	useEffect(() => {
-		prisma.blueprint.findMany({ where: { ownerID: characterID } })
+		prisma.blueprint.findMany({ where: { ownerID: BigInt(characterID) } })
 			.then((d: Blueprint[]) => {
 				setBlueprints(d)
 			})

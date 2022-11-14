@@ -8,9 +8,10 @@ import CorpHistory from '../../../../Types/APIResponses/EveOfficial/CorpHistory.
 const CorpHistoryList = () => {
 	const [ corpHistory, setCorpHistory ] = useState<CorpHistory[]>()
 	const { characterID } = useParams<{ characterID: string }>()
+	if (characterID === undefined) return <h1>Character ID invalid</h1>
 
 	useEffect(() => {
-		prisma.corpHistory.findMany({ where: { characterID } })
+		prisma.corpHistory.findMany({ where: { characterID: BigInt(characterID) } })
 			.then((d: CorpHistory[]) => {
 				setCorpHistory(d)
 			})

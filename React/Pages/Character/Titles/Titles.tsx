@@ -8,10 +8,11 @@ import Title from '../../../../Types/APIResponses/EveOfficial/Title.types'
 const Titles = () => {
 	const [ titles, setTitles ] = useState<Title>()
 	const { characterID } = useParams<{ characterID: string }>()
+	if (characterID === undefined) return <h1>Character ID invalid</h1>
 
 	useEffect(() => {
 		prisma.Title.findMany(
-			{ where: { characterID } },
+			{ where: { characterID: BigInt(characterID) } },
 		).then((d: Title) => {
 			setTitles(d)
 		})
