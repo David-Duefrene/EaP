@@ -148,7 +148,7 @@ class Auth {
 
 		const refreshToken = this.characterList[characterName].refreshToken
 		const payload = `grant_type=refresh_token&refresh_token=${refreshToken}&client_id=${env.CLIENT_ID}`
-
+		console.log(payload)
 		return GetAuth(payload).then((response) => {
 			const accessToken = response.data.access_token
 			const refreshToken = response.data.refresh_token
