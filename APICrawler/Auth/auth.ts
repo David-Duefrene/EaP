@@ -16,11 +16,9 @@ import GetAuth from '../axiosRequests/axiosGetAuth'
 // Types
 import type { Socket } from 'node:net'
 import type Log from '../../Electron/MessagingSystem/Message.types'
-type SendMessage = (message: Log) => void;
-type Token = {
-	access_token: string,
-	refresh_token: string,
-}
+import type {
+	SendMessage, Token, JWT,
+} from './auth.types'
 
 // https://docs.esi.evetech.net/docs/sso/native_sso_flow.html
 
@@ -110,7 +108,7 @@ class Auth {
 		GetAuth(postData).then((response: { data: Token }) => {
 			const accessToken = response.data.access_token
 			const refreshToken = response.data.refresh_token
-			this.verifyJWT(accessToken).then((decodedJWT) => {
+			this.verifyJWT(accessToken).then((decodedJWT: JWT) => {
 				this.updateToken(refreshToken, decodedJWT, accessToken)
 			})
 		}).catch((error: Error) => {
@@ -186,7 +184,7 @@ class Auth {
 	}
 
 	//*	Updates the character to the character list & key chain
-	private updateToken(refreshToken: string, decodedJWT, accessToken = '') {
+	private updateToken(refreshToken: string, decodedJWT: JWT, accessToken = '') {
 		const expiration = new Date()
 		expiration.setMinutes(expiration.getMinutes() + 19)
 		const characterID = BigInt(decodedJWT.sub.split(':')[2])
@@ -194,7 +192,7 @@ class Auth {
 			accessToken, refreshToken, expiration, characterID,
 		}
 		this.sendMessage({ type: 'token',
-			message: {
+			log: {
 				'name': decodedJWT.name,
 				'refreshToken': refreshToken,
 			} })

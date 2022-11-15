@@ -19,11 +19,11 @@ const MessageController = (apiChild: ChildProcess) => {
 				return this.toString()
 			}
 
-			const name = message.message.name
-			const token = safeStorage.encryptString(message.message.refreshToken)
+			const name = message.log.name
+			const token = safeStorage.encryptString(message.log.refreshToken)
 
 			electronStore.set(name, token)
-			apiChild.send({ type: 'refreshAPI', message: '' })
+			apiChild.send({ type: 'refreshAPI' })
 		} else if (message.type === 'tokenExpired') {
 			const name = message.log.characterName
 			// TODO: Alert user that their token has expired
