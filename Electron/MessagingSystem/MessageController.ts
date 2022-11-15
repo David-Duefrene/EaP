@@ -26,12 +26,8 @@ const MessageController = (apiChild: ChildProcess) => {
 			apiChild.send({ type: 'refreshAPI', message: '' })
 		} else if (message.type === 'tokenExpired') {
 			const name = message.message.characterName
-			const charList = electronStore.get('characters', '')
-
-			if (name in charList) {
-				delete charList[name]
-				electronStore.set('characters', charList)
-			}
+			// TODO: Alert user that their token has expired
+			console.log('tokenExpired', name)
 		} else if (message.type === 'log') {
 			console.log('Electron log')
 			console.dir(message)
