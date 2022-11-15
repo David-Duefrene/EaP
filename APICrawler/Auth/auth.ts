@@ -15,7 +15,7 @@ import GetAuth from '../axiosRequests/axiosGetAuth'
 
 // Types
 import { Socket } from 'node:net'
-type Log = { type: string, log: string | Record<string, string> };
+type Log = { type: string, log: string | Record<string, string> }
 type SendMessage = (message: Log) => void;
 
 // https://docs.esi.evetech.net/docs/sso/native_sso_flow.html
@@ -50,7 +50,7 @@ class Auth {
 			if (message.type === 'Login') {
 				this.addNewCharacter()
 			} else if (message.type === 'CharList') {
-				for (const [ name, refreshToken ] of Object.entries(message.message)) {
+				for (const [ name, refreshToken ] of Object.entries(message.log)) {
 					this.characterList[name] = {
 						accessToken: '', refreshToken, expiration: new Date, characterID: BigInt(-1),
 					}
