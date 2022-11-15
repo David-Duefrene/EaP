@@ -15,6 +15,7 @@ import GetAuth from '../axiosRequests/axiosGetAuth'
 
 // Types
 import type { Socket } from 'node:net'
+import type { RsaSigningKey } from 'jwks-rsa'
 import type Log from '../../Electron/MessagingSystem/Message.types'
 import type {
 	SendMessage, Token, JWT,
@@ -65,8 +66,7 @@ class Auth {
 	//* Retrieves a character's token
 	getToken(characterName: string) {
 		if (characterName in this.characterList) {
-			return this.refreshToken(characterName).then((result) => {
-				// Not running: console.log('Result: ', result)
+			return this.refreshToken(characterName).then((result: any) => {
 				return result
 			})
 		}
@@ -112,7 +112,7 @@ class Auth {
 				this.updateToken(refreshToken, decodedJWT, accessToken)
 			})
 		}).catch((error: Error) => {
-			this.sendMessage({ type: 'log', log: { error } })
+			this.sendMessage({ type: 'log', log: error })
 		})
 	}
 
@@ -161,17 +161,17 @@ class Auth {
 			const accessToken = response.data.access_token
 			const refreshToken = response.data.refresh_token
 
-			return this.verifyJWT(accessToken).then((decoded) => {
+			return this.verifyJWT(accessToken).then((decoded: JWT) => {
 				this.updateToken(refreshToken, decoded, accessToken)
 				return {
 					'name': decoded.name, accessToken, refreshToken,
 				}
 			}).catch((error: Error) => {
-				this.sendMessage({ type: 'error', log: { error } })
+				this.sendMessage({ type: 'log', log: error })
 				return error
 			})
 		}).catch((error: Error) => {
-			this.sendMessage({ type: 'error', log: { error } })
+			this.sendMessage({ type: 'log', log: error })
 			return error
 		})
 	}
@@ -205,10 +205,10 @@ class Auth {
 			timeout: 30000, // Defaults to 30s
 		})
 
-		return jwtVerifier.getSigningKey('JWT-Signature-Key').then((key) => {
+		return jwtVerifier.getSigningKey('JWT-Signature-Key').then((key: RsaSigningKey) => {
 			return jwt.verify(accessToken, key.getPublicKey(), { algorithms: [ 'RS256' ] })
 		}).catch((error: Error) => {
-			console.log(`jwtVerifier.getSigningKey error: ${error}`)
+			this.sendMessage({ type: 'log', log: error })
 		})
 	}
 }
