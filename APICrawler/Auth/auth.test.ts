@@ -16,13 +16,13 @@ describe('Auth', () => {
 			'character1': {
 				accessToken: '',
 				refreshToken: '',
-				characterID: 1,
+				characterID: 1n,
 				expiration: new Date,
 			},
 			'character2': {
 				accessToken: '',
 				refreshToken: '',
-				characterID: 2,
+				characterID: 2n,
 				expiration: new Date,
 			},
 		}
@@ -61,8 +61,21 @@ describe('Auth', () => {
 		testDate.setMinutes(19)
 
 		const decoded = {
+			scp: ['scp'],
+			jti: 'jti',
+			kid: 'kid',
 			sub: 'CHARACTER:EVE:123123',
+			azp: 'azp',
+			tenant: 'tranquility',
+			tier: 'tier',
+			region: 'region',
+			aud: 'aud',
 			name: 'character1',
+			owner: 'owner',
+			exp: 1577836800,
+			iat: 1577836800,
+			iss: 'iss',
+
 		}
 
 		auth['updateToken']('refreshToken', decoded, 'accessToken')
@@ -77,7 +90,7 @@ describe('Auth', () => {
 			'character1': {
 				accessToken: 'accessToken',
 				refreshToken: 'refreshToken',
-				characterID: 1,
+				characterID: 1n,
 				expiration: new Date('5000-01-01'),
 			},
 		}
@@ -94,7 +107,7 @@ describe('Auth', () => {
 			'character1': {
 				accessToken: 'accessToken',
 				refreshToken: 'refreshToken',
-				characterID: 1,
+				characterID: 1n,
 				expiration: new Date('1995-12-17T03:24:00'),
 			},
 		}
@@ -103,7 +116,7 @@ describe('Auth', () => {
 		expect(auth.characterList.character1).toBeUndefined()
 		expect(mockSendFn).toHaveBeenCalledWith({
 			'type': 'tokenExpired',
-			'message': 'character1',
+			'log': { characterName: 'character1' },
 		})
 	})
 })
