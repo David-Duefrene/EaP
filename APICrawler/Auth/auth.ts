@@ -1,28 +1,35 @@
-/* eslint-disable no-console */
+// Env
 require('dotenv').config()
 const env = process.env
 
+// Node
 const { randomBytes, createHash } = require('crypto')
 const net = require('net')
 
+// OAuth
 const jwksClient = require('jwks-rsa')
 const jwt = require('jsonwebtoken')
 
+// Local
 import GetAuth from '../axiosRequests/axiosGetAuth'
 
-type Message = { 'type': string, 'message': string | Record<string, string> };
-type SendMessage = (message: Message) => void;
+// Types
+import { Socket } from 'node:net'
+type Log = { type: string, log: string | Record<string, string> };
+type SendMessage = (message: Log) => void;
+
+// https://docs.esi.evetech.net/docs/sso/native_sso_flow.html
 
 //* Checks for process.send & sends it, this is to prevent Typescript errors
-const defaultSendMessage = (message: Message) => {
+const defaultSendMessage = (message: Log) => {
 	if (process.send) {
 		process.send(message)
 	}
 }
 
 //* Sends a message to the main process
-const defaultReceiveMessage = (processMessages: (arg0: Message) => void) => {
-	process.on('message', (message: Message) => {
+const defaultReceiveMessage = (processMessages: (arg0: Log) => void) => {
+	process.on('message', (message: Log) => {
 		processMessages(message)
 	})
 }
@@ -39,12 +46,11 @@ class Auth {
 		this.sendMessage = sendMessage
 		this.characterList = {}
 
-		receiveMessage((message: Message) => {
+		receiveMessage((message: Log) => {
 			if (message.type === 'Login') {
 				this.addNewCharacter()
 			} else if (message.type === 'CharList') {
 				for (const [ name, refreshToken ] of Object.entries(message.message)) {
-					console.log(`${name} - ${refreshToken}`)
 					this.characterList[name] = {
 						accessToken: '', refreshToken, expiration: new Date, characterID: BigInt(-1),
 					}
@@ -58,6 +64,7 @@ class Auth {
 	getToken(characterName: string) {
 		if (characterName in this.characterList) {
 			return this.refreshToken(characterName).then((result) => {
+				// Not running: console.log('Result: ', result)
 				return result
 			})
 		}
@@ -66,19 +73,15 @@ class Auth {
 
 	//* Retrieves the access & refresh tokens for a new character
 	addNewCharacter() {
-		// https://docs.esi.evetech.net/docs/sso/native_sso_flow.html
 		const verifier = this.GeneratePCKEVerifier()
 
 		const server = net.createServer()
 		server.listen(80, 'localhost', () => {
-			/*
-			 * Listening for the response from EVEO
-			 * TODO: Make a logging system
-			 */
-			console.log('connected to server!')
+			// Listening for the response from EVEO
+			this.sendMessage({ type: 'log', log: { message: 'Listening for response from EVEO' } })
 		})
 
-		server.on('connection', (socket) => {
+		server.on('connection', (socket: Socket) => {
 			socket.on('data', (data) => {
 				this.handleOAuthCallback(data, verifier)
 				socket.end('<h1>You may close this tab now.</h1>')
@@ -90,10 +93,15 @@ class Auth {
 	// Private Methods
 
 	//* Handles the OAuth callback from EVEO
-	private handleOAuthCallback(data, verifier: string) {
+	private handleOAuthCallback(data: Buffer, verifier: string) {
 		// Get the authCode from the URL
-		const authCode = data.toString().split(' ')[1].match(/(?<=code=).*(?=&)/)[0]
-		const postData = `grant_type=authorization_code&code=${authCode}&code_verifier=${verifier}&client_id=${env.CLIENT_ID}`
+
+		const authCode = data.toString().match(/(?<=code=).*(?=&)/)
+		if (authCode === null) {
+			throw new Error('No authCode found')
+		}
+
+		const postData = `grant_type=authorization_code&code=${authCode[0]}&code_verifier=${verifier}&client_id=${env.CLIENT_ID}`
 
 		// Now try and get the full refresh token
 		GetAuth(postData).then((response) => {
