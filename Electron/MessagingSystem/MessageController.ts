@@ -6,12 +6,12 @@ const electronStore = new Store()
 // Types
 import { ChildProcess } from 'node:child_process'
 
-type Message = { type: string; message: { name: string; refreshToken: string; characterName: string } }
+import type Log from './Message.types'
 
 const MessageController = (apiChild: ChildProcess) => {
-	return (message: Message) => {
+	return (message: Log) => {
 		if (message.type === 'url') {
-			shell.openExternal(message.message)
+			shell.openExternal(message.log.url)
 		} else if (message.type === 'token') {
 			// @ts-ignore
 			BigInt.prototype.toJSON = function () {
