@@ -39,7 +39,7 @@ const MessageController = (apiChild: ChildProcess) => {
 			}
 		} else if (message.type === 'log') {
 			console.log('Electron log')
-			console.log(message)
+			console.dir(message)
 		}
 	}
 }
