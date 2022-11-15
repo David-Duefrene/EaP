@@ -4,11 +4,12 @@ require('dotenv').config()
 const { fork } = require('node:child_process')
 
 const {
-	app, BrowserWindow, shell, ipcMain, safeStorage,
+	app, BrowserWindow, ipcMain, safeStorage,
 } = require('electron')
 const Store = require('electron-store')
 const electronStore = new Store()
 
+import MessageController from './MessagingSystem/MessageController'
 import PrismaClient from '../prisma/PrismaClient'
 
 import type { Character } from '@prisma/client'
@@ -41,42 +42,11 @@ const createWindow = async () => {
 		child.send({ type: 'CharList', message: charDict })
 	}
 
-	// TODO create a proper message system
-	child.on('message', async (message: any) => {
-		if (message.type === 'url') {
-			shell.openExternal(message.message)
-		} else if (message.type === 'token') {
-			// @ts-ignore
-			BigInt.prototype.toJSON = function () {
-				// Allows electron to store the characterID
-				return this.toString()
-			}
+	// Messaging system
+	const messageController = MessageController(child)
+	child.on('message', messageController)
 
-			const name = message.message.name
-			const token = safeStorage.encryptString(message.message.refreshToken)
-			const charList = await PrismaClient.character.findMany()
-
-			if (!charList.includes(name)) {
-				charList[name] = token
-				electronStore.set('characters', charList)
-			}
-			electronStore.set(name, token)
-			child.send({ type: 'refreshAPI', message: '' })
-		} else if (message.type === 'tokenExpired') {
-			const name = message.message.characterName
-			const charList = electronStore.get('characters', '')
-
-			if (name in charList) {
-				delete charList[name]
-				electronStore.set('characters', charList)
-			}
-		} else if (message.type === 'log') {
-			console.log('Electron log')
-			console.log(message)
-		}
-	})
-
-	ipcMain.on('Login', (event: { preventDefault: () => void }) => {
+	ipcMain.on('Login', (event: Event) => {
 		event.preventDefault()
 		console.log('Login')
 		child.send({ type: 'Login', message: 'Login' })
