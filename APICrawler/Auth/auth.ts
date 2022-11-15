@@ -95,7 +95,6 @@ class Auth {
 	//* Handles the OAuth callback from EVEO
 	private handleOAuthCallback(data: Buffer, verifier: string) {
 		// Get the authCode from the URL
-
 		const authCode = data.toString().match(/(?<=code=).*(?=&)/)
 		if (authCode === null) {
 			throw new Error('No authCode found')
@@ -104,15 +103,18 @@ class Auth {
 		const postData = `grant_type=authorization_code&code=${authCode[0]}&code_verifier=${verifier}&client_id=${env.CLIENT_ID}`
 
 		// Now try and get the full refresh token
-		GetAuth(postData).then((response) => {
+		type Token = {
+			access_token: string,
+			refresh_token: string,
+		}
+		GetAuth(postData).then((response: { data: Token }) => {
 			const accessToken = response.data.access_token
 			const refreshToken = response.data.refresh_token
 			this.verifyJWT(accessToken).then((decodedJWT) => {
 				this.updateToken(refreshToken, decodedJWT, accessToken)
 			})
 		}).catch((error: Error) => {
-			// TODO: Make a logging system
-			console.log(`OAuth error: ${error}`)
+			this.sendMessage({ type: 'log', log: { message: error.message } })
 		})
 	}
 
