@@ -17,6 +17,10 @@ import GetAuth from '../axiosRequests/axiosGetAuth'
 import type { Socket } from 'node:net'
 import type Log from '../../Electron/MessagingSystem/Message.types'
 type SendMessage = (message: Log) => void;
+type Token = {
+	access_token: string,
+	refresh_token: string,
+}
 
 // https://docs.esi.evetech.net/docs/sso/native_sso_flow.html
 
@@ -103,10 +107,6 @@ class Auth {
 		const postData = `grant_type=authorization_code&code=${authCode[0]}&code_verifier=${verifier}&client_id=${env.CLIENT_ID}`
 
 		// Now try and get the full refresh token
-		type Token = {
-			access_token: string,
-			refresh_token: string,
-		}
 		GetAuth(postData).then((response: { data: Token }) => {
 			const accessToken = response.data.access_token
 			const refreshToken = response.data.refresh_token
@@ -150,7 +150,7 @@ class Auth {
 	private refreshToken(characterName: string) {
 		const expiration = this.characterList[characterName].expiration
 		if (expiration < new Date || expiration === undefined) {
-			this.sendMessage({ type: 'tokenExpired', message: characterName })
+			this.sendMessage({ type: 'tokenExpired', log: { characterName } })
 
 			delete this.characterList[characterName]
 			return false
@@ -158,8 +158,8 @@ class Auth {
 
 		const refreshToken = this.characterList[characterName].refreshToken
 		const payload = `grant_type=refresh_token&refresh_token=${refreshToken}&client_id=${env.CLIENT_ID}`
-		console.log(payload)
-		return GetAuth(payload).then((response) => {
+
+		return GetAuth(payload).then((response: { data: Token }) => {
 			const accessToken = response.data.access_token
 			const refreshToken = response.data.refresh_token
 
@@ -169,10 +169,12 @@ class Auth {
 					'name': decoded.name, accessToken, refreshToken,
 				}
 			}).catch((error: Error) => {
-				console.log(`verifyJWT error: ${error}`)
+				this.sendMessage({ type: 'error', log: { error } })
+				return error
 			})
 		}).catch((error: Error) => {
-			console.log(`GetAuth error: ${error}`)
+			this.sendMessage({ type: 'error', log: { error } })
+			return error
 		})
 	}
 
