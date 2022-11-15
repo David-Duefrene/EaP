@@ -1,15 +1,15 @@
+// Electron
 const { shell, safeStorage } = require('electron')
 const Store = require('electron-store')
 const electronStore = new Store()
 
-import PrismaClient from '../../prisma/PrismaClient'
-
+// Types
 import { ChildProcess } from 'node:child_process'
 
 type Message = { type: string; message: { name: string; refreshToken: string; characterName: string } }
 
 const MessageController = (apiChild: ChildProcess) => {
-	return async (message: Message) => {
+	return (message: Message) => {
 		if (message.type === 'url') {
 			shell.openExternal(message.message)
 		} else if (message.type === 'token') {
@@ -21,12 +21,7 @@ const MessageController = (apiChild: ChildProcess) => {
 
 			const name = message.message.name
 			const token = safeStorage.encryptString(message.message.refreshToken)
-			const charList = await PrismaClient.character.findMany()
 
-			if (!charList.includes(name)) {
-				charList[name] = token
-				electronStore.set('characters', charList)
-			}
 			electronStore.set(name, token)
 			apiChild.send({ type: 'refreshAPI', message: '' })
 		} else if (message.type === 'tokenExpired') {
