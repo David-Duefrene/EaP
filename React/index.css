@@ -21,6 +21,11 @@ body {
 	color: var(--main-off-color);
 }
 
+#root {
+	width: 100vw;
+	height: 100vh;
+}
+
 button, .Button {
 	display: inline-block;
 	background-image: radial-gradient(var(--highlight-color), var(--main-color));

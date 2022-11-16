@@ -1,0 +1,11 @@
+.Notification {
+	position: 		fixed;
+	right:    		5px;
+	bottom:   		5px;
+	padding: 		10px;
+	border: 		1px inset var(--main-off-color);
+	background:		var(--main-color);
+	width: 			2em;
+	height: 		2em;
+	z-index: 		100;
+}

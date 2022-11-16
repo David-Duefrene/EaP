@@ -16,6 +16,7 @@ import Titles from './Pages/Character/Titles/Titles'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
 
 import NavBar from './Components/NavBars/MainNavBar'
+import Notification from './Components/Buttons/Notification/Notification'
 import './index.css'
 
 const routes =
@@ -37,6 +38,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 		<BrowserRouter>
 			<NavBar />
 			{routes}
+			<Notification />
 		</BrowserRouter>
 	</React.StrictMode>,
 )
