@@ -39,7 +39,7 @@ const createWindow = async () => {
 			const decryptedBuffer = safeStorage.decryptString(buffer)
 			charDict[char.name] = decryptedBuffer
 		})
-		child.send({ type: 'CharList', message: charDict })
+		child.send({ type: 'CharList', log: charDict })
 	}
 
 	// Messaging system
