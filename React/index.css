@@ -19,6 +19,8 @@ body {
 	align-items: center;
 	justify-content: center;
 	color: var(--main-off-color);
+	overflow: hidden;
+
 }
 
 #root {
