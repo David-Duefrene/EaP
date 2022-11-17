@@ -5,7 +5,7 @@ import SortableList from '../../../Components/SortableList/SortableList'
 import Medal from '../../../../Types/APIResponses/EveOfficial/Medals.types'
 
 const MedalList = () => {
-	const [ medals, setMedals ] = useState<Medal>()
+	const [ medals, setMedals ] = useState<Medal[]>()
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {

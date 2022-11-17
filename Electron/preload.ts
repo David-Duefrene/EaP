@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld('getCharacter', {
 	corpHistory: (characterID: bigint) => ipcRenderer.invoke('characterCorpHistory', characterID),
 	corpRoles: (characterID: bigint) => ipcRenderer.invoke('characterCorpRoles', characterID),
 	medals: (characterID: bigint) => ipcRenderer.invoke('characterMedals', characterID),
+	notifications: (characterID: bigint) => ipcRenderer.invoke('characterNotifications', characterID),
 })
 
 contextBridge.exposeInMainWorld('auth', {

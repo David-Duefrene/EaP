@@ -10,7 +10,7 @@ import ContactNotifications from './Pages/Character/ContactNotifications/Contact
 import CorpHistory from './Pages/Character/CorpHistory/CorpHistory'
 import CorpRoles from './Pages/Character/CorpRoles/CorpRoles'
 import MedalList from './Pages/Character/Medals/MedalList'
-// import Notifications from './Pages/Character/Notifications/Notifications'
+import Notifications from './Pages/Character/Notifications/Notifications'
 // import Standings from './Pages/Character/Standings/Standings'
 import Titles from './Pages/Character/Titles/Titles'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
@@ -24,8 +24,9 @@ import type Title from '../Types/APIResponses/EveOfficial/Title.types'
 import type Blueprint from '../Types/APIResponses/EveOfficial/Blueprints.types'
 import type ContactNotification from '../Types/APIResponses/EveOfficial/ContactNotifications.types'
 import type TypeCorpHistory from '../Types/APIResponses/EveOfficial/CorpHistory.types'
-import CorpRole from '../Types/APIResponses/EveOfficial/CorpRoles.types'
-import Medal from '../../../../Types/APIResponses/EveOfficial/Medals.types'
+import type CorpRole from '../Types/APIResponses/EveOfficial/CorpRoles.types'
+import type Medal from '../Types/APIResponses/EveOfficial/Medals.types'
+import type TypeNotification from '../Types/APIResponses/EveOfficial/Notifications.types'
 
 interface FindAll {
 	characters: () => Promise<CharacterQuery[]>,
@@ -43,6 +44,7 @@ interface GetCharacter {
 	corpHistory: (characterID: bigint) => Promise<TypeCorpHistory[]>,
 	corpRoles: (characterID: bigint) => Promise<CorpRole>,
 	medals: (characterID: bigint) => Promise<Medal[]>,
+	notifications: (characterID: bigint) => Promise<TypeNotification[]>,
 }
 
 declare global {
@@ -62,8 +64,8 @@ const routes =
 		<Route path='character/:characterID/corp-history' element={<CorpHistory />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/corp-roles' element={<CorpRoles />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/medal-list' element={<MedalList />} errorElement={<ErrorPage />} />
-		{/* <Route path='character/:characterID/notifications' element={<Notifications />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/standings' element={<Standings />} errorElement={<ErrorPage />} /> */}
+		<Route path='character/:characterID/notifications' element={<Notifications />} errorElement={<ErrorPage />} />
+		{/* <Route path='character/:characterID/standings' element={<Standings />} errorElement={<ErrorPage />} /> */}
 		<Route path='character/:characterID/Titles' element={<Titles />} errorElement={<ErrorPage />} />
 	</Routes>
 
