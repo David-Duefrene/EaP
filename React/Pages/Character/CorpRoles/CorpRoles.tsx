@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import prisma from '../../../../prisma/PrismaClient'
 import CorpRole, { Roles } from '../../../../Types/APIResponses/EveOfficial/CorpRoles.types'
 import CSS from './CorpRoles.module.css'
 
@@ -16,9 +15,7 @@ const CorpRoles = () => {
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		prisma.corpRoles.findUnique(
-			{ where: { characterID: BigInt(characterID) } },
-		).then((d: CorpRole) => {
+		window.getCharacter.corpRoles(BigInt(characterID)).then((d: CorpRole) => {
 			setCorpRoles(d)
 			setIsLoading(false)
 		})

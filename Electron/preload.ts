@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld('getCharacter', {
 	blueprints: (characterID: bigint) => ipcRenderer.invoke('characterBlueprints', characterID),
 	contactNotifications: (characterID: bigint) => ipcRenderer.invoke('characterContactNotifications', characterID),
 	corpHistory: (characterID: bigint) => ipcRenderer.invoke('characterCorpHistory', characterID),
+	corpRoles: (characterID: bigint) => ipcRenderer.invoke('characterCorpRoles', characterID),
 })
 
 contextBridge.exposeInMainWorld('auth', {
