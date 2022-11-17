@@ -10,10 +10,9 @@ const CorpHistoryList = () => {
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		prisma.corpHistory.findMany({ where: { characterID: BigInt(characterID) } })
-			.then((d: CorpHistory[]) => {
-				setCorpHistory(d)
-			})
+		window.getCharacter.corpHistory(BigInt(characterID)).then((d: CorpHistory[]) => {
+			setCorpHistory(d)
+		})
 	}, [ characterID ])
 
 	return corpHistory ?

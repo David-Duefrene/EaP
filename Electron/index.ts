@@ -66,6 +66,7 @@ app.whenReady().then(() => {
 	ipcMain.handle('characterTitles', async (event: Event, characterID: bigint) => await PrismaClient.Title.findMany({ where: { characterID } }))
 	ipcMain.handle('characterBlueprints', async (event: Event, characterID: bigint) => await PrismaClient.Blueprint.findMany({ where: { ownerID: characterID } }))
 	ipcMain.handle('characterContactNotifications', async (event: Event, characterID: bigint) => await PrismaClient.ContactNotification.findMany({ where: { characterID } }))
+	ipcMain.handle('characterCorpHistory', async (event: Event, characterID: bigint) => await PrismaClient.corpHistory.findMany({ where: { characterID } }))
 	createWindow()
 }).catch((err: Error) => {
 	// eslint-disable-next-line no-console
