@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-// import AddCharacter from '../../Components/Buttons/AddCharacter/AddCharacter'
+import AddCharacter from '../../Components/Buttons/AddCharacter/AddCharacter'
 import CharacterCard from '../../Components/CharacterCard/CharacterCard'
 import './Home.css'
 import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
@@ -11,8 +11,8 @@ const Home = () => {
 	const [ isLoading, setIsLoading ] = useState(true)
 
 	useEffect(() => {
-		window.electronAPI.character().then((charList) => {
-			window.electronAPI.characterSheet().then((charSheetList) => {
+		window.findAll.characters().then((charList) => {
+			window.findAll.characterSheets().then((charSheetList) => {
 				setCharacters(charList)
 				setCharacterSheets(charSheetList)
 				setIsLoading(false)
@@ -22,7 +22,7 @@ const Home = () => {
 
 	// TODO: Need to determine if no characters exist and display a message to the user
 	if (isLoading) {
-		return <h1>loading</h1> // <AddCharacter />
+		return <AddCharacter />
 	}
 
 	const cardList = characters.map((el, key) => {
@@ -39,7 +39,7 @@ const Home = () => {
 
 	return (
 		<div className='App'>
-			{/* <AddCharacter /> */}
+			<AddCharacter />
 			{cardList}
 		</div>
 	)

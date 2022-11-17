@@ -19,6 +19,24 @@ import NavBar from './Components/NavBars/MainNavBar'
 import Notification from './Components/Buttons/Notification/Notification'
 import './index.css'
 
+import CharacterQuery from '../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
+
+interface FindAll {
+	characters: () => Promise<CharacterQuery[]>,
+	characterSheets: () => Promise<CharacterQuery[]>,
+}
+
+interface Auth {
+	login: () => void,
+}
+
+declare global {
+	interface Window {
+		findAll: FindAll
+		auth: Auth
+	}
+  }
+
 const routes =
 	<Routes>
 		<Route path='/' element={<Home />} errorElement={<ErrorPage />} />
