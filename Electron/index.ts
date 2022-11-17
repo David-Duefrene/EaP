@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 require('dotenv').config()
 
+const path = require('path')
 const { fork } = require('node:child_process')
 
 const {
@@ -20,9 +20,9 @@ const createWindow = async () => {
 		height: 600,
 		webPreferences: {
 			nodeIntegration: true,
-			contextIsolation: false,
+			contextIsolation: true,
 			nodeIntegrationInWorker: true,
-			Preload: './Electron/vite-build/index.es2.js',
+			preload: path.join(__dirname, 'index.es2.js'),
 		},
 	})
 
@@ -48,8 +48,12 @@ const createWindow = async () => {
 
 	ipcMain.on('Login', (event: Event) => {
 		event.preventDefault()
-		console.log('Login')
 		child.send({ type: 'Login', message: 'Login' })
+	})
+
+	ipcMain.on('Notification', (event: Event, value: string) => {
+		console.log('Notification\nEvent: ', event)
+		console.log('Value: ', value)
 	})
 
 	// TODO check if in dev or build
@@ -57,8 +61,11 @@ const createWindow = async () => {
 }
 
 app.whenReady().then(() => {
+	ipcMain.handle('character', async () => await PrismaClient.character.findMany())
+	ipcMain.handle('characterSheet', async () => await PrismaClient.characterSheet.findMany())
 	createWindow()
 }).catch((err: Error) => {
+	// eslint-disable-next-line no-console
 	console.log('app.whenReady error\n', err)
 })
 

@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react'
 
-const { PrismaClient } = require('@prisma/client')
-
-import AddCharacter from '../../Components/Buttons/AddCharacter/AddCharacter'
+// import AddCharacter from '../../Components/Buttons/AddCharacter/AddCharacter'
 import CharacterCard from '../../Components/CharacterCard/CharacterCard'
 import './Home.css'
 import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 
-const prisma = new PrismaClient()
-
 const Home = () => {
 	const [ characters, setCharacters ] = useState<CharacterQuery[]>([])
 	const [ characterSheets, setCharacterSheets ] = useState<CharacterQuery[]>([])
+	const [ isLoading, setIsLoading ] = useState(true)
 
 	useEffect(() => {
-		prisma.character.findMany().then((d: CharacterQuery[]) => setCharacters(d))
-		prisma.characterSheet.findMany().then((d: CharacterQuery[]) => setCharacterSheets(d))
+		window.electronAPI.character().then((charList) => {
+			window.electronAPI.characterSheet().then((charSheetList) => {
+				setCharacters(charList)
+				setCharacterSheets(charSheetList)
+				setIsLoading(false)
+			})
+		})
 	}, [])
 
 	// TODO: Need to determine if no characters exist and display a message to the user
-	if (characterSheets.length === 0) {
-		return <AddCharacter />
+	if (isLoading) {
+		return <h1>loading</h1> // <AddCharacter />
 	}
 
 	const cardList = characters.map((el, key) => {
@@ -37,7 +39,7 @@ const Home = () => {
 
 	return (
 		<div className='App'>
-			<AddCharacter />
+			{/* <AddCharacter /> */}
 			{cardList}
 		</div>
 	)

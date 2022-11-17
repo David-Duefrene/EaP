@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-	setTitle: (title: string) => ipcRenderer.send('set-title', title),
+	character: () => ipcRenderer.invoke('character'),
+	characterSheet: () => ipcRenderer.invoke('characterSheet'),
+	handleNotification: (callback: (event: Event, value: string) => void) => ipcRenderer.on('Notification', callback),
 })
-
-export default {}
