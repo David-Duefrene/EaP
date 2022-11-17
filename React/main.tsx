@@ -11,7 +11,7 @@ import CorpHistory from './Pages/Character/CorpHistory/CorpHistory'
 import CorpRoles from './Pages/Character/CorpRoles/CorpRoles'
 import MedalList from './Pages/Character/Medals/MedalList'
 import Notifications from './Pages/Character/Notifications/Notifications'
-// import Standings from './Pages/Character/Standings/Standings'
+import Standings from './Pages/Character/Standings/Standings'
 import Titles from './Pages/Character/Titles/Titles'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
 
@@ -27,6 +27,7 @@ import type TypeCorpHistory from '../Types/APIResponses/EveOfficial/CorpHistory.
 import type CorpRole from '../Types/APIResponses/EveOfficial/CorpRoles.types'
 import type Medal from '../Types/APIResponses/EveOfficial/Medals.types'
 import type TypeNotification from '../Types/APIResponses/EveOfficial/Notifications.types'
+import type Standing from '../Types/APIResponses/EveOfficial/Standings.types'
 
 interface FindAll {
 	characters: () => Promise<CharacterQuery[]>,
@@ -45,6 +46,7 @@ interface GetCharacter {
 	corpRoles: (characterID: bigint) => Promise<CorpRole>,
 	medals: (characterID: bigint) => Promise<Medal[]>,
 	notifications: (characterID: bigint) => Promise<TypeNotification[]>,
+	standings: (characterID: bigint) => Promise<Standing[]>,
 }
 
 declare global {
@@ -65,7 +67,7 @@ const routes =
 		<Route path='character/:characterID/corp-roles' element={<CorpRoles />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/medal-list' element={<MedalList />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/notifications' element={<Notifications />} errorElement={<ErrorPage />} />
-		{/* <Route path='character/:characterID/standings' element={<Standings />} errorElement={<ErrorPage />} /> */}
+		<Route path='character/:characterID/standings' element={<Standings />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/Titles' element={<Titles />} errorElement={<ErrorPage />} />
 	</Routes>
 

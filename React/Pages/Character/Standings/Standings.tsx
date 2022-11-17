@@ -6,13 +6,11 @@ import SortableList from '../../../Components/SortableList/SortableList'
 import Standing from '../../../../Types/APIResponses/EveOfficial/Standings.types'
 
 const Standings = () => {
-	const [ standings, setStandings ] = useState<Standing>()
+	const [ standings, setStandings ] = useState<Standing[]>()
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		prisma.Standings.findMany(
-			{ where: { characterID: BigInt(characterID) } },
-		).then((d: Standing) => {
+		window.getCharacter.standings(BigInt(characterID)).then((d: Standing[]) => {
 			setStandings(d)
 		})
 	}, [ characterID ])
