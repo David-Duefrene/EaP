@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('findAll', {
 contextBridge.exposeInMainWorld('getCharacter', {
 	titles: (characterID: bigint) => ipcRenderer.invoke('characterTitles', characterID),
 	blueprints: (characterID: bigint) => ipcRenderer.invoke('characterBlueprints', characterID),
+	contactNotifications: (characterID: bigint) => ipcRenderer.invoke('characterContactNotifications', characterID),
 })
 
 contextBridge.exposeInMainWorld('auth', {
