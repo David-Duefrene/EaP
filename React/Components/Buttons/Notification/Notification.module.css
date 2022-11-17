@@ -1,11 +1,60 @@
-.Notification {
-	position: 		fixed;
-	right:    		5px;
-	bottom:   		5px;
-	padding: 		10px;
-	border: 		1px inset var(--main-off-color);
-	background:		var(--main-color);
-	width: 			2em;
-	height: 		2em;
-	z-index: 		100;
+.NotificationButton {
+	position: 			fixed;
+	right:    			5px;
+	bottom:   			5px;
+	padding: 			10px;
+	border: 			1px inset var(--accent-color);
+	background:			var(--main-color);
+	width: 				2em;
+	height: 			2em;
+	z-index: 			100;
+	visibility: 		visible;
+}
+
+.NotificationArea {
+	position: 			fixed;
+	right:    			5px;
+	bottom:   			5px;
+	visibility: 		hidden;
+	display: 			flex;
+	flex-direction: 	column;
+	align-items: 		center;
+	justify-content: 	center;
+}
+
+.NotificationArea.Active {
+	background:				var(--main-color);
+	width: 					25vw;
+	height: 				50vh;
+	visibility: 			visible;
+	z-index: 				1;
+	direction: rtl;
+	transition: 			all .5s ease;
+	border: 1px inset var(--accent-color);
+	background-position: 	100% 100%;
+	background-size: 		300% 300%;
+	background-image: 		linear-gradient(
+								115deg,
+								transparent 25%,
+								rgba(112, 110, 110, 0.678) 25%,
+								transparent 50%,
+								var(--main-color) 75%,
+								transparent 75%
+							);
+}
+
+.NotificationItem {
+	filter: 			unset;
+	border-top: 		1px solid var(--accent-color);
+	border-bottom: 		1px solid var(--accent-color);
+	padding: 			5px;
+}
+
+.NotificationList {
+	list-style-type: 	none;
+	width: 				100%;
+	height: 			100%;
+	overflow: 			auto;
+	padding: 			1em;
+
 }
