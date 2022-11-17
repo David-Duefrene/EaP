@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import prisma from '../../../../prisma/PrismaClient'
 import SortableList from '../../../Components/SortableList/SortableList'
 import Medal from '../../../../Types/APIResponses/EveOfficial/Medals.types'
 
@@ -10,9 +9,7 @@ const MedalList = () => {
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		prisma.Medal.findMany(
-			{ where: { characterID: BigInt(characterID) } },
-		).then((d: Medal) => {
+		window.getCharacter.medals(BigInt(characterID)).then((d: Medal[]) => {
 			setMedals(d)
 		})
 	}, [ characterID ])
