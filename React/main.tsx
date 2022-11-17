@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 
 import Home from './Pages/Home/Home'
-// import Blueprints from './Pages/Character/Blueprints/Blueprints'
+import Blueprints from './Pages/Character/Blueprints/Blueprints'
 // import ContactNotifications from './Pages/Character/ContactNotifications/ContactNotifications'
 // import CorpHistory from './Pages/Character/CorpHistory/CorpHistory'
 // import CorpRoles from './Pages/Character/CorpRoles/CorpRoles'
@@ -21,6 +21,7 @@ import './index.css'
 
 import CharacterQuery from '../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 import Title from '../Types/APIResponses/EveOfficial/Title.types'
+import Blueprint from '../Types/APIResponses/EveOfficial/Blueprints.types'
 
 interface FindAll {
 	characters: () => Promise<CharacterQuery[]>,
@@ -33,6 +34,7 @@ interface Auth {
 
 interface GetCharacter {
 	titles: (characterID: bigint) => Promise<Title>,
+	blueprints: (characterID: bigint) => Promise<Blueprint[]>,
 }
 
 declare global {
@@ -47,8 +49,8 @@ const routes =
 	<Routes>
 		<Route path='/' element={<Home />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID' element={<Titles />} errorElement={<ErrorPage />} />
-		{/* <Route path='character/:characterID/blueprints' element={<Blueprints />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/contact-notification' element={<ContactNotifications />} errorElement={<ErrorPage />} />
+		<Route path='character/:characterID/blueprints' element={<Blueprints />} errorElement={<ErrorPage />} />
+		{/* <Route path='character/:characterID/contact-notification' element={<ContactNotifications />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/corp-history' element={<CorpHistory />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/corp-roles' element={<CorpRoles />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/medal-list' element={<MedalList />} errorElement={<ErrorPage />} />
