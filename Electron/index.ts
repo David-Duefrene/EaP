@@ -22,7 +22,7 @@ const createWindow = async () => {
 			nodeIntegration: true,
 			contextIsolation: false,
 			nodeIntegrationInWorker: true,
-			// Preload: path.join(__dirname, 'preload.js'),
+			Preload: './Electron/vite-build/index.es2.js',
 		},
 	})
 
