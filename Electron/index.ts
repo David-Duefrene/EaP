@@ -63,6 +63,7 @@ const createWindow = async () => {
 app.whenReady().then(() => {
 	ipcMain.handle('character', async () => await PrismaClient.character.findMany())
 	ipcMain.handle('characterSheet', async () => await PrismaClient.characterSheet.findMany())
+	ipcMain.handle('characterTitles', async (event: Event, characterID: bigint) => await PrismaClient.Title.findMany({ where: { characterID } }))
 	createWindow()
 }).catch((err: Error) => {
 	// eslint-disable-next-line no-console

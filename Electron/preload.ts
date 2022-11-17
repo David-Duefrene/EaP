@@ -6,6 +6,10 @@ contextBridge.exposeInMainWorld('findAll', {
 	handleNotification: (callback: (event: Event, value: string) => void) => ipcRenderer.on('Notification', callback),
 })
 
+contextBridge.exposeInMainWorld('getCharacter', {
+	titles: (characterID: bigint) => ipcRenderer.invoke('characterTitles', characterID),
+})
+
 contextBridge.exposeInMainWorld('auth', {
 	login: () => ipcRenderer.send('Login'),
 })
