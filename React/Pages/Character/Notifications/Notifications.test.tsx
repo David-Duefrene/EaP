@@ -7,35 +7,24 @@ import {
 import {
 	cleanup, render, screen, waitForElementToBeRemoved,
 } from '@testing-library/react'
-
+import { SenderType, NotificationType } from '../../../../Types/APIResponses/EveOfficial/Notifications.types'
 import Notifications from './Notifications'
 
 describe('Notifications', () => {
 	beforeEach(() => {
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				Notification: {
-					findMany: vi.fn().mockResolvedValue([
-						{
-							notificationID: 1,
-							notificationCharacterID: 1,
-							notificationType: 'Character',
-							notificationText: 'Notification 1',
-							notificationSentDate: new Date(),
-							notificationRead: false,
-						},
-						{
-							notificationID: 2,
-							notificationCharacterID: 1,
-							notificationType: 'Character',
-							notificationText: 'Notification 2',
-							notificationSentDate: new Date(),
-							notificationRead: false,
-						},
-					]),
+		window.getCharacter = {
+			notifications: () => Promise.resolve([
+				{
+					isRead: false,
+					notificationID: 1,
+					senderID: 1,
+					senderType: SenderType.character,
+					text: 'Notification 1',
+					timestamp: new Date(),
+					type: NotificationType.CharAppAcceptMsg,
 				},
-			},
-		}))
+			]),
+		}
 
 		render(<Notifications />)
 	})

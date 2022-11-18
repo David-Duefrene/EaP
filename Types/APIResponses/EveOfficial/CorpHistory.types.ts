@@ -1,5 +1,5 @@
 type CorpHistory = {
-	corporationId: string,
+	corporationID: string,
 	isDeleted?: boolean,
 	recordID: number,
 	startDate: string | Date

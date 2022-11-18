@@ -9,22 +9,19 @@ import {
 	cleanup, render, screen, waitForElementToBeRemoved,
 } from '@testing-library/react'
 
+import { Roles } from '../../../../Types/APIResponses/EveOfficial/CorpRoles.types'
 import CorpRolesList from './CorpRoles'
 
 describe('CorpRolesList', () => {
 	beforeEach(() => {
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				corpRoles: {
-					findUnique: vi.fn().mockResolvedValue({
-						roles: [ 'Director' ],
-						rolesAtBase: [ 'BaseDirector' ],
-						rolesAtHQ: [ 'HQDirector' ],
-						rolesAtOther: [ 'OtherDirector' ],
-					}),
-				},
-			},
-		}))
+		window.getCharacter = {
+			corpRoles: () => Promise.resolve({
+				roles: [ Roles.Account_Take_1 ],
+				rolesAtBase: [ Roles.Account_Take_1 ],
+				rolesAtHQ: [ Roles.Account_Take_1 ],
+				rolesAtOther: [ Roles.Account_Take_1 ],
+			}),
+		}
 
 		render(<CorpRolesList />)
 	})

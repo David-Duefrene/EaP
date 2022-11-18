@@ -13,38 +13,20 @@ import MedalList from './MedalList'
 
 describe('MedalList', () => {
 	beforeEach(() => {
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				Medal: {
-					findMany: vi.fn().mockResolvedValue([
-						{
-							medalID: 1,
-							medalName: 'Medal 1',
-							medalDescription: 'Medal 1 Description',
-							medalCorporationID: 1,
-							medalCreatorID: 1,
-							medalTitle: 'Medal 1 Title',
-							medalReason: 'Medal 1 Reason',
-							medalStatus: 'public',
-							medalCreated: new Date(),
-							medalLastUpdated: new Date(),
-						},
-						{
-							medalID: 2,
-							medalName: 'Medal 2',
-							medalDescription: 'Medal 2 Description',
-							medalCorporationID: 1,
-							medalCreatorID: 1,
-							medalTitle: 'Medal 2 Title',
-							medalReason: 'Medal 2 Reason',
-							medalStatus: 'public',
-							medalCreated: new Date(),
-							medalLastUpdated: new Date(),
-						},
-					]),
+		window.getCharacter = {
+			medals: () => Promise.resolve([
+				{
+					corporationID: 1,
+					date: new Date(),
+					description: 'Medal 1 Description',
+					issuerID: 1,
+					medalID: 1,
+					reason: 'Medal 1 Reason',
+					status: 'public',
+					title: 'Medal 1 Title',
 				},
-			},
-		}))
+			]),
+		}
 
 		render(<MedalList />)
 	})

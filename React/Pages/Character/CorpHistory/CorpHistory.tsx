@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import prisma from '../../../../prisma/PrismaClient'
 import SortableList from '../../../Components/SortableList/SortableList'
 import CorpHistory from '../../../../Types/APIResponses/EveOfficial/CorpHistory.types'
 

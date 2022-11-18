@@ -2,35 +2,33 @@
 import React from 'react'
 
 import {
-	expect, test, afterEach, describe, beforeEach, vi,
+	expect, test, afterEach, describe, beforeEach,
 } from 'vitest'
 
 import {
 	cleanup, render, screen, waitForElementToBeRemoved,
 } from '@testing-library/react'
 
+import { BlueprintLocationFlags } from '../../../../Types/APIResponses/EveOfficial/Blueprints.types'
+
 import Blueprints from './Blueprints'
 
 describe('Blueprint', () => {
 	beforeEach(() => {
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				blueprint: {
-					findMany: vi.fn().mockResolvedValue([
-						{
-							itemID: 1,
-							locationFlag: 'locationFlagText',
-							locationID: 2,
-							materialEfficiency: 3,
-							quantity: 4,
-							runs: 5,
-							timeEfficiency: 6,
-							typeID: 7,
-						},
-					]),
+		window.getCharacter = {
+			blueprints: () => Promise.resolve([
+				{
+					itemID: '1',
+					locationFlag: BlueprintLocationFlags.Cargo,
+					locationID: '2',
+					materialEfficiency: 3,
+					quantity: 4,
+					runs: 5,
+					timeEfficiency: 6,
+					typeID: 7,
 				},
-			},
-		}))
+			]),
+		}
 
 		render(<Blueprints />)
 	})
