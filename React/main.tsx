@@ -54,6 +54,9 @@ declare global {
 		findAll: FindAll
 		auth: Auth
 		getCharacter: GetCharacter
+		listen: {
+			notification: (setMessages: (event: Event, data: string[]) => void) => void
+		}
 	}
   }
 

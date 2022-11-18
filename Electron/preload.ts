@@ -3,7 +3,6 @@ const { contextBridge, ipcRenderer } = require('electron')
 contextBridge.exposeInMainWorld('findAll', {
 	characters: () => ipcRenderer.invoke('character'),
 	characterSheets: () => ipcRenderer.invoke('characterSheet'),
-	handleNotification: (callback: (event: Event, value: string) => void) => ipcRenderer.on('Notification', callback),
 })
 
 contextBridge.exposeInMainWorld('getCharacter', {
@@ -19,4 +18,8 @@ contextBridge.exposeInMainWorld('getCharacter', {
 
 contextBridge.exposeInMainWorld('auth', {
 	login: () => ipcRenderer.send('Login'),
+})
+
+contextBridge.exposeInMainWorld('listen', {
+	notification: (callback: (event: Event, value: string) => void) => ipcRenderer.on('Notification', callback),
 })

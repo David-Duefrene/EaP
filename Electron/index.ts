@@ -43,17 +43,12 @@ const createWindow = async () => {
 	}
 
 	// Messaging system
-	const messageController = MessageController(child)
+	const messageController = MessageController(child, win)
 	child.on('message', messageController)
 
 	ipcMain.on('Login', (event: Event) => {
 		event.preventDefault()
 		child.send({ type: 'Login', message: 'Login' })
-	})
-
-	ipcMain.on('Notification', (event: Event, value: string) => {
-		console.log('Notification\nEvent: ', event)
-		console.log('Value: ', value)
 	})
 
 	// TODO check if in dev or build
