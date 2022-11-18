@@ -19,7 +19,7 @@ const Notification = () => {
 						messages.length > 0 ?
 							messages.map((message, index) => {
 								return (
-									<li className={CSS.NotificationItem} key={index}>{`Type: ${message.type} Message: ${message.log}`}</li>
+									<li className={CSS.NotificationItem} key={index}>{`Type: ${message.type} Message: ${message.log.error}`}</li>
 								)
 							}) :
 							<li className={CSS.NotificationItem}>No messages</li>

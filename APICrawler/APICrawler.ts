@@ -34,7 +34,10 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 							.catch((error: Error) => {
 								const newMessage = {
 									type: 'log',
-									log: { error: error.toString() },
+									log: {
+										error: error.toString(),
+										cause: error.cause,
+									},
 								}
 
 								sendMessage(newMessage)

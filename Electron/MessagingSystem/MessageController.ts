@@ -30,12 +30,12 @@ const MessageController = (apiChild: ChildProcess, win: typeof BrowserWindow) =>
 			const name = message.log.characterName
 			win.webContents.send('Notification', {
 				type: 'tokenExpired',
-				message: `The token for ${name} has expired. Please log in again.`,
+				log: `The token for ${name} has expired. Please log in again.`,
 			})
 		} else if (message.type === 'log') {
 			win.webContents.send('Notification', {
 				type: 'log',
-				message: message.log,
+				log: message.log,
 			})
 		}
 	}
