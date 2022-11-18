@@ -28,6 +28,7 @@ import type CorpRole from '../Types/APIResponses/EveOfficial/CorpRoles.types'
 import type Medal from '../Types/APIResponses/EveOfficial/Medals.types'
 import type TypeNotification from '../Types/APIResponses/EveOfficial/Notifications.types'
 import type Standing from '../Types/APIResponses/EveOfficial/Standings.types'
+import type Log from '../Electron/MessagingSystem/Message.types'
 
 interface FindAll {
 	characters: () => Promise<CharacterQuery[]>,
@@ -55,7 +56,7 @@ declare global {
 		auth: Auth
 		getCharacter: GetCharacter
 		listen: {
-			notification: (setMessages: (event: Event, data: string[]) => void) => void
+			notification: (setMessages: (event: Event, data: Log) => void) => void
 		}
 	}
   }

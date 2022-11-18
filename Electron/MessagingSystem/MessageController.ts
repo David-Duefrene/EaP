@@ -35,7 +35,7 @@ const MessageController = (apiChild: ChildProcess, win: typeof BrowserWindow) =>
 		} else if (message.type === 'log') {
 			win.webContents.send('Notification', {
 				type: 'log',
-				message: message.message,
+				message: message.log,
 			})
 		}
 	}
