@@ -1,6 +1,6 @@
 type CharacterAuthData = {
 	'accessToken': string,
-	'characterID': string,
+	'characterID': bigint,
 }
 
 export default CharacterAuthData
