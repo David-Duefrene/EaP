@@ -1,5 +1,7 @@
 // Electron
-const { shell, safeStorage } = require('electron')
+const {
+	shell, safeStorage, BrowserWindow,
+} = require('electron')
 const Store = require('electron-store')
 const electronStore = new Store()
 
@@ -8,7 +10,7 @@ import { ChildProcess } from 'node:child_process'
 
 import type Log from './Message.types'
 
-const MessageController = (apiChild: ChildProcess) => {
+const MessageController = (apiChild: ChildProcess, win: typeof BrowserWindow) => {
 	return (message: Log) => {
 		if (message.type === 'url') {
 			shell.openExternal(message.log.url)
@@ -26,11 +28,15 @@ const MessageController = (apiChild: ChildProcess) => {
 			apiChild.send({ type: 'refreshAPI' })
 		} else if (message.type === 'tokenExpired') {
 			const name = message.log.characterName
-			// TODO: Alert user that their token has expired
-			console.log('tokenExpired', name)
+			win.webContents.send('Notification', {
+				type: 'tokenExpired',
+				log: `The token for ${name} has expired. Please log in again.`,
+			})
 		} else if (message.type === 'log') {
-			console.log('Electron log')
-			console.dir(message)
+			win.webContents.send('Notification', {
+				type: 'log',
+				log: message.log,
+			})
 		}
 	}
 }

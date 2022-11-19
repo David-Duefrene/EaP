@@ -13,19 +13,15 @@ import CorpHistory from './CorpHistory'
 
 describe('CorpHistory', () => {
 	beforeEach(() => {
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				corpHistory: {
-					findMany: vi.fn().mockResolvedValue([
-						{
-							corporationID: 1,
-							recordID: 2,
-							startDate: '2021-01-01',
-						},
-					]),
+		window.getCharacter = {
+			corpHistory: () => Promise.resolve([
+				{
+					corporationID: '1',
+					recordID: 2,
+					startDate: '2021-01-01',
 				},
-			},
-		}))
+			]),
+		}
 
 		render(<CorpHistory />)
 	})

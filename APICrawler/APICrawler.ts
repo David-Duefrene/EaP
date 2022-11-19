@@ -2,18 +2,18 @@ import Auth from './Auth/auth'
 import endpoints from './Endpoints/index'
 import publicCharacterData from './Endpoints/Character/PublicCharacterSheet'
 
-type Message = { 'type': string, 'message': string | Record<string, string> };
+import Log from '../Electron/MessagingSystem/Message.types'
 
 //* Checks for process.send & sends it, this is to prevent Typescript errors
-const defaultSendMessage = (message: Message) => {
+const defaultSendMessage = (message: Log) => {
 	if (process.send) {
 		process.send(message)
 	}
 }
 
 //* Sends a message to the main process
-const defaultReceiveMessage = (processMessages: (arg0: Message) => void) => {
-	process.on('message', (message: Message) => {
+const defaultReceiveMessage = (processMessages: (arg0: Log) => void) => {
+	process.on('message', (message: Log) => {
 		processMessages(message)
 	})
 }
@@ -21,7 +21,7 @@ const defaultReceiveMessage = (processMessages: (arg0: Message) => void) => {
 const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultReceiveMessage) => {
 	const auth = new Auth(sendMessage, receiveMessage)
 
-	receiveMessage((message: Message) => {
+	receiveMessage((message: Log) => {
 		if (message.type === 'refreshAPI') {
 			Object.entries(auth.characterList).forEach(async ([ characterName, characterTokens ]) => {
 				if (characterTokens.characterID < 0) {
@@ -30,20 +30,13 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 
 				publicCharacterData({ ...characterTokens }).then(() => {
 					endpoints.forEach((endpoint) => {
-						// TODO: fix characterName error - is it needed?
-						endpoint({ ...characterTokens, characterName })
+						endpoint({ ...characterTokens })
 							.catch((error: Error) => {
-								const { message, cause } = error
-								let myCause = null
-								if (cause) {
-									myCause = cause
-								}
-
-								const newMessage ={
+								const newMessage = {
 									type: 'log',
-									message: message,
-									data: {
-										cause: myCause,
+									log: {
+										error: error.toString(),
+										cause: error.cause,
 									},
 								}
 

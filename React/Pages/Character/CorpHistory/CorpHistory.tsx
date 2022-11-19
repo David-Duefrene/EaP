@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import prisma from '../../../../prisma/PrismaClient'
 import SortableList from '../../../Components/SortableList/SortableList'
 import CorpHistory from '../../../../Types/APIResponses/EveOfficial/CorpHistory.types'
 
@@ -10,10 +9,9 @@ const CorpHistoryList = () => {
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		prisma.corpHistory.findMany({ where: { characterID: BigInt(characterID) } })
-			.then((d: CorpHistory[]) => {
-				setCorpHistory(d)
-			})
+		window.getCharacter.corpHistory(BigInt(characterID)).then((d: CorpHistory[]) => {
+			setCorpHistory(d)
+		})
 	}, [ characterID ])
 
 	return corpHistory ?

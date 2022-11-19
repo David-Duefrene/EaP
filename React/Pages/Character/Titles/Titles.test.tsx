@@ -13,21 +13,14 @@ import Titles from './Titles'
 
 describe('Titles', () => {
 	beforeEach(() => {
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				Title: {
-					findMany: vi.fn().mockResolvedValue([
-						{
-							titleID: 1,
-							titleName: 'Test',
-							titleColor: 'Test',
-							titlePinned: true,
-							titleRoles: [ 'Test' ],
-						},
-					]),
+		window.getCharacter = {
+			titles: () => Promise.resolve([
+				{
+					titleID: 1,
+					name: 'Test',
 				},
-			},
-		}))
+			]),
+		}
 
 		render(<Titles />)
 	})

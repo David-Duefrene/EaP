@@ -10,8 +10,14 @@ export default defineConfig({
 		outDir: './vite-build',
 		lib: {
 			entry: fileURLToPath(new URL('./index.ts', import.meta.url)),
-			name: 'index',
+			formats: [ 'es' ],
 			fileName: 'index',
+		},
+		rollupOptions: {
+			input: {
+				ElectronMain: fileURLToPath(new URL('./index.ts', import.meta.url)),
+				Preload: fileURLToPath(new URL('./preload.ts', import.meta.url)),
+			},
 		},
 		watch: {},
 		sourcemap: true,

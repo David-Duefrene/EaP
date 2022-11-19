@@ -8,26 +8,22 @@ import {
 import ContactNotifications from './ContactNotifications'
 
 import {
-	expect, test, describe, vi, beforeEach, afterEach,
+	expect, test, describe, beforeEach, afterEach,
 } from 'vitest'
 
 describe('ContactNotifications', () => {
 	beforeEach(() => {
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				contactNotification: {
-					findMany: vi.fn().mockResolvedValue([
-						{
-							message: 'messageDataText',
-							standingLevel: 'messageTypeText',
-							sentDate: 'sentDateText',
-							senderCharacterID: 4,
-							notificationID: 5,
-						},
-					]),
+		window.getCharacter = {
+			contactNotifications: () => Promise.resolve([
+				{
+					message: 'messageDataText',
+					standingLevel: 5,
+					sendDate: new Date(),
+					senderCharacterID: 4,
+					notificationID: 5,
 				},
-			},
-		}))
+			]),
+		}
 
 		afterEach(() => {
 			cleanup()

@@ -9,25 +9,20 @@ import {
 	cleanup, render, screen, waitForElementToBeRemoved,
 } from '@testing-library/react'
 
+import { FromType } from '../../../../Types/APIResponses/EveOfficial/Standings.types'
 import Standings from './Standings'
 
 describe('Standings', () => {
 	beforeEach(() => {
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				Standings: {
-					findMany: vi.fn().mockResolvedValue([
-						{
-							standingID: 1,
-							standingCharacterID: 1,
-							standingFromID: 1,
-							standingFromType: 'Corporation',
-							standingStanding: 1,
-						},
-					]),
+		window.getCharacter = {
+			standings: () => Promise.resolve([
+				{
+					fromID: 1,
+					fromType: FromType.agent,
+					standing: 1,
 				},
-			},
-		}))
+			]),
+		}
 
 		render(<Standings />)
 	})
