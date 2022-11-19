@@ -14,10 +14,12 @@ import Titles from './Titles'
 describe('Titles', () => {
 	beforeEach(() => {
 		window.getCharacter = {
-			titles: () => Promise.resolve({
-				titleID: 1,
-				name: 'Test',
-			}),
+			titles: () => Promise.resolve([
+				{
+					titleID: 1,
+					name: 'Test',
+				},
+			]),
 		}
 
 		render(<Titles />)

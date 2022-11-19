@@ -6,7 +6,7 @@ import SortableList from '../../../Components/SortableList/SortableList'
 import Title from '../../../../Types/APIResponses/EveOfficial/Title.types'
 
 const Titles = () => {
-	const [ title, setTitle ] = useState<Title>()
+	const [ title, setTitle ] = useState<Title[]>()
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {

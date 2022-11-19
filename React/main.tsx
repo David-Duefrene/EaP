@@ -40,7 +40,7 @@ interface Auth {
 }
 
 interface GetCharacter {
-	titles: (characterID: bigint) => Promise<Title>,
+	titles: (characterID: bigint) => Promise<Title[]>,
 	blueprints: (characterID: bigint) => Promise<Blueprint[]>,
 	contactNotifications: (characterID: bigint) => Promise<ContactNotification[]>,
 	corpHistory: (characterID: bigint) => Promise<TypeCorpHistory[]>,
