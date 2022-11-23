@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const path = require('path')
+const url = require('url')
 const { fork } = require('node:child_process')
 
 const {
@@ -25,37 +26,44 @@ const createWindow = async () => {
 			preload: path.join(__dirname, 'index.es2.js'),
 		},
 	})
-
+	console.log('Loading window')
+	win.loadFile(require('path').join(__dirname, 'index.html'))
+	win.webContents.openDevTools()
+	// TODO fix directories for production
 	const controller = new AbortController()
 	const { signal } = controller
-	const child = fork('./APICrawler/vite-build/ElectronEntry.es.js', { signal })
 
+	// const child = fork('./APICrawler/vite-build/ElectronEntry.es.js', { signal })
+	// const child = fork('./resources/APICrawler/vite-build/ElectronEntry.es.js', { signal })
+	// Postgres https://www.enterprisedb.com/download-postgresql-binaries
 	const characterIDList = await PrismaClient.character.findMany()
 
-	if (characterIDList.length > 0) {
-		const charDict: Record<string, Character> = {}
-		characterIDList.forEach((char: Character) => {
-			const buffer = Buffer.from(electronStore.get(char.name))
-			const decryptedBuffer = safeStorage.decryptString(buffer)
-			charDict[char.name] = decryptedBuffer
-		})
-		child.send({ type: 'CharList', log: charDict })
-	}
+	// if (characterIDList.length > 0) {
+	// 	const charDict: Record<string, Character> = {}
+	// 	characterIDList.forEach((char: Character) => {
+	// 		const buffer = Buffer.from(electronStore.get(char.name))
+	// 		const decryptedBuffer = safeStorage.decryptString(buffer)
+	// 		charDict[char.name] = decryptedBuffer
+	// 	})
+	// 	child.send({ type: 'CharList', log: charDict })
+	// }
 
 	// Messaging system
-	const messageController = MessageController(child, win)
-	child.on('message', messageController)
+	// const messageController = MessageController(child, win)
+	// child.on('message', messageController)
 
-	ipcMain.on('Login', (event: Event) => {
-		event.preventDefault()
-		child.send({ type: 'Login', message: 'Login' })
-	})
+	// ipcMain.on('Login', (event: Event) => {
+	// 	event.preventDefault()
+	// 	child.send({ type: 'Login', message: 'Login' })
+	// })
 
 	// TODO check if in dev or build
-	win.loadURL('http://localhost:3000')
+	// win.loadFile('React/dist/index.html')
+	// win.loadURL('http://localhost:3000')
 }
 
 app.whenReady().then(() => {
+	console.log('App ready')
 	ipcMain.handle('character', async () => await PrismaClient.character.findMany())
 	ipcMain.handle('characterSheet', async () => await PrismaClient.characterSheet.findMany())
 	ipcMain.handle('characterTitles', async (event: Event, characterID: bigint) => await PrismaClient.Title.findMany({ where: { characterID } }))
