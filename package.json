@@ -63,11 +63,7 @@
 			"output": "dist"
 		},
 		"files": [
-			"React/dist/index.html",
-			"Electron/vite-build/index.es.js",
-			"Electron/vite-build/index.es.js.map",
-			"Electron/vite-build/index.es2.js",
-			"Electron/vite-build/index.es2.js.map"
+			"Electron/vite-build/**/*"
 		],
 		"extraResources": [
 			".env",

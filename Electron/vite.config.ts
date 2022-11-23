@@ -20,6 +20,6 @@ export default defineConfig({
 			},
 		},
 		watch: {},
-		sourcemap: true,
+		sourcemap: false,
 	},
 })
