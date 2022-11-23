@@ -1,9 +1,12 @@
 # Steps to build
 
-- npm start TODO separate build vs build watch for prod/dev respectively
+- npm start
 - npm run build-react
 - npm run dist
 
 Still needs to start postgres separately
 
-attempted fix for React not loading is set in electron index, need to rebuild and try again
+TODO run in electron main
+
+- ./initdb -D %PROGRAMDATA%/EAP/data
+- postgres.exe -D %PROGRAMDATA%/EAP/data

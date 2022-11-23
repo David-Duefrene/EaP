@@ -28,3 +28,4 @@ dist-ssr
 # DB stuff
 *.db
 *.db-journal
+Electron/pgsql/*
