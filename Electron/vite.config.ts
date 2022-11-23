@@ -8,6 +8,7 @@ export default defineConfig({
 	base: './',
 	build: {
 		outDir: './vite-build',
+		emptyOutDir: false,
 		lib: {
 			entry: fileURLToPath(new URL('./index.ts', import.meta.url)),
 			formats: [ 'es' ],

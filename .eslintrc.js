@@ -23,6 +23,7 @@ module.exports = {
 		'@typescript-eslint',
 	],
 	rules: {
+		'object-curly-newline': [ 'error', { minProperties: 5, consistent: true } ],
 		'@typescript-eslint/no-var-requires': 'off',
 		'@typescript-eslint/ban-ts-comment': 'off',
 		camelcase: [ 'error', { ignoreDestructuring: true } ],
