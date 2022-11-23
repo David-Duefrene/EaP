@@ -3,9 +3,7 @@ require('dotenv').config()
 const path = require('path')
 const { fork } = require('node:child_process')
 
-const {
-	app, BrowserWindow, ipcMain, safeStorage,
-} = require('electron')
+const { app, BrowserWindow, ipcMain, safeStorage } = require('electron')
 const Store = require('electron-store')
 const electronStore = new Store()
 
@@ -26,12 +24,14 @@ const createWindow = async () => {
 		},
 	})
 
+	const isDev = process.env.DEV_MODE
 	const controller = new AbortController()
 	const { signal } = controller
-	const child = fork('./APICrawler/vite-build/ElectronEntry.es.js', { signal })
 
+	const crawlerLocation = isDev ? './APICrawler/vite-build/ElectronEntry.es.js' : './resources/APICrawler/vite-build/ElectronEntry.es.js'
+	const child = fork(crawlerLocation, { signal })
+	// Postgres https://www.enterprisedb.com/download-postgresql-binaries
 	const characterIDList = await PrismaClient.character.findMany()
-
 	if (characterIDList.length > 0) {
 		const charDict: Record<string, Character> = {}
 		characterIDList.forEach((char: Character) => {
@@ -51,8 +51,12 @@ const createWindow = async () => {
 		child.send({ type: 'Login', message: 'Login' })
 	})
 
-	// TODO check if in dev or build
-	win.loadURL('http://localhost:3000')
+	if (isDev) {
+		win.loadURL('http://localhost:3000')
+	} else {
+		win.loadFile(require('path').join(__dirname, 'index.html'))
+	}
+	win.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {

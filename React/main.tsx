@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-	Route, Routes, BrowserRouter,
-} from 'react-router-dom'
+import { Route, Routes, HashRouter } from 'react-router-dom'
 
 import Home from './Pages/Home/Home'
 import Blueprints from './Pages/Character/Blueprints/Blueprints'
@@ -77,10 +75,10 @@ const routes =
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<BrowserRouter>
+		<HashRouter>
 			<NavBar />
 			{routes}
 			<Notification />
-		</BrowserRouter>
+		</HashRouter>
 	</React.StrictMode>,
 )
