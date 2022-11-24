@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import AddCharacter from '../../Components/Buttons/AddCharacter/AddCharacter'
 import CharacterCard from '../../Components/CharacterCard/CharacterCard'
-import './Home.css'
+import CSS from './Home.module.css'
 import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 
 const Home = () => {
@@ -38,7 +38,7 @@ const Home = () => {
 	})
 
 	return (
-		<div className='App'>
+		<div className={CSS.Content}>
 			<AddCharacter />
 			{cardList}
 		</div>

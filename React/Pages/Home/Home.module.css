@@ -1,0 +1,18 @@
+.Content {
+	width: 66vw;
+	height: 80vh;
+	margin-left: 10%;
+	display: grid;
+	justify-content: center;
+	overflow: auto;
+	scrollbar-color: var(--accent-color), rgba(0, 0, 0, 0);;
+}
+
+::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 1ex;
+}
