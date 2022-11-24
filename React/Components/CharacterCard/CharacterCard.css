@@ -7,7 +7,7 @@
 	box-shadow: 0px 0px 7px var(--accent-color);
 	transition: filter 1s;
 	text-decoration: none;
-	max-height: 25vh;
+	height: 210px;
 	width: 550px;
 }
 
@@ -17,7 +17,8 @@
 
 .Portrait {
 	width: 15vw;
-	height: 25vh;
+	max-width: 210px;
+	height: 210px;
 	border-radius: 10px;
 }
 

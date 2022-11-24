@@ -38,10 +38,12 @@ const Home = () => {
 	})
 
 	return (
-		<div className={CSS.Content}>
+		<>
 			<AddCharacter />
-			{cardList}
-		</div>
+			<div className={CSS.Content}>
+				{cardList}
+			</div>
+		</>
 	)
 }
 
