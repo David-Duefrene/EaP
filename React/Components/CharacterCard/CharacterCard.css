@@ -7,6 +7,8 @@
 	box-shadow: 0px 0px 7px var(--accent-color);
 	transition: filter 1s;
 	text-decoration: none;
+	max-height: 25vh;
+	width: 550px;
 }
 
 .Card:hover, .Card:focus {
@@ -14,8 +16,8 @@
 }
 
 .Portrait {
-	max-width: 100%;
-	max-height: 100%;
+	width: 15vw;
+	height: 25vh;
 	border-radius: 10px;
 }
 
