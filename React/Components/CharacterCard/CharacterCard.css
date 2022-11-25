@@ -9,10 +9,25 @@
 	text-decoration: none;
 	height: 210px;
 	width: 550px;
+	animation-duration: 1s;
+	animation-name: entrance;
 }
+
+@keyframes entrance {
+	0% {
+	  opacity: 0;
+	  transform: rotateX(90deg);
+	}
+
+	100% {
+		opacity: 1;
+		transform: rotateX(0deg);
+	}
+  }
 
 .Card:hover, .Card:focus {
 	filter: sepia(60%);
+	transform: translate3d(0, -5px, -10px);
 }
 
 .Portrait {
