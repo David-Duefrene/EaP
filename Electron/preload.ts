@@ -11,7 +11,6 @@ const pgClient = new Client({
 })
 pgClient.connect()
 
-
 contextBridge.exposeInMainWorld('findAll', {
 	characters: () => ipcRenderer.invoke('character'),
 	characterSheets: () => pgClient.query('SELECT * FROM public."CharacterSheet" JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID" JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"'),
