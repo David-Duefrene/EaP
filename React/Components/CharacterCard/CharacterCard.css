@@ -31,8 +31,7 @@
 }
 
 .Portrait {
-	width: 15vw;
-	max-width: 210px;
+	width: 210px;
 	height: 210px;
 	border-radius: 10px;
 }

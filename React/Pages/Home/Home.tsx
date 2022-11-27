@@ -14,7 +14,7 @@ const Home = () => {
 		window.findAll.characters().then((charList) => {
 			window.findAll.characterSheets().then((charSheetList) => {
 				setCharacters(charList)
-				setCharacterSheets(charSheetList)
+				setCharacterSheets(charSheetList.rows)
 				setIsLoading(false)
 			})
 		})
