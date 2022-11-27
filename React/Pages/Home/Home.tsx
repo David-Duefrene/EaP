@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import AddCharacter from '../../Components/Buttons/AddCharacter/AddCharacter'
 import CharacterCard from '../../Components/CharacterCard/CharacterCard'
-import './Home.css'
+import CSS from './Home.module.css'
 import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
 		window.findAll.characters().then((charList) => {
 			window.findAll.characterSheets().then((charSheetList) => {
 				setCharacters(charList)
-				setCharacterSheets(charSheetList)
+				setCharacterSheets(charSheetList.rows)
 				setIsLoading(false)
 			})
 		})
@@ -38,10 +38,12 @@ const Home = () => {
 	})
 
 	return (
-		<div className='App'>
+		<>
 			<AddCharacter />
-			{cardList}
-		</div>
+			<div className={CSS.Content}>
+				{cardList}
+			</div>
+		</>
 	)
 }
 

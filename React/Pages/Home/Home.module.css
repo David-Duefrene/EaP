@@ -1,0 +1,31 @@
+.Content {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto;
+	grid-column-gap: 5px;
+	grid-row-gap: 5px;
+	justify-items: center;
+	overflow: auto;
+	scrollbar-color: var(--accent-color), rgba(0, 0, 0, 0);;
+}
+
+@media screen and (min-width: 1150px) {
+	.Content {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media screen and (min-width: 1700px) {
+	.Content {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 1ex;
+}

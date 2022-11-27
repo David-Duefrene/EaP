@@ -20,7 +20,6 @@ body {
 	justify-content: center;
 	color: var(--main-off-color);
 	overflow: hidden;
-
 }
 
 #root {
@@ -29,6 +28,7 @@ body {
 }
 
 button, .Button {
+	font-size: calc(10px + 2vmin);
 	display: inline-block;
 	background-image: radial-gradient(var(--highlight-color), var(--main-color));
 	padding: 0.5em 1em;

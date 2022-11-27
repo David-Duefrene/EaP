@@ -24,7 +24,8 @@ const createWindow = async () => {
 		},
 	})
 
-	const isDev = process.env.DEV_MODE
+	// eslint-disable-next-line dot-notation
+	const isDev = process.env['DEV_MODE']
 	const controller = new AbortController()
 	const { signal } = controller
 
