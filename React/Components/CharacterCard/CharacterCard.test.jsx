@@ -19,11 +19,11 @@ describe('CharacterCard', () => {
 		name: 'Test Name',
 		allianceID: 456,
 		birthday: '2021-01-01',
-		bloodlineID: 789,
+		bloodlineName: 'Jin-Mei',
 		corporationID: 901,
 		description: 'Test Description',
 		gender: 'male',
-		raceID: 234,
+		raceName: 'Gallente',
 		securityStatus: 10,
 	}
 
@@ -58,7 +58,7 @@ describe('CharacterCard', () => {
 	})
 
 	test('should render the character Bloodline ID', () => {
-		expect(screen.getByText(`Bloodline: ${character.bloodlineID}`)).toBeTruthy()
+		expect(screen.getByText(`Bloodline: ${character.bloodlineName}`)).toBeTruthy()
 	})
 
 	test('should render the character Corp ID', () => {
@@ -70,10 +70,10 @@ describe('CharacterCard', () => {
 	})
 
 	test('should render the character Race', () => {
-		expect(screen.getByText(`Race: ${character.raceID}`)).toBeTruthy()
+		expect(screen.getByText(`Race: ${character.raceName}`)).toBeTruthy()
 	})
 
 	test('should render the character Security Status', () => {
-		expect(screen.getByText(`Security Status: ${character.securityStatus}`)).toBeTruthy()
+		expect(screen.getByText(`Security Status: ${character.securityStatus.toFixed(2)}`)).toBeTruthy()
 	})
 })
