@@ -10,6 +10,17 @@ const electronStore = new Store()
 import MessageController from './MessagingSystem/MessageController'
 import PrismaClient from '../prisma/PrismaClient'
 
+const { Client } = require('pg')
+
+const pgClient = new Client({
+	host: 'localhost',
+	port: 5432,
+	user: 'postgres',
+	password: 'password',
+	database: 'DATABASE',
+})
+pgClient.connect()
+
 import type { Character } from '@prisma/client'
 
 const createWindow = async () => {
@@ -32,7 +43,7 @@ const createWindow = async () => {
 	const crawlerLocation = isDev ? './APICrawler/vite-build/ElectronEntry.es.js' : './resources/APICrawler/vite-build/ElectronEntry.es.js'
 	const child = fork(crawlerLocation, { signal })
 	// Postgres https://www.enterprisedb.com/download-postgresql-binaries
-	const characterIDList = await PrismaClient.character.findMany()
+	const characterIDList = await pgClient.query('SELECT * FROM public."Character"')
 	if (characterIDList.length > 0) {
 		const charDict: Record<string, Character> = {}
 		characterIDList.forEach((char: Character) => {
@@ -61,8 +72,11 @@ const createWindow = async () => {
 }
 
 app.whenReady().then(() => {
-	ipcMain.handle('character', async () => await PrismaClient.character.findMany())
-	ipcMain.handle('characterSheet', async () => await PrismaClient.characterSheet.findMany())
+	ipcMain.handle('character', async () => {
+		const result = await pgClient.query('SELECT * FROM public."Character"')
+		return result.rows
+	})
+	ipcMain.handle('characterSheet', async () => await pgClient.query('SELECT * FROM public."CharacterSheet"'))
 	ipcMain.handle('characterTitles', async (event: Event, characterID: bigint) => await PrismaClient.Title.findMany({ where: { characterID } }))
 	ipcMain.handle('characterBlueprints', async (event: Event, characterID: bigint) => await PrismaClient.Blueprint.findMany({ where: { ownerID: characterID } }))
 	ipcMain.handle('characterContactNotifications', async (event: Event, characterID: bigint) => await PrismaClient.ContactNotification.findMany({ where: { characterID } }))
