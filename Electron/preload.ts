@@ -1,20 +1,16 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
-const { Client } = require('pg')
-
-const pgClient = new Client({
-	host: 'localhost',
-	port: 5432,
-	user: 'postgres',
-	password: 'password',
-	database: 'DATABASE',
-})
-pgClient.connect()
+import pgClient from '../postgres/postgresClient'
 
 contextBridge.exposeInMainWorld('findAll', {
-	characters: () => ipcRenderer.invoke('character'),
-	characterSheets: () => pgClient.query('SELECT * FROM public."CharacterSheet" JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID" JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"'),
-	// () => ipcRenderer.invoke('characterSheet'),
+	characters: async () => {
+		const result = await pgClient.query(`
+			SELECT * FROM public."CharacterSheet"
+			JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID"
+			JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"
+		`)
+		return result.rows
+	},
 })
 
 contextBridge.exposeInMainWorld('getCharacter', {
