@@ -1,5 +1,5 @@
 import ESIRequest from '../../axiosRequests/ESIRequest'
-import prisma from '../../../prisma/PrismaClient'
+import pgClient from '../../../postgres/postgresClient'
 
 import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
 import Title from '../../../Types/APIResponses/EveOfficial/Title.types'
@@ -9,14 +9,15 @@ export default (characterAuthData: CharacterAuthData) => {
 
 	return ESIRequest(`characters/${characterID}/titles`, accessToken).then((result: { data: Array<Title> }) => {
 		result.data.forEach(async (title) => {
-			const { titleID } = title
+			const { titleID, name } = title
 
-			await prisma.Title.upsert({
-				where: { titleID },
-				update: { ...title },
-				create: { ...title, characterID },
-			}).catch((error: Error) => {
-				throw new Error('Title prisma error\n', { cause: error })
+			await pgClient.query(/*SQL*/`
+				INSERT INTO public."Title" ("characterID", "titleID", "name")
+				VALUES ($1, $2, $3)
+				ON CONFLICT ("characterID", "titleID") DO SET name = $3`,
+			[ characterID, titleID, name ],
+			).catch((error: Error) => {
+				throw new Error('Title SQL error\n', { cause: error })
 			})
 		})
 	}).catch((error: Error) => {
