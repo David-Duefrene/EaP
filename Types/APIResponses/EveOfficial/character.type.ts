@@ -1,12 +1,12 @@
 type character = {
-	'allianceId': number,
+	'allianceID': number,
 	'birthday': string | Date,
-	'bloodLineId': number,
-	'corporationId': number,
+	'bloodLineID': number,
+	'corporationID': number,
 	'description': string,
 	'gender': 'male' | 'female',
 	'name': string,
-	'raceId': number,
+	'raceID': number,
 	'securityStatus': number
 }
 

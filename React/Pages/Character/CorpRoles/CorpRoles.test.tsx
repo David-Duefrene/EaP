@@ -15,12 +15,12 @@ import CorpRolesList from './CorpRoles'
 describe('CorpRolesList', () => {
 	beforeEach(() => {
 		window.getCharacter = {
-			corpRoles: () => Promise.resolve({
+			corpRoles: () => Promise.resolve([{
 				roles: [ Roles.Account_Take_1 ],
 				rolesAtBase: [ Roles.Account_Take_1 ],
 				rolesAtHQ: [ Roles.Account_Take_1 ],
 				rolesAtOther: [ Roles.Account_Take_1 ],
-			}),
+			}]),
 		}
 
 		render(<CorpRolesList />)

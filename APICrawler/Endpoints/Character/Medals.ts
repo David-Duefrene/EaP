@@ -1,4 +1,4 @@
-import prisma from '../../../prisma/PrismaClient'
+import pgUpsert from '../../../Postgres/pgUpsert'
 import ESIRequest from '../../axiosRequests/ESIRequest'
 
 import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
@@ -10,24 +10,10 @@ export default (characterAuthData: CharacterAuthData) => {
 	return ESIRequest(`characters/${characterID}/medals`, accessToken).then((result: { data: Array<Medal>}) => {
 		result.data.forEach(async (medal: Medal) => {
 			const medalData = { ...medal }
-			const graphics = medal.graphics
+			const graphics = JSON.stringify(medalData.graphics)
 			delete medalData.graphics
 
-			await prisma.Medal.upsert({
-				where: { medalID: medalData.medalID },
-				update: {
-					...medalData,
-					character: { connect: { characterID } },
-					graphics: JSON.stringify(graphics),
-				},
-				create: {
-					...medalData,
-					character: { connect: { characterID } },
-					graphics: JSON.stringify(graphics),
-				},
-			}).catch((error: Error) => {
-				throw new Error('Medals prisma error\n', { cause: error })
-			})
+			pgUpsert('Medal', { characterID, graphics, ...medalData }, [ 'characterID', 'medalID' ])
 		})
 	}).catch((error: Error) => {
 		throw new Error('Medals API error\n', { cause: error })

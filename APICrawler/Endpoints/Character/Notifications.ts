@@ -1,4 +1,4 @@
-import prisma from '../../../prisma/PrismaClient'
+import pgUpsert from '../../../Postgres/pgUpsert'
 import ESIRequest from '../../axiosRequests/ESIRequest'
 
 import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
@@ -9,13 +9,7 @@ export default (characterAuthData: CharacterAuthData) => {
 
 	return ESIRequest(`characters/${characterID}/notifications`, accessToken).then((result: { data: Array<Notification>}) => {
 		result.data.forEach(async (notification: Notification) => {
-			await prisma.Notification.upsert({
-				where: { notificationID: notification.notificationID },
-				update: { ...notification, characterID },
-				create: { ...notification, characterID },
-			}).catch((error: Error) => {
-				throw new Error('Notifications prisma error\n', { cause: error })
-			})
+			pgUpsert('Notification', { characterID, ...notification }, [ 'characterID', 'notificationID' ])
 		})
 	}).catch((error: Error) => {
 		throw new Error('Notifications API error\n', { cause: error })

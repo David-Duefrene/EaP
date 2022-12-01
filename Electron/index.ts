@@ -8,9 +8,19 @@ const Store = require('electron-store')
 const electronStore = new Store()
 
 import MessageController from './MessagingSystem/MessageController'
-import PrismaClient from '../prisma/PrismaClient'
 
-import type { Character } from '@prisma/client'
+const { Client } = require('pg')
+
+const pgClient = new Client({
+	host: 'localhost',
+	port: 5432,
+	user: 'postgres',
+	password: 'password',
+	database: 'DATABASE',
+})
+pgClient.connect()
+
+import type Character from '../Types/APIResponses/EveOfficial/character.type'
 
 const createWindow = async () => {
 	const win = new BrowserWindow({
@@ -31,8 +41,8 @@ const createWindow = async () => {
 
 	const crawlerLocation = isDev ? './APICrawler/vite-build/ElectronEntry.es.js' : './resources/APICrawler/vite-build/ElectronEntry.es.js'
 	const child = fork(crawlerLocation, { signal })
-	// Postgres https://www.enterprisedb.com/download-postgresql-binaries
-	const characterIDList = await PrismaClient.character.findMany()
+	const characterIDList = await pgClient.query('SELECT * FROM public."Character"')
+
 	if (characterIDList.length > 0) {
 		const charDict: Record<string, Character> = {}
 		characterIDList.forEach((char: Character) => {
@@ -61,16 +71,6 @@ const createWindow = async () => {
 }
 
 app.whenReady().then(() => {
-	ipcMain.handle('character', async () => await PrismaClient.character.findMany())
-	ipcMain.handle('characterSheet', async () => await PrismaClient.characterSheet.findMany())
-	ipcMain.handle('characterTitles', async (event: Event, characterID: bigint) => await PrismaClient.Title.findMany({ where: { characterID } }))
-	ipcMain.handle('characterBlueprints', async (event: Event, characterID: bigint) => await PrismaClient.Blueprint.findMany({ where: { ownerID: characterID } }))
-	ipcMain.handle('characterContactNotifications', async (event: Event, characterID: bigint) => await PrismaClient.ContactNotification.findMany({ where: { characterID } }))
-	ipcMain.handle('characterCorpHistory', async (event: Event, characterID: bigint) => await PrismaClient.corpHistory.findMany({ where: { characterID } }))
-	ipcMain.handle('characterCorpRoles', async (event: Event, characterID: bigint) => await PrismaClient.corpRoles.findUnique({ where: { characterID } }))
-	ipcMain.handle('characterMedals', async (event: Event, characterID: bigint) => await PrismaClient.Medal.findMany({ where: { characterID } }))
-	ipcMain.handle('characterNotifications', async (event: Event, characterID: bigint) => await PrismaClient.Notification.findMany({ where: { characterID } }))
-	ipcMain.handle('characterStandings', async (event: Event, characterID: bigint) => await PrismaClient.Standings.findMany({ where: { characterID } }))
 	createWindow()
 }).catch((err: Error) => {
 	// eslint-disable-next-line no-console

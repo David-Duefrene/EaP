@@ -7,16 +7,12 @@ import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/
 
 const Home = () => {
 	const [ characters, setCharacters ] = useState<CharacterQuery[]>([])
-	const [ characterSheets, setCharacterSheets ] = useState<CharacterQuery[]>([])
 	const [ isLoading, setIsLoading ] = useState(true)
 
 	useEffect(() => {
 		window.findAll.characters().then((charList) => {
-			window.findAll.characterSheets().then((charSheetList) => {
-				setCharacters(charList)
-				setCharacterSheets(charSheetList.rows)
-				setIsLoading(false)
-			})
+			setCharacters(charList)
+			setIsLoading(false)
 		})
 	}, [])
 
@@ -29,10 +25,7 @@ const Home = () => {
 		return (
 			<CharacterCard
 				key={key}
-				character={{
-					...el,
-					...characterSheets[key],
-				}}
+				character={{ ...el }}
 			/>
 		)
 	})

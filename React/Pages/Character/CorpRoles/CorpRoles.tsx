@@ -15,8 +15,8 @@ const CorpRoles = () => {
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		window.getCharacter.corpRoles(BigInt(characterID)).then((d: CorpRole) => {
-			setCorpRoles(d)
+		window.getCharacter.corpRoles(BigInt(characterID)).then((d: CorpRole[]) => {
+			setCorpRoles(d[0])
 			setIsLoading(false)
 		})
 	}, [ characterID ])
@@ -29,19 +29,19 @@ const CorpRoles = () => {
 					<tbody>
 						<tr>
 							<td>Roles</td>
-							{corpRoles.roles.map((el, key) => <td key={key}>{el}</td>)}
+							{<td>{corpRoles.roles}</td>}
 						</tr>
 						<tr>
 							<td>Roles At Base</td>
-							{corpRoles.rolesAtBase.map((el, key) => <td key={key}>{el}</td>)}
+							{<td>{corpRoles.rolesAtBase}</td>}
 						</tr>
 						<tr>
 							<td>Roles At HQ</td>
-							{corpRoles.rolesAtHQ.map((el, key) => <td key={key}>{el}</td>)}
+							{<td>{corpRoles.rolesAtHQ}</td>}
 						</tr>
 						<tr>
 							<td>Roles At Other</td>
-							{corpRoles.rolesAtOther.map((el, key) => <td key={key}>{el}</td>)}
+							{<td>{corpRoles.rolesAtOther}</td>}
 						</tr>
 					</tbody>
 				</table>

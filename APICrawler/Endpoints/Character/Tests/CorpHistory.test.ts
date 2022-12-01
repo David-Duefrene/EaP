@@ -4,7 +4,7 @@ import {
 
 import corpHistory from '../CorpHistory'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
-import prisma from '../../../../prisma/PrismaClient'
+import pgUpsert from '../../../../Postgres/pgUpsert'
 
 describe('corpHistory', () => {
 	afterEach(() => {
@@ -22,38 +22,21 @@ describe('corpHistory', () => {
 			}),
 		}))
 
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				CorpHistory: {
-					upsert: vi.fn().mockResolvedValue(null),
-				},
-			},
+		vi.mock('../../../../Postgres/pgUpsert', () => ({
+			default: vi.fn().mockResolvedValue(null),
 		}))
 
-		await corpHistory({ characterID: '1', accessToken: 'Token' })
+		await corpHistory({ characterID: BigInt(1), accessToken: 'Token' })
 
 		expect(ESIRequest).toBeCalledTimes(1)
 		expect(ESIRequest).toBeCalledWith('characters/1/corporationhistory')
-		expect(prisma.CorpHistory.upsert).toBeCalledTimes(1)
+		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
 			recordID: 1,
 			corporationID: 1,
 			startDate: new Date('2022-10-06T02:09:38.981Z'),
+			characterID: BigInt(1),
 		}
-		expect(prisma.CorpHistory.upsert).toBeCalledWith({
-			where: { recordID: 1 },
-			update: {
-				...mockData,
-				character: {
-					connect: { characterID: '1' },
-				},
-			},
-			create: {
-				...mockData,
-				character: {
-					connect: { characterID: '1' },
-				},
-			},
-		})
+		expect(pgUpsert).toBeCalledWith('CorpHistory', mockData, [ 'recordID' ])
 	})
 })

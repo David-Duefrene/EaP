@@ -1,31 +1,28 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
-const { Client } = require('pg')
-
-const pgClient = new Client({
-	host: 'localhost',
-	port: 5432,
-	user: 'postgres',
-	password: 'password',
-	database: 'DATABASE',
-})
-pgClient.connect()
+import pgClient from '../Postgres/postgresClient'
+import pgSelectByCharID from '../Postgres/pgSelectByCharID'
 
 contextBridge.exposeInMainWorld('findAll', {
-	characters: () => ipcRenderer.invoke('character'),
-	characterSheets: () => pgClient.query('SELECT * FROM public."CharacterSheet" JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID" JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"'),
-	// () => ipcRenderer.invoke('characterSheet'),
+	characters: async () => {
+		const result = await pgClient.query(`
+			SELECT * FROM public."CharacterSheet"
+			JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID"
+			JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"
+		`)
+		return result.rows
+	},
 })
 
 contextBridge.exposeInMainWorld('getCharacter', {
-	titles: (characterID: bigint) => ipcRenderer.invoke('characterTitles', characterID),
-	blueprints: (characterID: bigint) => ipcRenderer.invoke('characterBlueprints', characterID),
-	contactNotifications: (characterID: bigint) => ipcRenderer.invoke('characterContactNotifications', characterID),
-	corpHistory: (characterID: bigint) => ipcRenderer.invoke('characterCorpHistory', characterID),
-	corpRoles: (characterID: bigint) => ipcRenderer.invoke('characterCorpRoles', characterID),
-	medals: (characterID: bigint) => ipcRenderer.invoke('characterMedals', characterID),
-	notifications: (characterID: bigint) => ipcRenderer.invoke('characterNotifications', characterID),
-	standings: (characterID: bigint) => ipcRenderer.invoke('characterStandings', characterID),
+	blueprints: (characterID: bigint) => pgSelectByCharID('Blueprint', characterID),
+	contactNotifications: (characterID: bigint) => pgSelectByCharID('ContactNotification', characterID),
+	corpHistory: (characterID: bigint) => pgSelectByCharID('CorpHistory', characterID),
+	corpRoles: (characterID: bigint) => pgSelectByCharID('CorpRoles', characterID),
+	medals: (characterID: bigint) => pgSelectByCharID('Medal', characterID),
+	notifications: (characterID: bigint) => pgSelectByCharID('Notification', characterID),
+	standings: (characterID: bigint) => pgSelectByCharID('Standings', characterID),
+	titles: (characterID: bigint) => pgSelectByCharID('Title', characterID),
 })
 
 contextBridge.exposeInMainWorld('auth', {
