@@ -1,4 +1,4 @@
-import pgClient from '../postgres/postgresClient'
+import pgClient from './postgresClient'
 
 export default async (tableName: string, data: { [x: string]: any }, uniqueColumns: string[]) => {
 	const keys = Object.keys(data)

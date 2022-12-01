@@ -71,19 +71,6 @@ const createWindow = async () => {
 }
 
 app.whenReady().then(() => {
-	// ipcMain.handle('character', async () => {
-	// 	const result = await pgClient.query('SELECT * FROM public."Character"')
-	// 	return result.rows
-	// })
-	// ipcMain.handle('characterSheet', async () => await pgClient.query('SELECT * FROM public."CharacterSheet"'))
-	// ipcMain.handle('characterTitles', async (event: Event, characterID: bigint) => await PrismaClient.Title.findMany({ where: { characterID } }))
-	// ipcMain.handle('characterBlueprints', async (event: Event, characterID: bigint) => await PrismaClient.Blueprint.findMany({ where: { ownerID: characterID } }))
-	// ipcMain.handle('characterContactNotifications', async (event: Event, characterID: bigint) => await PrismaClient.ContactNotification.findMany({ where: { characterID } }))
-	// ipcMain.handle('characterCorpHistory', async (event: Event, characterID: bigint) => await PrismaClient.corpHistory.findMany({ where: { characterID } }))
-	// ipcMain.handle('characterCorpRoles', async (event: Event, characterID: bigint) => await PrismaClient.corpRoles.findUnique({ where: { characterID } }))
-	// ipcMain.handle('characterMedals', async (event: Event, characterID: bigint) => await PrismaClient.Medal.findMany({ where: { characterID } }))
-	// ipcMain.handle('characterNotifications', async (event: Event, characterID: bigint) => await PrismaClient.Notification.findMany({ where: { characterID } }))
-	// ipcMain.handle('characterStandings', async (event: Event, characterID: bigint) => await PrismaClient.Standings.findMany({ where: { characterID } }))
 	createWindow()
 }).catch((err: Error) => {
 	// eslint-disable-next-line no-console

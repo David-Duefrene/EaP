@@ -1,5 +1,5 @@
 import ESIRequest from '../../axiosRequests/ESIRequest'
-import pgUpsert from '../../pgUpsert'
+import pgUpsert from '../../../Postgres/pgUpsert'
 import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
 import Title from '../../../Types/APIResponses/EveOfficial/Title.types'
 

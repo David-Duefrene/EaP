@@ -107,7 +107,7 @@ CREATE TABLE "Medal" (
 
 -- CreateTable
 CREATE TABLE "Notification" (
-    "characterID" BIGINT PRIMARY KEY,
+    "characterID" BIGINT NOT NULL,
     "isRead" BOOLEAN NOT NULL DEFAULT false,
     "notificationID" INTEGER NOT NULL,
     "senderID" INTEGER NOT NULL,
@@ -116,6 +116,7 @@ CREATE TABLE "Notification" (
     "timestamp" TIMESTAMP(3) NOT NULL,
     "type" message_type NOT NULL,
 
+	PRIMARY KEY ("characterID", "notificationID"),
 	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
 );
 

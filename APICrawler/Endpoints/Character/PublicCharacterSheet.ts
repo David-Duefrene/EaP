@@ -1,4 +1,4 @@
-import pgUpsert from '../../pgUpsert'
+import pgUpsert from '../../../Postgres/pgUpsert'
 import ESIRequest from '../../axiosRequests/ESIRequest'
 import Character from '../../../Types/APIResponses/EveOfficial/character.type'
 import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'

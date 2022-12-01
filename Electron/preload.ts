@@ -1,6 +1,9 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
-import pgClient from '../postgres/postgresClient'
+import pgClient from '../Postgres/postgresClient'
+import pgSelectByCharID from '../Postgres/pgSelectByCharID'
+
+import CorpRole from '../Types/APIResponses/EveOfficial/CorpRoles.types'
 
 contextBridge.exposeInMainWorld('findAll', {
 	characters: async () => {
@@ -14,14 +17,14 @@ contextBridge.exposeInMainWorld('findAll', {
 })
 
 contextBridge.exposeInMainWorld('getCharacter', {
-	titles: (characterID: bigint) => ipcRenderer.invoke('characterTitles', characterID),
-	blueprints: (characterID: bigint) => ipcRenderer.invoke('characterBlueprints', characterID),
-	contactNotifications: (characterID: bigint) => ipcRenderer.invoke('characterContactNotifications', characterID),
-	corpHistory: (characterID: bigint) => ipcRenderer.invoke('characterCorpHistory', characterID),
-	corpRoles: (characterID: bigint) => ipcRenderer.invoke('characterCorpRoles', characterID),
-	medals: (characterID: bigint) => ipcRenderer.invoke('characterMedals', characterID),
-	notifications: (characterID: bigint) => ipcRenderer.invoke('characterNotifications', characterID),
-	standings: (characterID: bigint) => ipcRenderer.invoke('characterStandings', characterID),
+	blueprints: (characterID: bigint) => pgSelectByCharID('Blueprint', characterID),
+	contactNotifications: (characterID: bigint) => pgSelectByCharID('ContactNotification', characterID),
+	corpHistory: (characterID: bigint) => pgSelectByCharID('CorpHistory', characterID),
+	corpRoles: (characterID: bigint) => pgSelectByCharID('CorpRoles', characterID),
+	medals: (characterID: bigint) => pgSelectByCharID('Medal', characterID),
+	notifications: (characterID: bigint) => pgSelectByCharID('Notification', characterID),
+	standings: (characterID: bigint) => pgSelectByCharID('Standings', characterID),
+	titles: (characterID: bigint) => pgSelectByCharID('Title', characterID),
 })
 
 contextBridge.exposeInMainWorld('auth', {
