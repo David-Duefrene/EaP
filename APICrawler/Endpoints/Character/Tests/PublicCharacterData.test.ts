@@ -4,7 +4,7 @@ import {
 
 import PublicCharacterData from '../PublicCharacterSheet'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
-import prisma from '../../../../prisma/PrismaClient'
+import pgUpsert from '../../../../Postgres/pgUpsert'
 
 describe('PublicCharacterData', () => {
 	afterEach(() => {
@@ -17,7 +17,7 @@ describe('PublicCharacterData', () => {
 				data: {
 					name: 'name',
 					characterID: 1n,
-					ancestryID: 1,
+					raceID: 1,
 					birthday: new Date('2022-10-06T02:09:38.981Z'),
 					bloodlineID: 1,
 					corporationID: 1,
@@ -26,48 +26,24 @@ describe('PublicCharacterData', () => {
 			}),
 		}))
 
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: { Character: { upsert: vi.fn().mockResolvedValue(null) } },
+		vi.mock('../../../../Postgres/pgUpsert', () => ({
+			default: vi.fn().mockResolvedValue(null),
 		}))
 
-		await PublicCharacterData({ characterID: '1', accessToken: 'Token' })
+		await PublicCharacterData({ characterID: BigInt(1), accessToken: 'Token' })
 		expect(ESIRequest).toBeCalledTimes(1)
 		expect(ESIRequest).toBeCalledWith('characters/1')
-		expect(prisma.Character.upsert).toBeCalledTimes(1)
+		expect(pgUpsert).toBeCalledTimes(2)
 		const mockData = {
-			where: { characterID: 1n },
-			create: {
-				characterID: 1n,
-				characterSheet: {
-					create: {
-						name: 'name',
-						characterID: 1n,
-						ancestryID: 1,
-						birthday: new Date('2022-10-06T02:09:38.981Z'),
-						bloodlineID: 1,
-						corporationID: 1,
-						description: 'description',
-					},
-				},
-				name: 'name',
-			},
-			update: {
-				characterID: 1n,
-				characterSheet: {
-					update: {
-						name: 'name',
-						characterID: 1n,
-						ancestryID: 1,
-						birthday: new Date('2022-10-06T02:09:38.981Z'),
-						bloodlineID: 1,
-						corporationID: 1,
-						description: 'description',
-					},
-				},
-				name: 'name',
-			},
+			name: 'name',
+			characterID: 1n,
+			raceID: 1,
+			birthday: new Date('2022-10-06T02:09:38.981Z'),
+			bloodlineID: 1,
+			corporationID: 1,
+			description: 'description',
 		}
 
-		expect(prisma.Character.upsert).toBeCalledWith(mockData)
+		expect(pgUpsert).toBeCalledWith('CharacterSheet', mockData, [ 'characterID' ])
 	})
 })

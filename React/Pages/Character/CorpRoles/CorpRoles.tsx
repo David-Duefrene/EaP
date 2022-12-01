@@ -15,7 +15,7 @@ const CorpRoles = () => {
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		window.getCharacter.corpRoles(BigInt(characterID)).then((d) => {
+		window.getCharacter.corpRoles(BigInt(characterID)).then((d: CorpRole[]) => {
 			setCorpRoles(d[0])
 			setIsLoading(false)
 		})

@@ -4,7 +4,7 @@ import {
 
 import medals from '../Medals'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
-import prisma from '../../../../prisma/PrismaClient'
+import pgUpsert from '../../../../Postgres/pgUpsert'
 
 describe('medals', () => {
 	afterEach(() => {
@@ -34,19 +34,15 @@ describe('medals', () => {
 			}),
 		}))
 
-		vi.mock('../../../../prisma/PrismaClient', () => ({
-			default: {
-				Medal: {
-					upsert: vi.fn().mockResolvedValue(null),
-				},
-			},
+		vi.mock('../../../../Postgres/pgUpsert', () => ({
+			default: vi.fn().mockResolvedValue(null),
 		}))
 
-		await medals({ characterID: '1', accessToken: 'Token' })
+		await medals({ characterID: BigInt(1), accessToken: 'Token' })
 
 		expect(ESIRequest).toBeCalledTimes(1)
 		expect(ESIRequest).toBeCalledWith('characters/1/medals', 'Token')
-		expect(prisma.Medal.upsert).toBeCalledTimes(1)
+		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
 			medalID: 1,
 			reason: 'reason',
@@ -65,16 +61,6 @@ describe('medals', () => {
 			}),
 
 		}
-		expect(prisma.Medal.upsert).toBeCalledWith({
-			where: { medalID: 1 },
-			update: {
-				...mockData,
-				character: { connect: { characterID: '1' } },
-			},
-			create: {
-				...mockData,
-				character: { connect: { characterID: '1' } },
-			},
-		})
+		expect(pgUpsert).toBeCalledWith('Medal', mockData, [ 'characterID', 'medalID' ])
 	})
 })

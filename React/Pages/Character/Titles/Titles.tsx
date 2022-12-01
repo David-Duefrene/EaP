@@ -10,7 +10,7 @@ const Titles = () => {
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
-		window.getCharacter.titles(BigInt(characterID)).then((d: Title) => {
+		window.getCharacter.titles(BigInt(characterID)).then((d: Title[]) => {
 			setTitle(d)
 		})
 	}, [ characterID ])
