@@ -1,6 +1,6 @@
 import pgClient from '../postgres/postgresClient'
 
-export default async (tableName: string, data: any, uniqueColumns: string[]) => {
+export default async (tableName: string, data: { [x: string]: any }, uniqueColumns: string[]) => {
 	const keys = Object.keys(data)
 	const columns = keys.join('", "')
 	const values = keys.map((key) => data[key as keyof typeof data])
