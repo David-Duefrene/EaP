@@ -3,8 +3,6 @@ const { contextBridge, ipcRenderer } = require('electron')
 import pgClient from '../Postgres/postgresClient'
 import pgSelectByCharID from '../Postgres/pgSelectByCharID'
 
-import CorpRole from '../Types/APIResponses/EveOfficial/CorpRoles.types'
-
 contextBridge.exposeInMainWorld('findAll', {
 	characters: async () => {
 		const result = await pgClient.query(`

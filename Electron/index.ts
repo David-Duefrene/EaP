@@ -20,7 +20,7 @@ const pgClient = new Client({
 })
 pgClient.connect()
 
-import type { Character } from '@prisma/client'
+import type Character from '../Types/APIResponses/EveOfficial/character.type'
 
 const createWindow = async () => {
 	const win = new BrowserWindow({

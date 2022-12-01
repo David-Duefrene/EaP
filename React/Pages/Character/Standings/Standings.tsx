@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import prisma from '../../../../prisma/PrismaClient'
 import SortableList from '../../../Components/SortableList/SortableList'
 import Standing from '../../../../Types/APIResponses/EveOfficial/Standings.types'
 
