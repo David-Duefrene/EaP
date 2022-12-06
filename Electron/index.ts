@@ -1,7 +1,8 @@
 require('dotenv').config()
 
 const path = require('path')
-const { fork } = require('node:child_process')
+const { existsSync } = require('node:fs')
+const { fork, spawn, execSync } = require('node:child_process')
 
 const { app, BrowserWindow, ipcMain, safeStorage } = require('electron')
 const Store = require('electron-store')
@@ -18,7 +19,6 @@ const pgClient = new Client({
 	password: 'password',
 	database: 'DATABASE',
 })
-pgClient.connect()
 
 import type Character from '../Types/APIResponses/EveOfficial/character.type'
 
@@ -33,6 +33,23 @@ const createWindow = async () => {
 			preload: path.join(__dirname, 'index.es2.js'),
 		},
 	})
+
+	// Check if the database directory has been created
+	if (!existsSync('$env:PROGRAMDATA/EAP/data')) {
+		const logger = (error: Error, stdout: Buffer, stderr: Buffer) => error && console.log(error)
+		execSync(path.join(__dirname, 'pgsql/bin/initdb.exe -E UTF8 -U postgres -D %PROGRAMDATA%/EAP/data'), logger)
+		spawn(path.join(__dirname, '/pgsql/bin/postgres.exe'), [ '-D %PROGRAMDATA%/EAP/data' ], { shell: true })
+		await new Promise((resolve) => setTimeout(resolve, 5000))
+
+		execSync(path.join(__dirname, 'pgsql/bin/createdb.exe -U postgres DATABASE'), logger)
+		execSync(path.join(__dirname, `pgsql/bin/pg_restore --no-privileges --no-owner -U postgres -d DATABASE ${path.join(__dirname, 'postgres-latest.dmp')}`), logger)
+		execSync(path.join(__dirname, `pgsql/bin/psql.exe -a -d DATABASE -f ${path.join(__dirname, 'migration.sql')} -U postgres`), logger)
+	} else {
+		spawn('./pgsql/bin/postgres.exe', [ '-D %PROGRAMDATA%/EAP/data' ])
+		await new Promise((resolve) => setTimeout(resolve, 5000))
+	}
+
+	pgClient.connect()
 
 	// eslint-disable-next-line dot-notation
 	const isDev = process.env['DEV_MODE']
