@@ -10,11 +10,14 @@ const electronStore = new Store()
 
 import MessageController from './MessagingSystem/MessageController'
 
-const { Client } = require('pg')
+// eslint-disable-next-line dot-notation
+const isDev = process.env['DEV_MODE']
 
+const port = isDev ? 5555 : 7856
+const { Client } = require('pg')
 const pgClient = new Client({
 	host: 'localhost',
-	port: 5432,
+	port: port,
 	user: 'postgres',
 	password: 'password',
 	database: 'DATABASE',
@@ -35,24 +38,22 @@ const createWindow = async () => {
 	})
 
 	// Check if the database directory has been created
-	if (!existsSync('$env:PROGRAMDATA/EAP/data')) {
+	if (!existsSync(path.join(process.env['ProgramData'], '/EAP/data'))) {
 		const logger = (error: Error, stdout: Buffer, stderr: Buffer) => error && console.log(error)
 		execSync(path.join(__dirname, 'pgsql/bin/initdb.exe -E UTF8 -U postgres -D %PROGRAMDATA%/EAP/data'), logger)
-		spawn(path.join(__dirname, '/pgsql/bin/postgres.exe'), [ '-D %PROGRAMDATA%/EAP/data' ], { shell: true })
+		spawn(path.join(__dirname, '/pgsql/bin/postgres.exe'), [ '-D %PROGRAMDATA%/EAP/data', `-p ${port}` ], { shell: true })
 		await new Promise((resolve) => setTimeout(resolve, 5000))
 
 		execSync(path.join(__dirname, 'pgsql/bin/createdb.exe -U postgres DATABASE'), logger)
 		execSync(path.join(__dirname, `pgsql/bin/pg_restore --no-privileges --no-owner -U postgres -d DATABASE ${path.join(__dirname, 'postgres-latest.dmp')}`), logger)
 		execSync(path.join(__dirname, `pgsql/bin/psql.exe -a -d DATABASE -f ${path.join(__dirname, 'migration.sql')} -U postgres`), logger)
 	} else {
-		spawn('./pgsql/bin/postgres.exe', [ '-D %PROGRAMDATA%/EAP/data' ])
+		spawn(path.join(__dirname, '/pgsql/bin/postgres.exe'), [ '-D %PROGRAMDATA%/EAP/data', `-p ${port}` ], { shell: true })
 		await new Promise((resolve) => setTimeout(resolve, 5000))
 	}
 
 	pgClient.connect()
 
-	// eslint-disable-next-line dot-notation
-	const isDev = process.env['DEV_MODE']
 	const controller = new AbortController()
 	const { signal } = controller
 
