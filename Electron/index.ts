@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const path = require('path')
 const { existsSync } = require('node:fs')
-const { fork, spawn, execSync } = require('node:child_process')
+const { fork, execSync, exec } = require('node:child_process')
 
 const { app, BrowserWindow, ipcMain, safeStorage } = require('electron')
 const Store = require('electron-store')
@@ -11,7 +11,11 @@ const electronStore = new Store()
 import MessageController from './MessagingSystem/MessageController'
 
 // eslint-disable-next-line dot-notation
-const isDev = process.env['DEV_MODE']
+const isDev = process.env['DEV_MODE'] === 'true'
+const postgresMigrationLocation: string = isDev ? path.join(__dirname, 'Postgres') : path.join(process.resourcesPath, 'Postgres')
+const postgresBinLocation: string = path.join(postgresMigrationLocation, 'pgsql', 'bin')
+// eslint-disable-next-line dot-notation
+const dataDirectory: string = path.join(process.env['ProgramData'], 'EAP', isDev ? 'dev-data' : 'data')
 
 const port = isDev ? 5555 : 7856
 const { Client } = require('pg')
@@ -37,19 +41,30 @@ const createWindow = async () => {
 		},
 	})
 
-	// Check if the database directory has been created
-	if (!existsSync(path.join(process.env['ProgramData'], '/EAP/data'))) {
-		const logger = (error: Error, stdout: Buffer, stderr: Buffer) => error && console.log(error)
-		execSync(path.join(__dirname, 'pgsql/bin/initdb.exe -E UTF8 -U postgres -D %PROGRAMDATA%/EAP/data'), logger)
-		spawn(path.join(__dirname, '/pgsql/bin/postgres.exe'), [ '-D %PROGRAMDATA%/EAP/data', `-p ${port}` ], { shell: true })
-		await new Promise((resolve) => setTimeout(resolve, 5000))
+	const checkPostgres = async () => {
+		try {
+			await execSync(path.join(postgresBinLocation, `pg_isready.exe -p ${port}`))
+			return
+		} catch (err) {
+			// If pg_isready return 1 pg is not ready, wait and try again
+			await new Promise((resolve) => setTimeout(resolve, 5000))
+			await checkPostgres()
+		}
+	}
 
-		execSync(path.join(__dirname, 'pgsql/bin/createdb.exe -U postgres DATABASE'), logger)
-		execSync(path.join(__dirname, `pgsql/bin/pg_restore --no-privileges --no-owner -U postgres -d DATABASE ${path.join(__dirname, 'postgres-latest.dmp')}`), logger)
-		execSync(path.join(__dirname, `pgsql/bin/psql.exe -a -d DATABASE -f ${path.join(__dirname, 'migration.sql')} -U postgres`), logger)
+	// Check if the database directory has been created
+	const logger = (error: Error, stdout: Buffer, stderr: Buffer) => console.log(`Error: ${error}\nstdout: ${stdout}\nstderr: ${stderr}`)
+	if (!existsSync(dataDirectory)) {
+		execSync(path.join(postgresBinLocation, `initdb.exe -E UTF8 -U postgres -D ${dataDirectory}`), logger)
+		exec(path.join(postgresBinLocation, `pg_ctl.exe start -U postgres -o" -p ${port}" -D ${dataDirectory}`), logger)
+		await checkPostgres()
+
+		execSync(path.join(postgresBinLocation, `createdb.exe -p ${port} -U postgres DATABASE`), logger)
+		execSync(path.join(postgresBinLocation, `pg_restore --no-privileges --no-owner -U postgres -p ${port} -d DATABASE ${path.join(postgresMigrationLocation, 'postgres-latest.dmp')}`), logger)
+		execSync(path.join(postgresBinLocation, `psql.exe -a -d DATABASE -p ${port} -f ${path.join(postgresMigrationLocation, 'migration.sql')} -U postgres`), logger)
 	} else {
-		spawn(path.join(__dirname, '/pgsql/bin/postgres.exe'), [ '-D %PROGRAMDATA%/EAP/data', `-p ${port}` ], { shell: true })
-		await new Promise((resolve) => setTimeout(resolve, 5000))
+		exec(path.join(postgresBinLocation, `pg_ctl.exe start -U postgres -o" -p ${port}" -D ${dataDirectory}`), logger)
+		await checkPostgres()
 	}
 
 	pgClient.connect()
@@ -57,9 +72,11 @@ const createWindow = async () => {
 	const controller = new AbortController()
 	const { signal } = controller
 
-	const crawlerLocation = isDev ? './APICrawler/vite-build/ElectronEntry.es.js' : './resources/APICrawler/vite-build/ElectronEntry.es.js'
+	const crawlerLocation = isDev ? './APICrawler/vite-build/ElectronEntry.es.js' : path.join(process.resourcesPath, 'APICrawler', 'vite-build', 'ElectronEntry.es.js')
 	const child = fork(crawlerLocation, { signal })
 	const characterIDList = await pgClient.query('SELECT * FROM public."Character"')
+
+	pgClient.end()
 
 	if (characterIDList.length > 0) {
 		const charDict: Record<string, Character> = {}
@@ -99,6 +116,8 @@ app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') {
 		app.quit()
 	}
+	// Kill the postgres process
+	execSync(path.join(postgresBinLocation, `pg_ctl.exe stop -U postgres -D ${dataDirectory} -m immediate`))
 })
 
 export {}

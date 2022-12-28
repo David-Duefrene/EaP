@@ -102,7 +102,7 @@ class Auth {
 			throw new Error('No authCode found')
 		}
 
-		const postData = `grant_type=authorization_code&code=${authCode[0]}&code_verifier=${verifier}&client_id=${env.CLIENT_ID}`
+		const postData = `grant_type=authorization_code&code=${authCode[0]}&code_verifier=${verifier}&client_id=${env.VITE_CLIENT_ID}`
 
 		// Now try and get the full refresh token
 		GetAuth(postData).then((response: { data: Token }) => {
@@ -118,7 +118,7 @@ class Auth {
 
 	//* Generates a PCKE Verifier
 	private GeneratePCKEVerifier() {
-		const clientID = env.CLIENT_ID
+		const clientID = env.VITE_CLIENT_ID
 		const baseURL = 'https://login.eveonline.com/v2/oauth/authorize'
 		const redirectURL = 'http://localhost/authenticated/'
 		/*
@@ -155,7 +155,7 @@ class Auth {
 		}
 
 		const refreshToken = this.characterList[characterName].refreshToken
-		const payload = `grant_type=refresh_token&refresh_token=${refreshToken}&client_id=${env.CLIENT_ID}`
+		const payload = `grant_type=refresh_token&refresh_token=${refreshToken}&client_id=${env.VITE_CLIENT_ID}`
 
 		return GetAuth(payload).then((response: { data: Token }) => {
 			const accessToken = response.data.access_token

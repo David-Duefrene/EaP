@@ -13,6 +13,9 @@ const pgClient = new Client({
 	password: 'password',
 	database: 'DATABASE',
 })
-pgClient.connect()
+pgClient.connect().catch((err: Error) => {
+	// eslint-disable-next-line no-console
+	console.error(err)
+})
 
 export default pgClient
