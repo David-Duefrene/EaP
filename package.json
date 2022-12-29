@@ -18,7 +18,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@testing-library/react": "13.4.0",
-		"@types/jsonwebtoken": "^8.5.9",
+		"@types/jsonwebtoken": "^9.0.0",
 		"@types/node": "18.11.10",
 		"@types/react": "18.0.25",
 		"@types/react-dom": "18.0.9",
@@ -41,7 +41,7 @@
 		"axios": "^1.0.0",
 		"concurrently": "^7.2.1",
 		"electron-store": "^8.0.2",
-		"jsonwebtoken": "^8.5.1",
+		"jsonwebtoken": "^9.0.0",
 		"jwks-rsa": "^3.0.0",
 		"pg": "^8.8.0",
 		"react": "^18.0.0",
