@@ -5,15 +5,12 @@
 	"main": "Electron/vite-build/index.es.js",
 	"scripts": {
 		"start": "concurrently -k \"npm run dev-react\" \"npm run build-auth\" \"npm run build-electron\"",
-		"start-forge": "electron-forge start",
 		"test": "vitest",
 		"dev-electron": "electron ./Electron/vite-build/index.es.js",
 		"dev-react": "vite ./React",
 		"build-react": "vite build ./React",
 		"build-electron": "vite build ./Electron",
 		"build-auth": "vite build ./APICrawler",
-		"package": "electron-forge package",
-		"make": "electron-forge make",
 		"pack": "electron-builder --dir",
 		"dist": "electron-builder build"
 	},
@@ -61,12 +58,10 @@
 			"Electron/vite-build/**/*"
 		],
 		"extraResources": [
-			".env",
-			"prisma/**/*",
+			"Postgres/**/*",
 			"APICrawler/vite-build/ElectronEntry.es.js",
-			"node_modules/**/*",
-			"node_modules/@prisma/client/**/*",
-			"node_modules/.prisma/**/*"
+			"Electron/vite-build/pgsql/**/*",
+			"node_modules/**/*"
 		],
 		"linux": {
 			"target": [
@@ -81,14 +76,10 @@
 			"allowToChangeInstallationDirectory": true
 		},
 		"win": {
-			"target": [
-				"nsis"
-			]
+			"target": [ "nsis" ]
 		},
 		"mac": {
-			"target": [
-				"dmg"
-			]
+			"target": [ "dmg" ]
 		}
 	}
 }
