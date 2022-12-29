@@ -58,7 +58,6 @@
 			"Electron/vite-build/**/*"
 		],
 		"extraResources": [
-			".env",
 			"Postgres/**/*",
 			"APICrawler/vite-build/ElectronEntry.es.js",
 			"Electron/vite-build/pgsql/**/*",

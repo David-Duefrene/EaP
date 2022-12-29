@@ -1,6 +1,4 @@
-// Env
-require('dotenv').config()
-const env = process.env
+const env = import.meta.env
 
 // Node
 const { randomBytes, createHash } = require('crypto')
