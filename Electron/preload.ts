@@ -5,7 +5,7 @@ import pgSelectByCharID from '../Postgres/pgSelectByCharID'
 
 contextBridge.exposeInMainWorld('findAll', {
 	characters: async () => {
-		const result = await pgClient.query(`
+		const result = await pgClient.query(/*SQL*/`
 			SELECT * FROM public."CharacterSheet"
 			JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID"
 			JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"
@@ -15,6 +15,15 @@ contextBridge.exposeInMainWorld('findAll', {
 })
 
 contextBridge.exposeInMainWorld('getCharacter', {
+	characterSheet: async (characterID: bigint) => {
+		const result = await pgClient.query(/*SQL*/`
+			SELECT * FROM public."CharacterSheet"
+			JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID"
+			JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"
+			WHERE "characterID" = $1
+		`, [ characterID ])
+		return result.rows[0]
+	},
 	blueprints: (characterID: bigint) => pgSelectByCharID('Blueprint', characterID),
 	contactNotifications: (characterID: bigint) => pgSelectByCharID('ContactNotification', characterID),
 	corpHistory: (characterID: bigint) => pgSelectByCharID('CorpHistory', characterID),

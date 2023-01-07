@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { Route, Routes, HashRouter } from 'react-router-dom'
 
 import Home from './Pages/Home/Home'
+import Character from './Pages/Character/Character'
 import Blueprints from './Pages/Character/Blueprints/Blueprints'
 import ContactNotifications from './Pages/Character/ContactNotifications/ContactNotifications'
 import CorpHistory from './Pages/Character/CorpHistory/CorpHistory'
@@ -38,6 +39,7 @@ interface Auth {
 }
 
 interface GetCharacter {
+	characterSheet: (characterID: bigint) => Promise<CharacterQuery>,
 	titles: (characterID: bigint) => Promise<Title[]>,
 	blueprints: (characterID: bigint) => Promise<Blueprint[]>,
 	contactNotifications: (characterID: bigint) => Promise<ContactNotification[]>,
@@ -62,7 +64,7 @@ declare global {
 const routes =
 	<Routes>
 		<Route path='/' element={<Home />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID' element={<Titles />} errorElement={<ErrorPage />} />
+		<Route path='character/:characterID' element={<Character />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/blueprints' element={<Blueprints />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/contact-notification' element={<ContactNotifications />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/corp-history' element={<CorpHistory />} errorElement={<ErrorPage />} />
