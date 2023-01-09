@@ -10,6 +10,11 @@
 	grid-gap: 5px;
 }
 
+.Bio {
+	border-radius: 10px;
+	box-shadow: 0px 0px 7px var(--accent-color);
+}
+
 .Portrait {
 	grid-column: 1;
 }

@@ -35,12 +35,14 @@ contextBridge.exposeInMainWorld('getCharacter', {
 			public."chrBloodlines"."corporationID" AS "bloodlineCorporationID",
 			public."chrRaces"."raceName",
 			public."chrRaces".description AS "raceDescription",
-			public."chrRaces"."shortDescription" AS "raceShortDescription"
+			public."chrRaces"."shortDescription" AS "raceShortDescription",
+			public."Title".name AS "titleName"
 
 		FROM public."CharacterSheet"
 				JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID"
 				JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"
-		WHERE "characterID" = $1
+				JOIN public."Title" ON public."CharacterSheet"."characterID" = public."Title"."characterID"
+		WHERE public."CharacterSheet"."characterID" = $1
 		`, [ characterID ])
 		return result.rows[0]
 	},

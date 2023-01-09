@@ -72,7 +72,6 @@ const routes =
 		<Route path='character/:characterID/medal-list' element={<MedalList />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/notifications' element={<Notifications />} errorElement={<ErrorPage />} />
 		<Route path='character/:characterID/standings' element={<Standings />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/Titles' element={<Titles />} errorElement={<ErrorPage />} />
 	</Routes>
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

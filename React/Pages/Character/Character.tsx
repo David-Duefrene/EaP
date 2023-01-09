@@ -6,7 +6,7 @@ import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/
 import CSS from './Character.module.css'
 
 const {
-	Island, Portrait, AllianceLogo, CorpLogo, Data,
+	Island, Portrait, AllianceLogo, CorpLogo, Data, Bio,
 } = CSS
 
 const Character = () => {
@@ -20,8 +20,10 @@ const Character = () => {
 	}, [ characterID ])
 
 	const {
-		name, allianceID, corporationID, birthday, bloodlineName, gender, raceName, securityStatus,
+		name, allianceID, corporationID, birthday, bloodlineName, gender, raceName, securityStatus, titleName,
+		description,
 	} = character || {}
+
 	return character ?
 		<>
 			<div className={Island}>
@@ -32,6 +34,7 @@ const Character = () => {
 					<ul>
 						<li>{`Name: ${name}`}</li>
 						<li>{`Character ID: ${characterID}`}</li>
+						<li dangerouslySetInnerHTML={{__html: titleName}}></li>
 						<li>{`Alliance: ${allianceID}`}</li>
 						<li>{`Birthday: ${birthday.toLocaleString()}`}</li>
 						<li>{`Bloodline: ${bloodlineName}`}</li>
@@ -42,6 +45,7 @@ const Character = () => {
 					</ul>
 				</div>
 			</div>
+			<div className={Bio} dangerouslySetInnerHTML={{ __html: description }} />
 		</> : <h1>Loading...</h1>
 }
 
