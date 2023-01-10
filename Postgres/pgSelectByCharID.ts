@@ -2,7 +2,7 @@ import pgClient from './postgresClient'
 
 export default async (tableName: string, characterID: bigint): Promise<[]> => {
 	const result = await pgClient.query(/*SQL*/`
-		SELECT * FROM public."${tableName}"
+		SELECT * FROM "${tableName}"
 		WHERE "characterID" = $1
 	`, [ characterID ],
 	).catch((error: Error) => {

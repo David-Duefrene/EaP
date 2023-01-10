@@ -6,9 +6,9 @@ import pgSelectByCharID from '../Postgres/pgSelectByCharID'
 contextBridge.exposeInMainWorld('findAll', {
 	characters: async () => {
 		const result = await pgClient.query(/*SQL*/`
-			SELECT * FROM public."CharacterSheet"
-			JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID"
-			JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"
+			SELECT * FROM "CharacterSheet"
+			JOIN "chrBloodlines" ON "CharacterSheet"."bloodlineID" = "chrBloodlines"."bloodlineID"
+			JOIN "chrRaces" ON "CharacterSheet"."raceID" = "chrRaces"."raceID"
 			`)
 		return result.rows
 	},
@@ -18,31 +18,31 @@ contextBridge.exposeInMainWorld('getCharacter', {
 	characterSheet: async (characterID: bigint) => {
 		const result = await pgClient.query(/*SQL*/`
 		SELECT
-			public."CharacterSheet"."characterID",
-			public."CharacterSheet"."allianceID",
-			public."CharacterSheet".birthday,
-			public."CharacterSheet"."bloodlineID",
-			public."CharacterSheet"."corporationID",
-			public."CharacterSheet".description,
-			public."CharacterSheet"."factionID",
-			public."CharacterSheet".gender,
-			public."CharacterSheet".name,
-			public."CharacterSheet"."raceID",
-			public."CharacterSheet"."securityStatus",
-			public."CharacterSheet".title,
-			public."chrBloodlines"."bloodlineName",
-			public."chrBloodlines".description AS "bloodlineDescription",
-			public."chrBloodlines"."corporationID" AS "bloodlineCorporationID",
-			public."chrRaces"."raceName",
-			public."chrRaces".description AS "raceDescription",
-			public."chrRaces"."shortDescription" AS "raceShortDescription",
-			public."Title".name AS "titleName"
+			"CharacterSheet"."characterID",
+			"CharacterSheet"."allianceID",
+			"CharacterSheet".birthday,
+			"CharacterSheet"."bloodlineID",
+			"CharacterSheet"."corporationID",
+			"CharacterSheet".description,
+			"CharacterSheet"."factionID",
+			"CharacterSheet".gender,
+			"CharacterSheet".name,
+			"CharacterSheet"."raceID",
+			"CharacterSheet"."securityStatus",
+			"CharacterSheet".title,
+			"chrBloodlines"."bloodlineName",
+			"chrBloodlines".description AS "bloodlineDescription",
+			"chrBloodlines"."corporationID" AS "bloodlineCorporationID",
+			"chrRaces"."raceName",
+			"chrRaces".description AS "raceDescription",
+			"chrRaces"."shortDescription" AS "raceShortDescription",
+			"Title".name AS "titleName"
 
-		FROM public."CharacterSheet"
-				JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID"
-				JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"
-				JOIN public."Title" ON public."CharacterSheet"."characterID" = public."Title"."characterID"
-		WHERE public."CharacterSheet"."characterID" = $1
+		FROM "CharacterSheet"
+				JOIN "chrBloodlines" ON "CharacterSheet"."bloodlineID" = "chrBloodlines"."bloodlineID"
+				JOIN "chrRaces" ON "CharacterSheet"."raceID" = "chrRaces"."raceID"
+				JOIN "Title" ON "CharacterSheet"."characterID" = "Title"."characterID"
+		WHERE "CharacterSheet"."characterID" = $1
 		`, [ characterID ])
 		return result.rows[0]
 	},

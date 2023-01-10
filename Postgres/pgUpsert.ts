@@ -7,7 +7,7 @@ export default async (tableName: string, data: { [x: string]: any }, uniqueColum
 	const uniqueColumnsString = uniqueColumns.join('", "')
 
 	await pgClient.query(/*SQL*/`
-		INSERT INTO public."${tableName}" ("${columns}")
+		INSERT INTO "${tableName}" ("${columns}")
 		VALUES (${keys.map((key, index) => `$${index + 1}`).join(', ')})
 		ON CONFLICT ("${uniqueColumnsString}") DO UPDATE SET ${keys.map((key) => `"${key}" = $${keys.indexOf(key) + 1}`).join(', ')}`,
 	[ ...values ],

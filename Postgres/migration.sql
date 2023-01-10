@@ -1,3 +1,4 @@
+SET search_path TO public;
 -- Enums
 CREATE TYPE owner_type AS ENUM ('character', 'corporation');
 CREATE TYPE gender AS ENUM ('female', 'male');
