@@ -12,7 +12,7 @@ import MessageController from './MessagingSystem/MessageController'
 
 // eslint-disable-next-line dot-notation
 const isDev = process.env['DEV_MODE'] === 'true'
-const postgresMigrationLocation: string = isDev ? path.join(__dirname, 'Postgres') : path.join(process.resourcesPath, 'Postgres')
+const postgresMigrationLocation: string = isDev ? __dirname : path.join(process.resourcesPath, 'Postgres')
 const postgresBinLocation: string = path.join(postgresMigrationLocation, 'pgsql', 'bin')
 // eslint-disable-next-line dot-notation
 const dataDirectory: string = path.join(process.env['ProgramData'], 'EAP', isDev ? 'dev-data' : 'data')

@@ -15,7 +15,6 @@ const CharacterNavBar = () => {
 			<Nav URL={`./character/${characterID}/medal-list`}>Medals</Nav>
 			<Nav URL={`./character/${characterID}/notifications`}>Notifications</Nav>
 			<Nav URL={`./character/${characterID}/standings`}>Standings</Nav>
-			<Nav URL={`./character/${characterID}/titles`}>Titles</Nav>
 		</>
 	)
 }
