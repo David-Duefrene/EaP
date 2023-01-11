@@ -7,8 +7,8 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}`).then(async (result: { data: Character }) => {
-		await pgUpsert('Character', { name: result.data.name, updatedAt: new Date, characterID }, [ 'characterID' ])
-		await pgUpsert('CharacterSheet', { ...result.data, characterID: characterID }, [ 'characterID' ])
+		await pgUpsert('character', { name: result.data.name, updatedAt: new Date, characterID }, [ 'character_id' ])
+		await pgUpsert('character_sheet', { ...result.data, characterID }, [ 'character_id' ])
 	}).catch((error: Error) => {
 		throw new Error('public character sheet API error\n', { cause: error })
 	})

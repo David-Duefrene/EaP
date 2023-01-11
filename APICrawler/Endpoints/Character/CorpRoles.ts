@@ -9,16 +9,18 @@ export default (characterAuthData: CharacterAuthData) => {
 
 	return ESIRequest(`characters/${characterID}/roles`, accessToken).then(async (result: { data: CorpRoles }) => {
 		const {
-			roles, rolesAtBase, rolesAtHQ, rolesAtOther,
+			roles, roles_at_base, roles_at_hq, roles_at_other,
 		} = result.data
+
+
+
 		const defaultRoles = {
 			roles: roles.length === 0 ? [ 'None' ] : roles,
-			rolesAtBase: rolesAtBase.length === 0 ? [ 'None' ] : rolesAtBase,
-			rolesAtHQ: rolesAtHQ.length === 0 ? [ 'None' ] : rolesAtHQ,
-			rolesAtOther: rolesAtOther.length === 0 ? [ 'None' ] : rolesAtOther,
+			rolesAtBase: roles_at_base.length === 0 ? [ 'None' ] : roles_at_base,
+			rolesAtHQ: roles_at_hq.length === 0 ? [ 'None' ] : roles_at_hq,
+			rolesAtOther: roles_at_other.length === 0 ? [ 'None' ] : roles_at_other,
 		}
-
-		pgUpsert('CorpRoles', { characterID, ...defaultRoles }, [ 'characterID' ])
+		pgUpsert('corp_roles', { characterID, ...defaultRoles }, [ 'character_id' ])
 	}).catch((error: Error) => {
 		throw new Error('CorpRoles API error\n', { cause: error })
 	})

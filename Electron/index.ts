@@ -74,7 +74,7 @@ const createWindow = async () => {
 
 	const crawlerLocation = isDev ? './APICrawler/vite-build/ElectronEntry.es.js' : path.join(process.resourcesPath, 'APICrawler', 'vite-build', 'ElectronEntry.es.js')
 	const child = fork(crawlerLocation, { signal })
-	const characterIDList = await pgClient.query('SELECT * FROM public."Character"')
+	const characterIDList = await pgClient.query('SELECT * FROM character')
 
 	pgClient.end()
 

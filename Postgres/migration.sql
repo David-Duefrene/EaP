@@ -1,6 +1,6 @@
 SET search_path TO public;
+
 -- Enums
-CREATE TYPE owner_type AS ENUM ('character', 'corporation');
 CREATE TYPE gender AS ENUM ('female', 'male');
 CREATE TYPE location_flag AS ENUM ('AutoFit', 'Cargo', 'CorpseBay', 'DroneBay', 'FleetHangar', 'Deliveries', 'HiddenModifiers', 'Hangar', 'HangarAll', 'LoSlot0', 'LoSlot1', 'LoSlot2', 'LoSlot3', 'LoSlot4', 'LoSlot5', 'LoSlot6', 'LoSlot7', 'MedSlot0', 'MedSlot1', 'MedSlot2', 'MedSlot3', 'MedSlot4', 'MedSlot5', 'MedSlot6', 'MedSlot7', 'HiSlot0', 'HiSlot1', 'HiSlot2', 'HiSlot3', 'HiSlot4', 'HiSlot5', 'HiSlot6', 'HiSlot7', 'AssetSafety', 'Locked', 'Unlocked', 'Implant', 'QuafeBay', 'RigSlot0', 'RigSlot1', 'RigSlot2', 'RigSlot3', 'RigSlot4', 'RigSlot5', 'RigSlot6', 'RigSlot7', 'ShipHangar', 'SpecializedFuelBay', 'SpecializedOreHold', 'SpecializedGasHold', 'SpecializedMineralHold', 'SpecializedSalvageHold', 'SpecializedShipHold', 'SpecializedSmallShipHold', 'SpecializedMediumShipHold', 'SpecializedLargeShipHold', 'SpecializedIndustrialShipHold', 'SpecializedAmmoHold', 'SpecializedCommandCenterHold', 'SpecializedPlanetaryCommoditiesHold', 'SpecializedMaterialBay', 'SubSystemSlot0', 'SubSystemSlot1', 'SubSystemSlot2', 'SubSystemSlot3', 'SubSystemSlot4', 'SubSystemSlot5', 'SubSystemSlot6', 'SubSystemSlot7', 'FighterBay', 'FighterTube0', 'FighterTube1', 'FighterTube2', 'FighterTube3', 'FighterTube4', 'Module');
 CREATE TYPE privacy_status AS ENUM ('public', 'private');
@@ -10,158 +10,160 @@ CREATE TYPE corp_role_type AS ENUM ('Account_Take_1', 'Account_Take_2', 'Account
 CREATE TYPE npc_standing_type AS ENUM ('agent', 'npc_corp', 'faction');
 
 -- CreateTable
-CREATE TABLE "Character" (
-    "name" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "characterID" BIGINT UNIQUE,
-	PRIMARY KEY ("name", "characterID")
+CREATE TABLE character (
+    name TEXT NOT NULL,
+    created_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP(3) NOT NULL,
+    character_id BIGINT UNIQUE,
+
+	PRIMARY KEY (name, character_id)
 );
 
 -- CreateTable
-CREATE TABLE "CharacterSheet" (
-    "characterID" BIGINT PRIMARY KEY,
-    "allianceID" INTEGER,
-    "birthday" TIMESTAMP(3) NOT NULL,
-    "bloodlineID" INTEGER NOT NULL,
-    "corporationID" INTEGER NOT NULL,
-    "description" TEXT,
-    "factionID" INTEGER,
-    "gender" gender NOT NULL,
-    "name" TEXT UNIQUE NOT NULL,
-    "raceID" INTEGER NOT NULL,
-    "securityStatus" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "title" TEXT,
+CREATE TABLE character_sheet (
+    character_id BIGINT PRIMARY KEY,
+    alliance_id INTEGER,
+    birthday TIMESTAMP(3) NOT NULL,
+    bloodline_id INTEGER NOT NULL,
+    corporation_id INTEGER NOT NULL,
 
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT fk_bloodline_id FOREIGN KEY ("bloodlineID") REFERENCES "chrBloodlines"("bloodlineID") ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT fk_race_id FOREIGN KEY ("raceID") REFERENCES "chrRaces"("raceID") ON DELETE RESTRICT ON UPDATE CASCADE
+    description TEXT,
+    faction_id INTEGER,
+    gender gender NOT NULL,
+    name TEXT UNIQUE NOT NULL,
+    race_id INTEGER NOT NULL,
+    security_status DOUBLE PRECISION NOT NULL DEFAULT 0,
+    title TEXT,
+
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_bloodline_id FOREIGN KEY (bloodline_id) REFERENCES "chrBloodlines"("bloodlineID") ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_race_id FOREIGN KEY (race_id) REFERENCES "chrRaces"("raceID") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 
 -- CreateTable
-CREATE TABLE "AgentResearch" (
-	"characterID" BIGINT,
-    "agentID" INTEGER NOT NULL,
-    "pointsPerDay" DOUBLE PRECISION NOT NULL,
-    "remainderPoints" DOUBLE PRECISION NOT NULL,
-    "skillTypeID" INTEGER NOT NULL,
-    "startedAt" TEXT NOT NULL,
+CREATE TABLE agent_research (
+	character_id BIGINT,
+    agent_id INTEGER NOT NULL,
+    points_per_day DOUBLE PRECISION NOT NULL,
+    remainder_points DOUBLE PRECISION NOT NULL,
+    skill_type_id INTEGER NOT NULL,
+    started_at TEXT NOT NULL,
 
-	PRIMARY KEY ("characterID", "agentID"),
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+	PRIMARY KEY (character_id, agent_id),
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "Blueprint" (
-    "itemID" BIGINT NOT NULL UNIQUE,
-    "characterID" BIGINT NOT NULL,
-    "locationFlag" location_flag NOT NULL,
-    "locationID" BIGINT NOT NULL,
-    "materialEfficiency" INTEGER NOT NULL,
-    "quantity" INTEGER NOT NULL,
-    "runs" INTEGER NOT NULL,
-    "timeEfficiency" INTEGER NOT NULL,
-    "typeID" INTEGER NOT NULL,
+CREATE TABLE blueprint (
+    item_id BIGINT NOT NULL UNIQUE,
+    character_id BIGINT NOT NULL,
+    location_flag location_flag NOT NULL,
+    location_id BIGINT NOT NULL,
+    material_efficiency INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    runs INTEGER NOT NULL,
+    time_efficiency INTEGER NOT NULL,
+    type_id INTEGER NOT NULL,
 
-    PRIMARY KEY ("itemID", "characterID"),
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (item_id, character_id),
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "CorpHistory" (
-    "characterID" BIGINT NOT NULL,
-    "corporationID" INTEGER NOT NULL,
-    "recordID" INTEGER PRIMARY KEY,
-    "startDate" TIMESTAMP(3) NOT NULL,
-    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
+CREATE TABLE corporation_history (
+    character_id BIGINT NOT NULL,
+    corporation_id INTEGER NOT NULL,
+    record_id INTEGER PRIMARY KEY,
+    start_date TIMESTAMP(3) NOT NULL,
+    is_deleted BOOLEAN NOT NULL DEFAULT false,
 
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "Fatigue" (
-    "characterID" BIGINT PRIMARY KEY ,
-    "lastJumpDate" TIMESTAMP(3) NOT NULL,
-    "lastUpdateDate" TIMESTAMP(3) NOT NULL,
-    "jumpFatigueExpireDate" TIMESTAMP(3) NOT NULL,
+CREATE TABLE fatigue (
+    character_id BIGINT PRIMARY KEY ,
+    last_jump_date TIMESTAMP(3) NOT NULL,
+    last_update_date TIMESTAMP(3) NOT NULL,
+    jump_fatigue_expire_date TIMESTAMP(3) NOT NULL,
 
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "Medal" (
-    "characterID" BIGINT NOT NULL,
-    "corporationID" INTEGER NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
-    "description" TEXT NOT NULL,
-    "graphics" TEXT NOT NULL,
-    "issuerID" INTEGER NOT NULL,
-    "medalID" INTEGER NOT NULL,
-    "reason" TEXT NOT NULL,
-    "status" privacy_status NOT NULL,
-    "title" TEXT NOT NULL,
+CREATE TABLE medal (
+    character_id BIGINT NOT NULL,
+    corporation_id INTEGER NOT NULL,
+    date TIMESTAMP(3) NOT NULL,
+    description TEXT NOT NULL,
+    graphics TEXT NOT NULL,
+    issuer_id INTEGER NOT NULL,
+    medal_id INTEGER NOT NULL,
+    reason TEXT NOT NULL,
+    status privacy_status NOT NULL,
+    title TEXT NOT NULL,
 
-	PRIMARY KEY ("characterID", "medalID"),
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+	PRIMARY KEY (character_id, medal_id),
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "Notification" (
-    "characterID" BIGINT NOT NULL,
-    "isRead" BOOLEAN NOT NULL DEFAULT false,
-    "notificationID" INTEGER NOT NULL,
-    "senderID" INTEGER NOT NULL,
-    "senderType" sender_type NOT NULL,
-    "text" TEXT,
-    "timestamp" TIMESTAMP(3) NOT NULL,
-    "type" message_type NOT NULL,
+CREATE TABLE notification (
+    character_id BIGINT NOT NULL,
+    is_read BOOLEAN NOT NULL DEFAULT false,
+    notification_id INTEGER NOT NULL,
+    sender_id INTEGER NOT NULL,
+    sender_type sender_type NOT NULL,
+    text TEXT,
+    timestamp TIMESTAMP(3) NOT NULL,
+    type message_type NOT NULL,
 
-	PRIMARY KEY ("characterID", "notificationID"),
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+	PRIMARY KEY (character_id, notification_id),
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "ContactNotification" (
-    "characterID" BIGINT NOT NULL,
-    "message" TEXT NOT NULL,
-    "notificationID" INTEGER,
-    "sendDate" TIMESTAMP(3) NOT NULL,
-    "senderCharacterID" INTEGER NOT NULL,
-    "standingLevel" DOUBLE PRECISION NOT NULL,
+CREATE TABLE contact_notification (
+    character_id BIGINT NOT NULL,
+    message TEXT NOT NULL,
+    notification_id INTEGER,
+    send_date TIMESTAMP(3) NOT NULL,
+    sender_character_id INTEGER NOT NULL,
+    standing_level DOUBLE PRECISION NOT NULL,
 
-	PRIMARY KEY ("characterID", "notificationID"),
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+	PRIMARY KEY (character_id, notification_id),
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "CorpRoles" (
-    "characterID" BIGINT PRIMARY KEY,
-    "roles" corp_role_type[] DEFAULT ARRAY['None']::corp_role_type[],
-    "rolesAtBase" corp_role_type[] DEFAULT ARRAY['None']::corp_role_type[],
-    "rolesAtHQ" corp_role_type[] DEFAULT ARRAY['None']::corp_role_type[],
-    "rolesAtOther" corp_role_type[] DEFAULT ARRAY['None']::corp_role_type[],
+CREATE TABLE corp_roles (
+    character_id BIGINT PRIMARY KEY,
+    roles corp_role_type[] DEFAULT ARRAY['None']::corp_role_type[],
+    roles_at_base corp_role_type[] DEFAULT ARRAY['None']::corp_role_type[],
+    roles_at_hq corp_role_type[] DEFAULT ARRAY['None']::corp_role_type[],
+    roles_at_other corp_role_type[] DEFAULT ARRAY['None']::corp_role_type[],
 
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "Standings" (
-    "characterID" BIGINT NOT NULL,
-    "fromID" INTEGER NOT NULL,
-    "fromType" npc_standing_type NOT NULL,
-    "standing" DOUBLE PRECISION NOT NULL,
+CREATE TABLE standings (
+    character_id BIGINT NOT NULL,
+    from_id INTEGER NOT NULL,
+    from_type npc_standing_type NOT NULL,
+    standing DOUBLE PRECISION NOT NULL,
 
-    PRIMARY KEY ("characterID", "fromID"),
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (character_id, from_id),
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "Title" (
-    "characterID" BIGINT NOT NULL REFERENCES "Character"("characterID"),
-    "titleID" INTEGER NOT NULL,
-    "name" TEXT NOT NULL,
+CREATE TABLE title (
+    character_id BIGINT NOT NULL REFERENCES character(character_id),
+    title_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
 
-	PRIMARY KEY ("characterID", "titleID"),
-	CONSTRAINT fk_char_id FOREIGN KEY ("characterID") REFERENCES "Character"("characterID") ON DELETE CASCADE ON UPDATE CASCADE
+	PRIMARY KEY (character_id, title_id),
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

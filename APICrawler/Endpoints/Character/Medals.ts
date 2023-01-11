@@ -13,7 +13,7 @@ export default (characterAuthData: CharacterAuthData) => {
 			const graphics = JSON.stringify(medalData.graphics)
 			delete medalData.graphics
 
-			pgUpsert('Medal', { characterID, graphics, ...medalData }, [ 'characterID', 'medalID' ])
+			pgUpsert('medal', { characterID, graphics, ...medalData }, [ 'character_id', 'medal_id' ])
 		})
 	}).catch((error: Error) => {
 		throw new Error('Medals API error\n', { cause: error })

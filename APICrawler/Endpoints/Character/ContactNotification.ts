@@ -9,7 +9,7 @@ export default (characterAuthData: CharacterAuthData) => {
 
 	return ESIRequest(`characters/${characterID}/notifications/contacts`, accessToken).then((result: { data: Array<ContactNotification>}) => {
 		result.data.forEach(async (notification: ContactNotification) => {
-			pgUpsert('ContactNotification', { characterID, ...notification }, [ 'characterID', 'notificationID' ])
+			pgUpsert('contact_notification', { characterID, ...notification }, [ 'character_id', 'notification_id' ])
 		})
 	}).catch((error: Error) => {
 		throw new Error('ContactNotifications API error\n', { cause: error })

@@ -8,7 +8,7 @@ export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
 	return ESIRequest(`characters/${characterID}/fatigue`, accessToken).then((result: Fatigue) => {
-		pgUpsert('Fatigue', { characterID, ...result.data }, [ 'characterID' ])
+		pgUpsert('fatigue', { characterID, ...result.data }, [ 'character_id' ])
 	}).catch((error: Error) => {
 		throw new Error('Fatigue API error\n', { cause: error })
 	})

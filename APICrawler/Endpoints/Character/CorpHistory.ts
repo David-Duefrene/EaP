@@ -9,7 +9,7 @@ export default (characterAuthData: CharacterAuthData) => {
 
 	return ESIRequest(`characters/${characterID}/corporationhistory`).then((result: { data: Array<CorpHistory> }) => {
 		result.data.forEach(async (corpHistory) => {
-			await pgUpsert('CorpHistory', { characterID, ...corpHistory }, [ 'recordID' ])
+			await pgUpsert('corporation_history', { characterID, ...corpHistory }, [ 'record_id' ])
 		})
 	}).catch((error: Error) => {
 		throw new Error('CorpHistory API error\n', { cause: error })
