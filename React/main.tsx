@@ -11,7 +11,6 @@ import CorpRoles from './Pages/Character/CorpRoles/CorpRoles'
 import MedalList from './Pages/Character/Medals/MedalList'
 import Notifications from './Pages/Character/Notifications/Notifications'
 import Standings from './Pages/Character/Standings/Standings'
-import Titles from './Pages/Character/Titles/Titles'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
 
 import NavBar from './Components/NavBars/MainNavBar'
