@@ -23,8 +23,8 @@ CREATE TABLE character_sheet (
     title TEXT,
 
 	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT fk_bloodline_id FOREIGN KEY (bloodline_id) REFERENCES "chrBloodlines"("bloodlineID") ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT fk_race_id FOREIGN KEY (race_id) REFERENCES "chrRaces"("raceID") ON DELETE RESTRICT ON UPDATE CASCADE
+	CONSTRAINT fk_bloodline_id FOREIGN KEY (bloodline_id) REFERENCES bloodlines(bloodline_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_race_id FOREIGN KEY (race_id) REFERENCES races(race_id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 

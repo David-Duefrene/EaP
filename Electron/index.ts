@@ -59,7 +59,6 @@ const createWindow = async () => {
 		exec(path.join(postgresBinLocation, `pg_ctl.exe start -U postgres -o" -p ${port}" -D ${dataDirectory}`), logger)
 		await checkPostgres()
 		execSync(path.join(postgresBinLocation, `createdb.exe -p ${port} -U postgres DATABASE`), logger)
-		execSync(path.join(postgresBinLocation, `pg_restore --no-privileges --no-owner -U postgres -p ${port} -d DATABASE ${path.join(postgresMigrationLocation, 'postgres-latest.dmp')}`), logger)
 		const files = readdirSync(`${postgresMigrationLocation}/SQL/`)
 		// Create a function that sores the files by the forst 3 numbers in their name
 		const sortFiles = (a: string, b: string) => {
