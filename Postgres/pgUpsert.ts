@@ -4,7 +4,7 @@ export default async (tableName: string, data: { [x: string]: any }, uniqueColum
 	const uniqueColumnsString = uniqueColumns.join(', ')
 	const columns: string[] = []
 	const values: string[] = []
-	const data: any[] = []
+	const newData: any[] = []
 
 	Object.entries(data).forEach(([ key, value ], index) => {
 		columns.push(key.replace(/[A-Z]{1,2}/g, (letter: string) => {
@@ -14,7 +14,7 @@ export default async (tableName: string, data: { [x: string]: any }, uniqueColum
 			return '_' + letter.toLowerCase()
 		}))
 		values.push(`$${index + 1}`)
-		data.push(value)
+		newData.push(value)
 	})
 
 	const query = /*SQL*/`
@@ -22,7 +22,7 @@ export default async (tableName: string, data: { [x: string]: any }, uniqueColum
 	VALUES (${values.join(', ')})
 	ON CONFLICT (${uniqueColumnsString}) DO UPDATE SET ${columns.map((key) => `"${key}" = $${columns.indexOf(key) + 1}`).join(', ')}`
 
-	await pgClient.query(query, data).catch((error: Error) => {
+	await pgClient.query(query, newData).catch((error: Error) => {
 		throw new Error(`${tableName} SQL error\n`, { cause: error })
 	})
 }
