@@ -35,9 +35,9 @@ describe('corpRoles', () => {
 		const mockData = {
 			characterID: BigInt(1),
 			roles: [ 'Director' ],
-			roles_at_base: [ 'Director' ],
-			roles_at_hq: [ 'Director' ],
-			roles_at_other: [ 'Director' ],
+			rolesAtBase: [ 'Director' ],
+			rolesAtHQ: [ 'Director' ],
+			rolesAtOther: [ 'Director' ],
 		}
 
 		expect(pgUpsert).toBeCalledWith('corp_roles', mockData, [ 'character_id' ])
