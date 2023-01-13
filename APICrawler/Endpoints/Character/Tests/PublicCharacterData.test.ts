@@ -35,7 +35,7 @@ describe('PublicCharacterData', () => {
 		expect(pgUpsert).toBeCalledTimes(2)
 		const mockData = {
 			name: 'name',
-			character_id: 1n,
+			characterID: 1n,
 			race_id: 1,
 			birthday: new Date('2022-10-06T02:09:38.981Z'),
 			bloodline_id: 1,
