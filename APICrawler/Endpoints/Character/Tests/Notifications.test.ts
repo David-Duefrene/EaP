@@ -15,10 +15,10 @@ describe('notifications', () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
-					notificationID: 1,
-					senderID: 1,
-					senderType: 'senderType',
-					sentDate: new Date('2022-10-06T02:09:38.981Z'),
+					notification_id: 1,
+					sender_id: 1,
+					sender_type: 'senderType',
+					sent_date: new Date('2022-10-06T02:09:38.981Z'),
 					text: 'text',
 					type: 'type',
 				} ],
@@ -35,14 +35,14 @@ describe('notifications', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/notifications', 'Token')
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
-			characterID: BigInt(1),
-			notificationID: 1,
-			senderID: 1,
-			senderType: 'senderType',
-			sentDate: new Date('2022-10-06T02:09:38.981Z'),
+			character_id: BigInt(1),
+			notification_id: 1,
+			sender_id: 1,
+			sender_type: 'senderType',
+			sent_date: new Date('2022-10-06T02:09:38.981Z'),
 			text: 'text',
 			type: 'type',
 		}
-		expect(pgUpsert).toBeCalledWith('Notification', mockData, [ 'characterID', 'notificationID' ])
+		expect(pgUpsert).toBeCalledWith('notification', mockData, [ 'character_id', 'notification_id' ])
 	})
 })

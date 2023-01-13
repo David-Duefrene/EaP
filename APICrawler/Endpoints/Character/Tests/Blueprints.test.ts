@@ -15,12 +15,12 @@ describe('blueprints', () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
-					itemID: 1,
-					locationID: 1,
-					typeID: 1,
+					item_id: 1,
+					location_id: 1,
+					type_id: 1,
 					quantity: 1,
-					timeEfficiency: 1,
-					materialEfficiency: 1,
+					time_efficiency: 1,
+					material_efficiency: 1,
 					runs: 1,
 				} ],
 			},
@@ -37,15 +37,15 @@ describe('blueprints', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/blueprints', 'Token')
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
-			characterID: BigInt(1),
-			itemID: 1,
-			locationID: 1,
-			typeID: 1,
+			character_id: BigInt(1),
+			item_id: 1,
+			location_id: 1,
+			type_id: 1,
 			quantity: 1,
-			timeEfficiency: 1,
-			materialEfficiency: 1,
+			time_efficiency: 1,
+			material_efficiency: 1,
 			runs: 1,
 		}
-		expect(pgUpsert).toBeCalledWith('Blueprint', mockData, [ 'characterID', 'itemID' ])
+		expect(pgUpsert).toBeCalledWith('blueprint', mockData, [ 'character_id', 'item_id' ])
 	})
 })

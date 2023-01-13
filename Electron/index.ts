@@ -69,7 +69,6 @@ const createWindow = async () => {
 			return 0
 		}
 		files.sort(sortFiles)
-		console.log('files: ', files)
 		files.forEach((file) => {
 			execSync(path.join(postgresBinLocation, `psql.exe -p ${port} -U postgres -d DATABASE -f ${path.join(postgresMigrationLocation, 'SQL', file)}`), logger)
 		})

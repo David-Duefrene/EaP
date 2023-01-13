@@ -12,8 +12,6 @@ export default (characterAuthData: CharacterAuthData) => {
 			roles, roles_at_base, roles_at_hq, roles_at_other,
 		} = result.data
 
-
-
 		const defaultRoles = {
 			roles: roles.length === 0 ? [ 'None' ] : roles,
 			rolesAtBase: roles_at_base.length === 0 ? [ 'None' ] : roles_at_base,

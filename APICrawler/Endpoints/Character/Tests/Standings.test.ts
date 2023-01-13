@@ -15,8 +15,8 @@ describe('standings', () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
-					fromID: 1,
-					fromType: 'agent',
+					from_id: 1,
+					from_type: 'agent',
 					standing: 1,
 				} ],
 			}),
@@ -32,11 +32,11 @@ describe('standings', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/standings', 'Token')
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
-			fromID: 1,
-			fromType: 'agent',
+			from_id: 1,
+			from_type: 'agent',
 			standing: 1,
-			characterID: BigInt(1),
+			character_id: BigInt(1),
 		}
-		expect(pgUpsert).toBeCalledWith('Standings', mockData, [ 'characterID', 'fromID' ])
+		expect(pgUpsert).toBeCalledWith('standings', mockData, [ 'character_id', 'from_id' ])
 	})
 })

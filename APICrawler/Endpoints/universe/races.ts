@@ -8,7 +8,7 @@ export default async (characterAuthData: CharacterAuthData): Promise<void> => {
 
 	ESIRequest('universe/races', accessToken).then((result) => {
 		result.data.forEach((race) => {
-			pgUpsert('races', race, ['race_id'])
+			pgUpsert('races', race, [ 'race_id' ])
 		})
 	})
 }

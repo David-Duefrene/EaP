@@ -16,10 +16,10 @@ describe('contactNotification', () => {
 			default: vi.fn().mockResolvedValue({
 				data: [ {
 					message: 'text',
-					notificationID: 1,
-					sentDate: new Date('2022-10-06T02:09:38.981Z'),
-					senderCharacterID: 1,
-					standingLevel: -5.5,
+					notification_id: 1,
+					sent_date: new Date('2022-10-06T02:09:38.981Z'),
+					sender_character_id: 1,
+					standing_level: -5.5,
 				} ],
 			}),
 		}))
@@ -34,13 +34,13 @@ describe('contactNotification', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/notifications/contacts', 'Token')
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
-			characterID: BigInt(1),
+			character_id: BigInt(1),
 			message: 'text',
-			notificationID: 1,
-			sentDate: new Date('2022-10-06T02:09:38.981Z'),
-			senderCharacterID: 1,
-			standingLevel: -5.5,
+			notification_id: 1,
+			sent_date: new Date('2022-10-06T02:09:38.981Z'),
+			sender_character_id: 1,
+			standing_level: -5.5,
 		}
-		expect(pgUpsert).toBeCalledWith('ContactNotification', mockData, [ 'characterID', 'notificationID' ])
+		expect(pgUpsert).toBeCalledWith('contact_notification', mockData, [ 'character_id', 'notification_id' ])
 	})
 })

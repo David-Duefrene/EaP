@@ -15,9 +15,9 @@ describe('corpHistory', () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
-					recordID: 1,
-					corporationID: 1,
-					startDate: new Date('2022-10-06T02:09:38.981Z'),
+					record_id: 1,
+					corporation_id: 1,
+					start_date: new Date('2022-10-06T02:09:38.981Z'),
 				} ],
 			}),
 		}))
@@ -32,11 +32,11 @@ describe('corpHistory', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/corporationhistory')
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
-			recordID: 1,
-			corporationID: 1,
-			startDate: new Date('2022-10-06T02:09:38.981Z'),
-			characterID: BigInt(1),
+			record_id: 1,
+			corporation_id: 1,
+			start_date: new Date('2022-10-06T02:09:38.981Z'),
+			character_id: BigInt(1),
 		}
-		expect(pgUpsert).toBeCalledWith('CorpHistory', mockData, [ 'recordID' ])
+		expect(pgUpsert).toBeCalledWith('corporation_history', mockData, [ 'record_id' ])
 	})
 })

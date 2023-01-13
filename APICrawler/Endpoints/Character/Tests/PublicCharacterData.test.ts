@@ -16,11 +16,11 @@ describe('PublicCharacterData', () => {
 			default: vi.fn().mockResolvedValue({
 				data: {
 					name: 'name',
-					characterID: 1n,
-					raceID: 1,
+					character_id: 1n,
+					race_id: 1,
 					birthday: new Date('2022-10-06T02:09:38.981Z'),
-					bloodlineID: 1,
-					corporationID: 1,
+					bloodline_id: 1,
+					corporation_id: 1,
 					description: 'description',
 				},
 			}),
@@ -36,14 +36,14 @@ describe('PublicCharacterData', () => {
 		expect(pgUpsert).toBeCalledTimes(2)
 		const mockData = {
 			name: 'name',
-			characterID: 1n,
-			raceID: 1,
+			character_id: 1n,
+			race_id: 1,
 			birthday: new Date('2022-10-06T02:09:38.981Z'),
-			bloodlineID: 1,
-			corporationID: 1,
+			bloodline_id: 1,
+			corporation_id: 1,
 			description: 'description',
 		}
 
-		expect(pgUpsert).toBeCalledWith('CharacterSheet', mockData, [ 'characterID' ])
+		expect(pgUpsert).toBeCalledWith('character_sheet', mockData, [ 'character_id' ])
 	})
 })
