@@ -1,17 +1,28 @@
 import pgClient from './postgresClient'
 
 export default async (tableName: string, data: { [x: string]: any }, uniqueColumns: string[]) => {
-	const keys = Object.keys(data)
-	const columns = keys.join('", "')
-	const values = keys.map((key) => data[key as keyof typeof data])
-	const uniqueColumnsString = uniqueColumns.join('", "')
+	const uniqueColumnsString = uniqueColumns.join(', ')
+	const columns: string[] = []
+	const values: string[] = []
+	const newData: any[] = []
 
-	await pgClient.query(/*SQL*/`
-		INSERT INTO public."${tableName}" ("${columns}")
-		VALUES (${keys.map((key, index) => `$${index + 1}`).join(', ')})
-		ON CONFLICT ("${uniqueColumnsString}") DO UPDATE SET ${keys.map((key) => `"${key}" = $${keys.indexOf(key) + 1}`).join(', ')}`,
-	[ ...values ],
-	).catch((error: Error) => {
+	Object.entries(data).forEach(([ key, value ], index) => {
+		columns.push(key.replace(/[A-Z]{1,2}/g, (letter: string) => {
+			if (letter === 'ID') return '_id'
+			else if (letter === 'HQ') return '_hq'
+
+			return '_' + letter.toLowerCase()
+		}))
+		values.push(`$${index + 1}`)
+		newData.push(value)
+	})
+
+	const query = /*SQL*/`
+	INSERT INTO ${tableName} (${columns.join(', ')})
+	VALUES (${values.join(', ')})
+	ON CONFLICT (${uniqueColumnsString}) DO UPDATE SET ${columns.map((key) => `"${key}" = $${columns.indexOf(key) + 1}`).join(', ')}`
+
+	await pgClient.query(query, newData).catch((error: Error) => {
 		throw new Error(`${tableName} SQL error\n`, { cause: error })
 	})
 }

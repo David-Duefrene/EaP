@@ -16,9 +16,9 @@ describe('corpRoles', () => {
 			default: vi.fn().mockResolvedValue({
 				data: {
 					roles: [ 'Director' ],
-					rolesAtBase: [ 'Director' ],
-					rolesAtHQ: [ 'Director' ],
-					rolesAtOther: [ 'Director' ],
+					roles_at_base: [ 'Director' ],
+					roles_at_hq: [ 'Director' ],
+					roles_at_other: [ 'Director' ],
 				},
 			}),
 		}))
@@ -40,6 +40,6 @@ describe('corpRoles', () => {
 			rolesAtOther: [ 'Director' ],
 		}
 
-		expect(pgUpsert).toBeCalledWith('CorpRoles', mockData, [ 'characterID' ])
+		expect(pgUpsert).toBeCalledWith('corp_roles', mockData, [ 'character_id' ])
 	})
 })

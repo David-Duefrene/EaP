@@ -20,7 +20,6 @@ const Home = () => {
 	if (isLoading) {
 		return <AddCharacter />
 	}
-
 	const cardList = characters.map((el, key) => {
 		return (
 			<CharacterCard

@@ -8,9 +8,7 @@ export default (characterAuthData: CharacterAuthData) => {
 
 	return ESIRequest(`characters/${characterID}/titles`, accessToken).then((result: { data: Array<Title> }) => {
 		result.data.forEach(async (title) => {
-			const { titleID, name } = title
-
-			await pgUpsert('Title', { characterID, titleID, name }, [ 'characterID', 'titleID' ])
+			await pgUpsert('title', { characterID, ...title }, [ 'character_id', 'title_id' ])
 		})
 	}).catch((error: Error) => {
 		throw new Error('Title API error\n', { cause: error })

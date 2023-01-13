@@ -15,9 +15,9 @@ describe('fatigue', () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: {
-					lastJumpDate: new Date('2022-10-06T02:09:38.981Z'),
-					lastUpdateDate: new Date('2022-10-06T02:09:38.981Z'),
-					jumpFatigueExpireDate: new Date('2022-10-06T02:09:38.981Z'),
+					last_jump_date: new Date('2022-10-06T02:09:38.981Z'),
+					last_update_date: new Date('2022-10-06T02:09:38.981Z'),
+					jump_fatigue_expire_date: new Date('2022-10-06T02:09:38.981Z'),
 				},
 			}),
 		}))
@@ -33,10 +33,10 @@ describe('fatigue', () => {
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
 			characterID: BigInt(1),
-			lastJumpDate: new Date('2022-10-06T02:09:38.981Z'),
-			lastUpdateDate: new Date('2022-10-06T02:09:38.981Z'),
-			jumpFatigueExpireDate: new Date('2022-10-06T02:09:38.981Z'),
+			last_jump_date: new Date('2022-10-06T02:09:38.981Z'),
+			last_update_date: new Date('2022-10-06T02:09:38.981Z'),
+			jump_fatigue_expire_date: new Date('2022-10-06T02:09:38.981Z'),
 		}
-		expect(pgUpsert).toBeCalledWith('Fatigue', mockData, [ 'characterID' ])
+		expect(pgUpsert).toBeCalledWith('fatigue', mockData, [ 'character_id' ])
 	})
 })

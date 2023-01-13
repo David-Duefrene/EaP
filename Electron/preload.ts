@@ -1,59 +1,79 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
-import pgClient from '../Postgres/postgresClient'
 import pgSelectByCharID from '../Postgres/pgSelectByCharID'
+import pgQuery from '../Postgres/pgQuery'
 
 contextBridge.exposeInMainWorld('findAll', {
 	characters: async () => {
-		const result = await pgClient.query(/*SQL*/`
-			SELECT * FROM public."CharacterSheet"
-			JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID"
-			JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"
+		const result = await pgQuery(/*SQL*/`
+			SELECT
+			character_sheet.character_id,
+			character_sheet.alliance_id,
+			character_sheet.birthday,
+			character_sheet.bloodline_id,
+			character_sheet.corporation_id,
+			character_sheet.description,
+			character_sheet.faction_id,
+			character_sheet.gender,
+			character_sheet.name,
+			character_sheet.race_id,
+			character_sheet.security_status,
+			character_sheet.title,
+			bloodlines.name AS bloodline_name,
+			bloodlines.description AS bloodline_description,
+			bloodlines.corporation_id AS bloodline_corporation_id,
+			races.name AS race_name,
+			races.description AS race_description,
+			title.name AS title_name
+
+		FROM character_sheet
+				JOIN bloodlines ON character_sheet.bloodline_id = bloodlines.bloodline_id
+				JOIN races ON character_sheet.race_id = races.race_id
+				JOIN title ON character_sheet.character_id = title.character_id
 			`)
-		return result.rows
+		return result
 	},
 })
 
 contextBridge.exposeInMainWorld('getCharacter', {
 	characterSheet: async (characterID: bigint) => {
-		const result = await pgClient.query(/*SQL*/`
+		const result = await pgQuery(/*SQL*/`
 		SELECT
-			public."CharacterSheet"."characterID",
-			public."CharacterSheet"."allianceID",
-			public."CharacterSheet".birthday,
-			public."CharacterSheet"."bloodlineID",
-			public."CharacterSheet"."corporationID",
-			public."CharacterSheet".description,
-			public."CharacterSheet"."factionID",
-			public."CharacterSheet".gender,
-			public."CharacterSheet".name,
-			public."CharacterSheet"."raceID",
-			public."CharacterSheet"."securityStatus",
-			public."CharacterSheet".title,
-			public."chrBloodlines"."bloodlineName",
-			public."chrBloodlines".description AS "bloodlineDescription",
-			public."chrBloodlines"."corporationID" AS "bloodlineCorporationID",
-			public."chrRaces"."raceName",
-			public."chrRaces".description AS "raceDescription",
-			public."chrRaces"."shortDescription" AS "raceShortDescription",
-			public."Title".name AS "titleName"
+			character_sheet.character_id,
+			character_sheet.alliance_id,
+			character_sheet.birthday,
+			character_sheet.bloodline_id,
+			character_sheet.corporation_id,
+			character_sheet.description,
+			character_sheet.faction_id,
+			character_sheet.gender,
+			character_sheet.name,
+			character_sheet.race_id,
+			character_sheet.security_status,
+			character_sheet.title,
+			bloodlines.name AS bloodline_name,
+			bloodlines.description AS bloodline_description,
+			bloodlines.corporation_id AS bloodline_corporation_id,
+			races.name AS race_name,
+			races.description AS race_description,
+			title.name AS title_name
 
-		FROM public."CharacterSheet"
-				JOIN public."chrBloodlines" ON public."CharacterSheet"."bloodlineID" = public."chrBloodlines"."bloodlineID"
-				JOIN public."chrRaces" ON public."CharacterSheet"."raceID" = public."chrRaces"."raceID"
-				JOIN public."Title" ON public."CharacterSheet"."characterID" = public."Title"."characterID"
-		WHERE public."CharacterSheet"."characterID" = $1
+		FROM character_sheet
+				JOIN bloodlines ON character_sheet.bloodline_id = bloodlines.bloodline_id
+				JOIN races ON character_sheet.race_id = races.race_id
+				JOIN title ON character_sheet.character_id = title.character_id
+		WHERE character_sheet.character_id = $1
 		`, [ characterID ])
-		return result.rows[0]
+		return result[0]
 	},
-	blueprints: (characterID: bigint) => pgSelectByCharID('Blueprint', characterID),
-	contactNotifications: (characterID: bigint) => pgSelectByCharID('ContactNotification', characterID),
-	corpHistory: (characterID: bigint) => pgSelectByCharID('CorpHistory', characterID),
-	corpRoles: (characterID: bigint) => pgSelectByCharID('CorpRoles', characterID),
-	medals: (characterID: bigint) => pgSelectByCharID('Medal', characterID),
-	notifications: (characterID: bigint) => pgSelectByCharID('Notification', characterID),
-	standings: (characterID: bigint) => pgSelectByCharID('Standings', characterID),
-	titles: (characterID: bigint) => pgSelectByCharID('Title', characterID),
+	blueprints: (characterID: bigint) => pgSelectByCharID('blueprint', characterID),
+	contactNotifications: (characterID: bigint) => pgSelectByCharID('contact_notification', characterID),
+	corpHistory: (characterID: bigint) => pgSelectByCharID('corporation_history', characterID),
+	corpRoles: (characterID: bigint) => pgSelectByCharID('corp_roles', characterID),
+	medals: (characterID: bigint) => pgSelectByCharID('medal', characterID),
+	notifications: (characterID: bigint) => pgSelectByCharID('notification', characterID),
+	standings: (characterID: bigint) => pgSelectByCharID('standings', characterID),
+	titles: (characterID: bigint) => pgSelectByCharID('title', characterID),
 })
 
 contextBridge.exposeInMainWorld('auth', {

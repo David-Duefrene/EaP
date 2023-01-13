@@ -16,7 +16,7 @@ describe('title', () => {
 			default: vi.fn().mockResolvedValue({
 				data: [ {
 					name: 'name',
-					titleID: 1,
+					title_id: 1,
 				} ],
 			}),
 		}))
@@ -31,7 +31,7 @@ describe('title', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/titles', 'Token')
 		expect(pgUpsert).toBeCalledTimes(1)
 
-		const mockData = { name: 'name', titleID: 1, characterID: BigInt(1) }
-		expect(pgUpsert).toBeCalledWith( 'Title', mockData, [ 'characterID', 'titleID' ])
+		const mockData = { name: 'name', title_id: 1, characterID: BigInt(1) }
+		expect(pgUpsert).toBeCalledWith('title', mockData, [ 'character_id', 'title_id' ])
 	})
 })

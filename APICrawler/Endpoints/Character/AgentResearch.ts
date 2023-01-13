@@ -13,7 +13,7 @@ export default (characterAuthData: CharacterAuthData) => {
 				// eslint-disable-next-line multiline-comment-style
 				// TODO possible bug here
 				// Should loop through an array of agents and send them to the db and not return the promise
-				pgUpsert('AgentResearch', agentData, [ 'characterID', 'agentID' ])
+				pgUpsert('agent_research', agentData, [ 'character_id', 'agent_id' ])
 			})
 		}).catch((error: Error) => {
 			throw new Error('Agent research API error\n', { cause: error })
