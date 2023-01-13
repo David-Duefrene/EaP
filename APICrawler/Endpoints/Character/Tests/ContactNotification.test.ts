@@ -34,7 +34,7 @@ describe('contactNotification', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/notifications/contacts', 'Token')
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
-			character_id: BigInt(1),
+			characterID: BigInt(1),
 			message: 'text',
 			notification_id: 1,
 			sent_date: new Date('2022-10-06T02:09:38.981Z'),

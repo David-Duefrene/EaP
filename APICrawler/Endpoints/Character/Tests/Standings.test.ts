@@ -35,7 +35,7 @@ describe('standings', () => {
 			from_id: 1,
 			from_type: 'agent',
 			standing: 1,
-			character_id: BigInt(1),
+			characterID: BigInt(1),
 		}
 		expect(pgUpsert).toBeCalledWith('standings', mockData, [ 'character_id', 'from_id' ])
 	})

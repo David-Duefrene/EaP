@@ -31,7 +31,7 @@ describe('title', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/titles', 'Token')
 		expect(pgUpsert).toBeCalledTimes(1)
 
-		const mockData = { name: 'name', title_id: 1, character_id: BigInt(1) }
+		const mockData = { name: 'name', title_id: 1, characterID: BigInt(1) }
 		expect(pgUpsert).toBeCalledWith('title', mockData, [ 'character_id', 'title_id' ])
 	})
 })

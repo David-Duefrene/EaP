@@ -52,7 +52,7 @@ describe('medals', () => {
 			title: 'title',
 			description: 'description',
 			corporation_id: 1,
-			character_id: 1,
+			characterID: 1,
 			graphics: JSON.stringify({
 				color: 1,
 				graphic: 'graphic',

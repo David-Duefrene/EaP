@@ -35,7 +35,7 @@ describe('corpHistory', () => {
 			record_id: 1,
 			corporation_id: 1,
 			start_date: new Date('2022-10-06T02:09:38.981Z'),
-			character_id: BigInt(1),
+			characterID: BigInt(1),
 		}
 		expect(pgUpsert).toBeCalledWith('corporation_history', mockData, [ 'record_id' ])
 	})

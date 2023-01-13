@@ -32,7 +32,7 @@ describe('fatigue', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/fatigue', 'Token')
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
-			character_id: BigInt(1),
+			characterID: BigInt(1),
 			last_jump_date: new Date('2022-10-06T02:09:38.981Z'),
 			last_update_date: new Date('2022-10-06T02:09:38.981Z'),
 			jump_fatigue_expire_date: new Date('2022-10-06T02:09:38.981Z'),

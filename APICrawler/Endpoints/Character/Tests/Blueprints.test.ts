@@ -37,7 +37,7 @@ describe('blueprints', () => {
 		expect(ESIRequest).toBeCalledWith('characters/1/blueprints', 'Token')
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
-			character_id: BigInt(1),
+			characterID: BigInt(1),
 			item_id: 1,
 			location_id: 1,
 			type_id: 1,
