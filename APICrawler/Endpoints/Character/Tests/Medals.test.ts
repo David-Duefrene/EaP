@@ -51,7 +51,7 @@ describe('medals', () => {
 			title: 'title',
 			description: 'description',
 			corporation_id: 1,
-			character_id: BigInt(1),
+			characterID: BigInt(1),
 			graphics: JSON.stringify({
 				color: 1,
 				graphic: 'graphic',
