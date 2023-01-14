@@ -2,9 +2,9 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import standings from '../Standings'
-import ESIRequest from '../../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../../Postgres/pgUpsert'
+import standings from '../APICrawler/Endpoints/Character/Standings'
+import ESIRequest from '../APICrawler/axiosRequests/ESIRequest'
+import pgUpsert from '../Postgres/pgUpsert'
 
 describe('standings', () => {
 	afterEach(() => {

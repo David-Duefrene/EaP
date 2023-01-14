@@ -2,9 +2,9 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import PublicCharacterData from '../PublicCharacterSheet'
-import ESIRequest from '../../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../../Postgres/pgUpsert'
+import PublicCharacterData from '../../APICrawler/Endpoints/Character/PublicCharacterSheet'
+import ESIRequest from '../../APICrawler/axiosRequests/ESIRequest'
+import pgUpsert from '../../Postgres/pgUpsert'
 
 describe('PublicCharacterData', () => {
 	afterEach(() => {

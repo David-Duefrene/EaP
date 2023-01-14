@@ -1,9 +1,5 @@
 import Auth from './Auth/auth'
 import endpoints from './Endpoints/index'
-import publicCharacterData from './Endpoints/Character/PublicCharacterSheet'
-
-import bloodlines from './Endpoints/universe/bloodlines'
-import races from './Endpoints/universe/races'
 import Log from '../Electron/MessagingSystem/Message.types'
 
 //* Checks for process.send & sends it, this is to prevent Typescript errors
@@ -30,24 +26,16 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 					return
 				}
 
-				await bloodlines(characterTokens)
-				await races(characterTokens)
+				for (const [ key, value ] of Object.entries(endpoints.universe)) {
+					value({ ...characterTokens })
+				}
 
-				publicCharacterData({ ...characterTokens }).then(() => {
-					endpoints.forEach((endpoint) => {
-						endpoint({ ...characterTokens })
-							.catch((error: Error) => {
-								const newMessage = {
-									type: 'log',
-									log: {
-										error: error.toString(),
-										cause: error.cause,
-									},
-								}
-								sendMessage(newMessage)
-							})
-					})
-				})
+				await endpoints.character.publicCharacterSheet({ ...characterTokens })
+
+				for (const [ key, value ] of Object.entries(endpoints.character)) {
+					if (key === 'publicCharacterData') continue
+					value({ ...characterTokens })
+				}
 			})
 		}
 	})
