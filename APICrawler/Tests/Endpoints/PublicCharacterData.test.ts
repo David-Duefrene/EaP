@@ -2,9 +2,9 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import PublicCharacterData from '../PublicCharacterSheet'
-import ESIRequest from '../../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../../Postgres/pgUpsert'
+import PublicCharacterData from '../../Endpoints/Character/PublicCharacterSheet'
+import ESIRequest from '../../axiosRequests/ESIRequest'
+import pgUpsert from '../../../Postgres/pgUpsert'
 
 describe('PublicCharacterData', () => {
 	afterEach(() => {
@@ -12,7 +12,7 @@ describe('PublicCharacterData', () => {
 	})
 
 	test('should be able to get public character data', async () => {
-		vi.mock('../../../axiosRequests/ESIRequest', () => ({
+		vi.mock('../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: {
 					name: 'name',
@@ -25,7 +25,7 @@ describe('PublicCharacterData', () => {
 			}),
 		}))
 
-		vi.mock('../../../../Postgres/pgUpsert', () => ({
+		vi.mock('../../../Postgres/pgUpsert', () => ({
 			default: vi.fn().mockResolvedValue(null),
 		}))
 

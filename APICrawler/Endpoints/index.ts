@@ -1,16 +1,16 @@
-/* eslint-disable array-element-newline */
-import agentResearch from './Character/AgentResearch'
-import blueprint from './Character/Blueprints'
-import corpHistory from './Character/CorpHistory'
-import fatigue from './Character/Fatigue'
-import medals from './Character/Medals'
-import notifications from './Character/Notifications'
-import contactNotifications from './Character/ContactNotification'
-import corpRoles from './Character/CorpRoles'
-import standings from './Character/Standings'
-import title from './Character/Title'
+const endpoints: Record<string, (auth: any) => Promise<any>> = import.meta.glob('./**/*.ts')
 
-export default [
-	agentResearch, blueprint, corpHistory, fatigue, medals, notifications, contactNotifications, corpRoles, standings,
-	title,
-]
+const endpointObject: Record<string, typeof endpoints> = {}
+
+for (const [ key, value ] of Object.entries(endpoints)) {
+	const directory = key.slice(2, -3).split('/').map((item) => `${item[0].toLowerCase()}${item.slice(1)}`)
+
+	if (directory[0] in endpointObject) {
+		endpointObject[directory[0]][directory[1]] = value
+	} else {
+		endpointObject[directory[0]] = {}
+		endpointObject[directory[0]][directory[1]] = value
+	}
+}
+export default endpointObject
+

@@ -2,9 +2,9 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import notifications from '../Notifications'
-import ESIRequest from '../../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../../Postgres/pgUpsert'
+import notifications from '../../Endpoints/Character/Notifications'
+import ESIRequest from '../../axiosRequests/ESIRequest'
+import pgUpsert from '../../../Postgres/pgUpsert'
 
 describe('notifications', () => {
 	afterEach(() => {
@@ -12,7 +12,7 @@ describe('notifications', () => {
 	})
 
 	test('should be able to get notifications', async () => {
-		vi.mock('../../../axiosRequests/ESIRequest', () => ({
+		vi.mock('../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
 					notification_id: 1,
@@ -25,7 +25,7 @@ describe('notifications', () => {
 			}),
 		}))
 
-		vi.mock('../../../../Postgres/pgUpsert', () => ({
+		vi.mock('../../../Postgres/pgUpsert', () => ({
 			default: vi.fn().mockResolvedValue(null),
 		}))
 

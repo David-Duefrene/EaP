@@ -7,15 +7,21 @@ export default defineConfig({
 	plugins: [ react() ],
 	base: './',
 	build: {
+		ssr: true,
+		sourcemap: 'inline',
 		outDir: './vite-build',
 		lib: {
 			entry: fileURLToPath(new URL('./ElectronEntry.ts', import.meta.url)),
 			name: 'ElectronEntry',
 			fileName: 'ElectronEntry',
+			formats: [ 'cjs' ,]
 		},
 		rollupOptions: {
 			input: {
 				Auth: fileURLToPath(new URL('./ElectronEntry.ts', import.meta.url)),
+			},
+			output: {
+				entryFileNames: '[name].cjs',
 			},
 		},
 		watch: {},
