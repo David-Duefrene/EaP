@@ -2,7 +2,7 @@ import {
 	expect, test, beforeEach, afterEach, describe, vi,
 } from 'vitest'
 
-import Auth from '../APICrawler/Auth/auth'
+import Auth from '../Auth/auth'
 
 describe('Auth', () => {
 	let auth: Auth

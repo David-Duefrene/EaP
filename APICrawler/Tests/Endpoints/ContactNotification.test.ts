@@ -2,9 +2,9 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import contactNotification from '../ContactNotification'
-import ESIRequest from '../../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../../Postgres/pgUpsert'
+import contactNotification from '../../Endpoints/Character/ContactNotification'
+import ESIRequest from '../../axiosRequests/ESIRequest'
+import pgUpsert from '../../../Postgres/pgUpsert'
 
 describe('contactNotification', () => {
 	afterEach(() => {
