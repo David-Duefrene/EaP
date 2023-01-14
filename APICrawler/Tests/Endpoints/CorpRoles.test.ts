@@ -12,7 +12,7 @@ describe('corpRoles', () => {
 	})
 
 	test('should be able to get corp roles', async () => {
-		vi.mock('../../../axiosRequests/ESIRequest', () => ({
+		vi.mock('../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: {
 					roles: [ 'Director' ],
@@ -23,7 +23,7 @@ describe('corpRoles', () => {
 			}),
 		}))
 
-		vi.mock('../../../../Postgres/pgUpsert', () => ({
+		vi.mock('../../../Postgres/pgUpsert', () => ({
 			default: vi.fn().mockResolvedValue(null),
 		}))
 

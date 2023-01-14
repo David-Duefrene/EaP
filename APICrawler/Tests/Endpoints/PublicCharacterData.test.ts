@@ -12,7 +12,7 @@ describe('PublicCharacterData', () => {
 	})
 
 	test('should be able to get public character data', async () => {
-		vi.mock('../../../axiosRequests/ESIRequest', () => ({
+		vi.mock('../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: {
 					name: 'name',
@@ -25,7 +25,7 @@ describe('PublicCharacterData', () => {
 			}),
 		}))
 
-		vi.mock('../../../../Postgres/pgUpsert', () => ({
+		vi.mock('../../../Postgres/pgUpsert', () => ({
 			default: vi.fn().mockResolvedValue(null),
 		}))
 
