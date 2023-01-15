@@ -16,7 +16,6 @@ import ErrorPage from './Pages/ErrorPage/ErrorPage'
 import NavBar from './Components/NavBars/MainNavBar'
 import Notification from './Components/Buttons/Notification/Notification'
 import './index.css'
-
 import type CharacterQuery from '../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 import type Title from '../Types/APIResponses/EveOfficial/Title.types'
 import type Blueprint from '../Types/APIResponses/EveOfficial/Blueprints.types'
