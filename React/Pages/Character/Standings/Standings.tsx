@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import SortableList from '../../../Components/SortableList/SortableList'
-import Standing from '../../../../Types/APIResponses/EveOfficial/Standings.types'
+import Standing from '../../../../APICrawler/Endpoints/Character/Standing/Standing.type'
 
 const Standings = () => {
 	const [ standings, setStandings ] = useState<Standing[]>()

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import CorpRole, { Roles } from '../../../../Types/APIResponses/EveOfficial/CorpRoles.types'
+import CorpRole, { Roles } from '../../../../APICrawler/Endpoints/Character/CorpRoles/CorpRoles.type'
 import CSS from './CorpRoles.module.css'
 
 const CorpRoles = () => {

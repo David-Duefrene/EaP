@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import SortableList from '../../../Components/SortableList/SortableList'
 
-import Title from '../../../../Types/APIResponses/EveOfficial/Title.types'
+import Title from '../../../../APICrawler/Endpoints/Character/Title/Title.type'
 
 const Titles = () => {
 	const [ title, setTitle ] = useState<Title[]>()

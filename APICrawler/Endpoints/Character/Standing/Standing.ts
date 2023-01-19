@@ -2,7 +2,7 @@ import pgUpsert from '../../../../Postgres/pgUpsert'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 
 import CharacterAuthData from '../../CharacterAuthData.type'
-import Standing from './Standing.types'
+import Standing from './Standing.type'
 
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData

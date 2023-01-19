@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import './Blueprints.css'
-import Blueprint from '../../../../Types/APIResponses/EveOfficial/Blueprints.types'
+import Blueprint from '../../../../APICrawler/Endpoints/Character/Blueprint/Blueprint.type'
 import SortableList from '../../../Components/SortableList/SortableList'
 
 const Blueprints = () => {

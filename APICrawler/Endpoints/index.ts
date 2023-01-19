@@ -1,4 +1,4 @@
-const endpoints: Record<string, (auth: any) => Promise<any>> = import.meta.glob('./**/!(*.test|.types).ts')
+const endpoints: Record<string, (auth: any) => Promise<any>> = import.meta.glob('./**/!(*.test|.type).ts')
 
 const endpointObject: Record<string, typeof endpoints> = {}
 

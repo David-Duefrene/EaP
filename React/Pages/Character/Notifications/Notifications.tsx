@@ -2,7 +2,7 @@ import React, {	useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import SortableList from '../../../Components/SortableList/SortableList'
-import Notification from '../../../../Types/APIResponses/EveOfficial/Notifications.types'
+import Notification from '../../../../APICrawler/Endpoints/Character/Notification/Notification.type'
 
 const Notifications = () => {
 	const [ notifications, setNotifications ] = useState<Notification[]>()

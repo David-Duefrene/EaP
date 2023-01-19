@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import SortableList from '../../../Components/SortableList/SortableList'
-import Medal from '../../../../Types/APIResponses/EveOfficial/Medals.types'
+import Medal from '../../../../APICrawler/Endpoints/Character/Medal/Medal.type'
 
 const MedalList = () => {
 	const [ medals, setMedals ] = useState<Medal[]>()

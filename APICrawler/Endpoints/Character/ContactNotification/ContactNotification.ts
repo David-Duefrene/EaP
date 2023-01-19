@@ -2,7 +2,7 @@ import pgUpsert from '../../../../Postgres/pgUpsert'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 
 import CharacterAuthData from '../../CharacterAuthData.type'
-import ContactNotification from './ContactNotification.types'
+import ContactNotification from './ContactNotification.type'
 
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData

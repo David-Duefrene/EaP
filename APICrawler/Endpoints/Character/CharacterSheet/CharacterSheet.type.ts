@@ -1,4 +1,4 @@
-type character = {
+type CharacterSheet = {
 	'allianceID': number,
 	'birthday': string | Date,
 	'bloodLineID': number,
@@ -10,4 +10,4 @@ type character = {
 	'securityStatus': number
 }
 
-export default character
+export default CharacterSheet

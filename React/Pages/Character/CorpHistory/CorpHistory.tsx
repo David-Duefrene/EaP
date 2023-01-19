@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import SortableList from '../../../Components/SortableList/SortableList'
-import CorpHistory from '../../../../Types/APIResponses/EveOfficial/CorpHistory.types'
+import CorpHistory from '../../../../APICrawler/Endpoints/Character/CorpHistory/CorpHistory.type'
 
 const CorpHistoryList = () => {
 	const [ corpHistory, setCorpHistory ] = useState<CorpHistory[]>()
