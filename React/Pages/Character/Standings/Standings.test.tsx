@@ -9,7 +9,7 @@ import {
 	cleanup, render, screen, waitForElementToBeRemoved,
 } from '@testing-library/react'
 
-import { FromType } from '../../../../Types/APIResponses/EveOfficial/Standings.types'
+import { FromType } from '../../../../APICrawler/Endpoints/Character/Standing/Standing.type'
 import Standings from './Standings'
 
 describe('Standings', () => {

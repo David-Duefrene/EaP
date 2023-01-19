@@ -9,7 +9,7 @@ import {
 	cleanup, render, screen, waitForElementToBeRemoved,
 } from '@testing-library/react'
 
-import { Roles } from '../../../../Types/APIResponses/EveOfficial/CorpRoles.types'
+import { Roles } from '../../../../APICrawler/Endpoints/Character/CorpRoles/CorpRoles.type'
 import CorpRolesList from './CorpRoles'
 
 describe('CorpRolesList', () => {
