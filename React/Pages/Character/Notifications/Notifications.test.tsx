@@ -7,7 +7,7 @@ import {
 import {
 	cleanup, render, screen, waitForElementToBeRemoved,
 } from '@testing-library/react'
-import { SenderType, NotificationType } from '../../../../Types/APIResponses/EveOfficial/Notifications.types'
+import { SenderType, NotificationType } from '../../../../APICrawler/Endpoints/Character/Notification/Notification.type'
 import Notifications from './Notifications'
 
 describe('Notifications', () => {

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
+import { FindAllCharacters } from '../../../Electron/preload.d'
 import './CharacterCard.css'
 
-const CharacterCard = (props: { character: CharacterQuery }) => {
+const CharacterCard = (props: { character: FindAllCharacters }) => {
 	const {
 		characterID, name, allianceID, birthday, bloodlineName, corporationID, gender, raceName, securityStatus,
 	} = props.character

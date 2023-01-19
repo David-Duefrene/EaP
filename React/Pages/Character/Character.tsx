@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
+import { FindAllCharacters } from '../../../Electron/preload.d'
 
 import CSS from './Character.module.css'
 
@@ -10,7 +10,7 @@ const {
 } = CSS
 
 const Character = () => {
-	const [ character, setCharacter ] = useState<CharacterQuery>()
+	const [ character, setCharacter ] = useState<FindAllCharacters>()
 	const { characterID = '' } = useParams<{ characterID: string }>()
 
 	useEffect(() => {
@@ -19,10 +19,13 @@ const Character = () => {
 		})
 	}, [ characterID ])
 
+	if (!character) {
+		return <h1>Loading...</h1>
+	}
 	const {
 		name, allianceID, corporationID, birthday, bloodlineName, gender, raceName, securityStatus, titleName,
 		description,
-	} = character || {}
+	} = character
 
 	return character ?
 		<>
@@ -34,7 +37,7 @@ const Character = () => {
 					<ul>
 						<li>{`Name: ${name}`}</li>
 						<li>{`Character ID: ${characterID}`}</li>
-						<li dangerouslySetInnerHTML={{__html: titleName}}></li>
+						<li dangerouslySetInnerHTML={ { __html: titleName } }></li>
 						<li>{`Alliance: ${allianceID}`}</li>
 						<li>{`Birthday: ${birthday.toLocaleString()}`}</li>
 						<li>{`Bloodline: ${bloodlineName}`}</li>

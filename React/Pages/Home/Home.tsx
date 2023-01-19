@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react'
 import AddCharacter from '../../Components/Buttons/AddCharacter/AddCharacter'
 import CharacterCard from '../../Components/CharacterCard/CharacterCard'
 import CSS from './Home.module.css'
-import CharacterQuery from '../../../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
+import { FindAllCharacters } from '../../../Electron/preload.d'
 
 const Home = () => {
-	const [ characters, setCharacters ] = useState<CharacterQuery[]>([])
+	const [ characters, setCharacters ] = useState<FindAllCharacters[]>([])
 	const [ isLoading, setIsLoading ] = useState(true)
 
 	useEffect(() => {
