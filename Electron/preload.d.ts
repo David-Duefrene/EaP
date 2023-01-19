@@ -17,15 +17,15 @@ export type {
 	AgentResearch, Blueprint, CharacterSheet, ContactNotification, CorpHistory, CorpRoles, Fatigue, Medal, Notification,
 	Standing, Title, Bloodline, Race,
 }
-
-export type FindAllCharacters = Array<CharacterSheet & Title & Bloodline & Race>
+type charID = { characterID: string, bloodlineName: string, raceName: string, titleName: string }
+export type FindAllCharacters = CharacterSheet & Title & Bloodline & Race & charID
 
 export type FindAll = {
 	characters: () => Promise<findAllCharacters[]>
 }
 
 export type GetCharacter = {
-	characterSheet: (number) => Promise<findAllCharacters[]>,
+	characterSheet: (number) => Promise<findAllCharacters>,
 	blueprints: (number) => Promise<Blueprint[]>,
 	contactNotifications: (number) => Promise<ContactNotification[]>,
 	corpHistory: (number) => Promise<CorpHistory[]>,
