@@ -1,14 +1,14 @@
 type Bloodline = {
 	bloodlineID: number,
 	charisma: number,
-	corporation_id: number,
+	corporationID: number,
 	description: string,
 	intelligence: number,
 	memory: number,
 	name: string,
 	perception: number,
-	race_id: number,
-	ship_type_id?: number,
+	raceID: number,
+	shipTypeID?: number,
 	willpower: number,
 }
 
