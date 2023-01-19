@@ -2,7 +2,7 @@ import {
 	expect, test, beforeEach, afterEach, describe, vi,
 } from 'vitest'
 
-import Auth from '../Auth/auth'
+import Auth from './auth'
 
 describe('Auth', () => {
 	let auth: Auth
@@ -61,7 +61,7 @@ describe('Auth', () => {
 		testDate.setMinutes(19)
 
 		const decoded = {
-			scp: ['scp'],
+			scp: [ 'scp' ],
 			jti: 'jti',
 			kid: 'kid',
 			sub: 'CHARACTER:EVE:123123',
