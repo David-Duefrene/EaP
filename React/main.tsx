@@ -3,20 +3,11 @@ import ReactDOM from 'react-dom/client'
 import { Route, Routes, HashRouter } from 'react-router-dom'
 
 import Home from './Pages/Home/Home'
-import Character from './Pages/Character/Character'
-import Blueprints from './Pages/Character/Blueprints/Blueprints'
-import ContactNotifications from './Pages/Character/ContactNotifications/ContactNotifications'
-import CorpHistory from './Pages/Character/CorpHistory/CorpHistory'
-import CorpRoles from './Pages/Character/CorpRoles/CorpRoles'
-import MedalList from './Pages/Character/Medals/MedalList'
-import Notifications from './Pages/Character/Notifications/Notifications'
-import Standings from './Pages/Character/Standings/Standings'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
 
 import NavBar from './Components/NavBars/MainNavBar'
 import Notification from './Components/Buttons/Notification/Notification'
 import './index.css'
-
 import type CharacterQuery from '../Types/APIResponses/PrismaQueries/Character/CharacterSheetQueries.type'
 import type Title from '../Types/APIResponses/EveOfficial/Title.types'
 import type Blueprint from '../Types/APIResponses/EveOfficial/Blueprints.types'
@@ -60,17 +51,31 @@ declare global {
 	}
   }
 
+const pages = import.meta.globEager('./Pages/!(Home|ErrorPage)/**/!(*.test).tsx')
+const pagesRaw: Record<string, string> = import.meta.globEager('./Pages/!(Home|ErrorPage)/**/!(*.test).tsx', { as: 'raw' })
+
+const newRoutes = []
+
+const toKebabCase = (str: string) => str.replace(/[A-Z]{1,2}/g, (letter: string, offset: number) => {
+	if (offset === 0) return letter.toLowerCase()
+	return `-${letter.toLowerCase()}`
+})
+
+for (const [ key, value ] of Object.entries(pages)) {
+	const path = key.slice(8, -4).split('/').map((item) => toKebabCase(item)).slice(0, -1).join('/')
+	const paramKey = 'useParams<{ '
+
+	if (pagesRaw[key].includes(paramKey)) {
+		const tempParam = pagesRaw[key].slice(pagesRaw[key].indexOf(paramKey) + paramKey.length, pagesRaw[key].indexOf('}>')).split(':')[0]
+		const param = tempParam.slice(0, -2)
+		newRoutes.push(<Route path={path.replace(`${param}`, `${param}/:${tempParam}`)} element={< value.default />} errorElement={<ErrorPage />} />)
+	}
+}
+
 const routes =
 	<Routes>
 		<Route path='/' element={<Home />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID' element={<Character />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/blueprints' element={<Blueprints />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/contact-notification' element={<ContactNotifications />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/corp-history' element={<CorpHistory />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/corp-roles' element={<CorpRoles />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/medal-list' element={<MedalList />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/notifications' element={<Notifications />} errorElement={<ErrorPage />} />
-		<Route path='character/:characterID/standings' element={<Standings />} errorElement={<ErrorPage />} />
+		{newRoutes}
 	</Routes>
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

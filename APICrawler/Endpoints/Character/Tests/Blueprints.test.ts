@@ -2,9 +2,9 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import blueprints from '../../Endpoints/Character/Blueprints'
-import ESIRequest from '../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../Postgres/pgUpsert'
+import blueprints from '../Blueprints'
+import ESIRequest from '../../../axiosRequests/ESIRequest'
+import pgUpsert from '../../../../Postgres/pgUpsert'
 
 describe('blueprints', () => {
 	afterEach(() => {
@@ -12,7 +12,7 @@ describe('blueprints', () => {
 	})
 
 	test('should be able to get blueprints', async () => {
-		vi.mock('../../axiosRequests/ESIRequest', () => ({
+		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
 					item_id: 1,
@@ -27,7 +27,7 @@ describe('blueprints', () => {
 			),
 		}))
 
-		vi.mock('../../../Postgres/pgUpsert', () => ({
+		vi.mock('../../../../Postgres/pgUpsert', () => ({
 			default: vi.fn().mockResolvedValue(null),
 		}))
 

@@ -2,9 +2,9 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import title from '../../Endpoints/Character/Title'
-import ESIRequest from '../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../Postgres/pgUpsert'
+import title from '../Title'
+import ESIRequest from '../../../axiosRequests/ESIRequest'
+import pgUpsert from '../../../../Postgres/pgUpsert'
 
 describe('title', () => {
 	afterEach(() => {
@@ -12,7 +12,7 @@ describe('title', () => {
 	})
 
 	test('should be able to get title', async () => {
-		vi.mock('../../axiosRequests/ESIRequest', () => ({
+		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
 					name: 'name',
@@ -21,7 +21,7 @@ describe('title', () => {
 			}),
 		}))
 
-		vi.mock('../../../Postgres/pgUpsert', () => ({
+		vi.mock('../../../../Postgres/pgUpsert', () => ({
 			default: vi.fn().mockResolvedValue(null),
 		}))
 

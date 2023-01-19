@@ -2,9 +2,9 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import medals from '../../Endpoints/Character/Medals'
-import ESIRequest from '../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../Postgres/pgUpsert'
+import medals from '../Medals'
+import ESIRequest from '../../../axiosRequests/ESIRequest'
+import pgUpsert from '../../../../Postgres/pgUpsert'
 
 describe('medals', () => {
 	afterEach(() => {
@@ -12,7 +12,7 @@ describe('medals', () => {
 	})
 
 	test('should be able to get medals', async () => {
-		vi.mock('../../axiosRequests/ESIRequest', () => ({
+		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: [ {
 					medal_id: 1,
@@ -33,7 +33,7 @@ describe('medals', () => {
 			}),
 		}))
 
-		vi.mock('../../../Postgres/pgUpsert', () => ({
+		vi.mock('../../../../Postgres/pgUpsert', () => ({
 			default: vi.fn().mockResolvedValue(null),
 		}))
 

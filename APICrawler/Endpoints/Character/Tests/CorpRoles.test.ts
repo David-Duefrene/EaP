@@ -2,9 +2,9 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import corpRoles from '../../Endpoints/Character/CorpRoles'
-import ESIRequest from '../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../Postgres/pgUpsert'
+import corpRoles from '../CorpRoles'
+import ESIRequest from '../../../axiosRequests/ESIRequest'
+import pgUpsert from '../../../../Postgres/pgUpsert'
 
 describe('corpRoles', () => {
 	afterEach(() => {
@@ -12,7 +12,7 @@ describe('corpRoles', () => {
 	})
 
 	test('should be able to get corp roles', async () => {
-		vi.mock('../../axiosRequests/ESIRequest', () => ({
+		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
 				data: {
 					roles: [ 'Director' ],
@@ -23,7 +23,7 @@ describe('corpRoles', () => {
 			}),
 		}))
 
-		vi.mock('../../../Postgres/pgUpsert', () => ({
+		vi.mock('../../../../Postgres/pgUpsert', () => ({
 			default: vi.fn().mockResolvedValue(null),
 		}))
 
