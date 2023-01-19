@@ -352,5 +352,7 @@
     "WarRetracted": "War Retracted",
     "WarRetractedByConcord": "War Retracted By Concord",
     "WarSurrenderDeclinedMsg": "War Surrender Declined Message",
-    "WarSurrenderOfferMsg": "War Surrender Offer Message"
+    "WarSurrenderOfferMsg": "War Surrender Offer Message",
+	"true": "True",
+	"false": "False"
 }

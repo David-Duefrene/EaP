@@ -1,14 +1,13 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-import english from './public/locales/en/keys.json'
+import keys from './public/locales/en/keys.json'
+import enums from './public/locales/en/enums.json'
 
 i18n.use(initReactI18next).init({
 	lng: 'en',
 	resources: {
-		en: {
-			keys: english,
-		},
+		en: { keys, enums },
 	},
 	debug: true,
 	interpolation: {

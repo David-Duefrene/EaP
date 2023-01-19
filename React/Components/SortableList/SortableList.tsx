@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import CSS from './SortableList.module.css'
 
 const SortableList = (props: { data: Record<string, any>[] | Record<string, any> }) => {
-	const { t } = useTranslation('keys')
+	const { t } = useTranslation([ 'keys', 'enums' ])
 	const { data } = props
 
 	if (data.length === 0) {
@@ -17,16 +17,6 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 	const keys = Object.keys(data[0]) // Pulls key from 1st object
 	const [ sortConfig, setSortConfig ] = useState(keys[0]) // Sets default sort to first key
 	const [ sortDirection, setSortDirection ] = useState('asc') // Sets default sort direction to ascending
-
-	const insertSpace = (str: string) => {
-		if (str.slice(-2) === 'ID') {
-			str = str.slice(0, -2)
-		}
-
-		return str.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => {
-			return str.toUpperCase()
-		})
-	}
 
 	const tableHeader = keys.map((el, key) => {
 		return (
@@ -68,7 +58,7 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 				{keys.map((key, i) => {
 					return (
 						<td key={i}>
-							{el[key].toString()}
+							{t(el[key].toString(), { ns: 'enums' })}
 						</td>
 					)
 				})}
