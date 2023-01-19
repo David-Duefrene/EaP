@@ -1,6 +1,6 @@
 type Log = {
 	type: string,
-	log: Record<string, any>,
+	log: Record<string, unknown>,
 }
 
 export default Log
