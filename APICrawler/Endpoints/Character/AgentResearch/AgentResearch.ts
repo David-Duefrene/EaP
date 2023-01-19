@@ -1,7 +1,7 @@
-import pgUpsert from '../../../Postgres/pgUpsert'
-import ESIRequest from '../../axiosRequests/ESIRequest'
-import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
-import AgentResearch from '../../../Types/APIResponses/EveOfficial/AgentResearch.types'
+import pgUpsert from '../../../../Postgres/pgUpsert'
+import ESIRequest from '../../../axiosRequests/ESIRequest'
+import CharacterAuthData from '../../CharacterAuthData.type'
+import AgentResearch from './AgentResearch.types'
 
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData

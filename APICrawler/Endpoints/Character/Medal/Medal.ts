@@ -1,8 +1,8 @@
-import pgUpsert from '../../../Postgres/pgUpsert'
-import ESIRequest from '../../axiosRequests/ESIRequest'
+import pgUpsert from '../../../../Postgres/pgUpsert'
+import ESIRequest from '../../../axiosRequests/ESIRequest'
 
-import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
-import Medal from '../../../Types/APIResponses/EveOfficial/Medals.types'
+import CharacterAuthData from '../../CharacterAuthData.type'
+import Medal from './Medal.types'
 
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData

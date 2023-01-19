@@ -2,7 +2,7 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import PublicCharacterData from '../PublicCharacterSheet'
+import PublicCharacterData from './CharacterSheet'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 import pgUpsert from '../../../../Postgres/pgUpsert'
 

@@ -2,7 +2,7 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import blueprints from '../Blueprints'
+import blueprints from './Blueprint'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 import pgUpsert from '../../../../Postgres/pgUpsert'
 

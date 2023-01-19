@@ -2,7 +2,7 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import corpHistory from '../CorpHistory'
+import corpHistory from './CorpHistory'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 import pgUpsert from '../../../../Postgres/pgUpsert'
 

@@ -1,4 +1,4 @@
-type ContactNotifications = {
+type ContactNotification = {
 	message: string,
 	notificationID: number,
 	sendDate: Date,
@@ -6,4 +6,4 @@ type ContactNotifications = {
 	standingLevel: number,
 }
 
-export default ContactNotifications
+export default ContactNotification

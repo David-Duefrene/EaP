@@ -1,8 +1,8 @@
-import ESIRequest from '../../axiosRequests/ESIRequest'
-import pgUpsert from '../../../Postgres/pgUpsert'
+import ESIRequest from '../../../axiosRequests/ESIRequest'
+import pgUpsert from '../../../../Postgres/pgUpsert'
 
-import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
-import CorpHistory from '../../../Types/APIResponses/EveOfficial/CorpHistory.types'
+import CharacterAuthData from '../../CharacterAuthData.type'
+import CorpHistory from './CorpHistory.types'
 
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID } = characterAuthData

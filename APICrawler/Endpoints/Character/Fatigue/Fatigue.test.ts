@@ -2,7 +2,7 @@ import {
 	expect, test, afterEach, describe, vi,
 } from 'vitest'
 
-import fatigue from '../Fatigue'
+import fatigue from './Fatigue'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 import pgUpsert from '../../../../Postgres/pgUpsert'
 

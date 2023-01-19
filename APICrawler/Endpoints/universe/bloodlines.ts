@@ -1,7 +1,7 @@
 import pgUpsert from '../../../Postgres/pgUpsert'
 import ESIRequest from '../../axiosRequests/ESIRequest'
 
-import CharacterAuthData from '../../../Types/APIResponses/EveOfficial/axiosTypes/characterAuthData.type'
+import CharacterAuthData from '../CharacterAuthData.type'
 
 export default async (characterAuthData: CharacterAuthData): Promise<void> => {
 	const { accessToken } = characterAuthData
