@@ -9,7 +9,6 @@ i18n.use(initReactI18next).init({
 	resources: {
 		en: { keys, enums },
 	},
-	debug: true,
 	interpolation: {
 		escapeValue: false,
 	},
