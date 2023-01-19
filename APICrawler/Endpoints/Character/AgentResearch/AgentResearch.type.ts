@@ -1,10 +1,10 @@
 type AgentResearch = {
 	characterID: string,
 	name: string,
-	agentId: number,
+	agentID: number,
 	pointsPerDay: number,
 	remainderPoints: number,
-	skillTypeId: number,
+	skillTypeID: number,
 	startedAt: string,
 }
 

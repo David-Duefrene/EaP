@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import CSS from './SortableList.module.css'
 
 const SortableList = (props: { data: Record<string, any>[] | Record<string, any> }) => {
+	const { t } = useTranslation('keys')
 	const { data } = props
 
 	if (data.length === 0) {
@@ -32,7 +35,7 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 					setSortConfig(el)
 					setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
 				}}>
-					{insertSpace(el)}
+					{t(el)}
 				</button>
 			</th>
 		)
