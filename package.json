@@ -41,11 +41,13 @@
 		"axios": "^1.0.0",
 		"concurrently": "^7.2.1",
 		"electron-store": "^8.0.2",
+		"i18next": "^22.4.9",
 		"jsonwebtoken": "^9.0.0",
 		"jwks-rsa": "^3.0.0",
 		"pg": "^8.8.0",
 		"react": "^18.0.0",
 		"react-dom": "18.2.0",
+		"react-i18next": "^12.1.4",
 		"react-router-dom": "6.6.1"
 	},
 	"build": {
@@ -76,10 +78,14 @@
 			"allowToChangeInstallationDirectory": true
 		},
 		"win": {
-			"target": [ "nsis" ]
+			"target": [
+				"nsis"
+			]
 		},
 		"mac": {
-			"target": [ "dmg" ]
+			"target": [
+				"dmg"
+			]
 		}
 	}
 }

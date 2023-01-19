@@ -1,0 +1,14 @@
+{
+	"name": "Name",
+	"characterID": "Character ID",
+	"allianceID": "Alliance ID",
+	"birthday": "Birthday",
+	"bloodlineID": "Bloodline ID",
+	"corporationID": "Corporation ID",
+	"description": "Description",
+	"gender": "Gender",
+	"raceID": "Race ID",
+	"securityStatus": "Security Status",
+	"raceName": "Race",
+	"bloodlineName": "Bloodline"
+}
