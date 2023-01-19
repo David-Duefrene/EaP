@@ -7,7 +7,7 @@ import { FindAllCharacters } from '../../../Electron/preload.d'
 import './CharacterCard.css'
 
 const CharacterCard = (props: { character: FindAllCharacters }) => {
-	const { t } = useTranslation('keys')
+	const { t } = useTranslation([ 'keys', 'enums' ])
 	const {
 		characterID, name, allianceID, birthday, bloodlineName, corporationID, gender, raceName, securityStatus,
 	} = props.character
@@ -22,7 +22,7 @@ const CharacterCard = (props: { character: FindAllCharacters }) => {
 				<li>{`${t('birthday')}: ${birthday.toLocaleString()}`}</li>
 				<li>{`${t('bloodlineName')}: ${bloodlineName}`}</li>
 				<li>{`${t('corporationID')}: ${corporationID}`}</li>
-				<li>{`${t('gender')}: ${gender}`}</li>
+				<li>{`${t('gender')}: ${t(gender, { ns: 'enums' })}`}</li>
 				<li>{`${t('raceName')}: ${raceName}`}</li>
 				<li>{`${t('securityStatus')}: ${securityStatus.toFixed(2)}`}</li>
 			</ul>
