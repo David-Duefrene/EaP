@@ -7,7 +7,7 @@ import Nav from '../Nav/Nav'
 const BackButton = () => {
 	const { t } = useTranslation('navigation')
 
-	return <Nav URL='/'>{t('Back')}</Nav>
+	return <Nav URL='/'>{t('Home')}</Nav>
 }
 
 export default BackButton
