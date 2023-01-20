@@ -27,7 +27,7 @@ const pgClient = new Client({
 	database: 'DATABASE',
 })
 
-import type Character from '../Types/APIResponses/EveOfficial/character.type'
+import type Character from '../APICrawler/Endpoints/Character/CharacterSheet/CharacterSheet.type'
 
 const createWindow = async () => {
 	const win = new BrowserWindow({
