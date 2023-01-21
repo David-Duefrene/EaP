@@ -10,7 +10,7 @@ const defaultSendMessage = (message: Log) => {
 }
 
 //* Sends a message to the main process
-const defaultReceiveMessage = (processMessages: (arg0: Log) => void) => {
+const defaultReceiveMessage = (processMessages: (message: Log) => void) => {
 	process.on('message', (message: Log) => {
 		processMessages(message)
 	})
@@ -28,20 +28,24 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 					}
 
 					for (const [ key, value ] of Object.entries(endpoints.universe)) {
-						value({ ...characterTokens })
+						await value({ ...characterTokens })
 					}
 
-					await endpoints.character.publicCharacterSheet({ ...characterTokens })
+					await endpoints.character.characterSheet({ ...characterTokens })
 
 					for (const [ key, value ] of Object.entries(endpoints.character)) {
-						if (key === 'publicCharacterData') continue
-						value({ ...characterTokens })
+						if (key === 'characterSheet') continue
+						if (key === 'agentResearch') continue
+						await value({ ...characterTokens })
 					}
 				})
 			}
 		})
 	} catch (error) {
-		receiveMessage(error)
+		sendMessage({
+			type: 'log',
+			log: { error },
+		})
 	}
 }
 

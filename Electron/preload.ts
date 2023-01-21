@@ -7,30 +7,28 @@ contextBridge.exposeInMainWorld('findAll', {
 	characters: async () => {
 		const result = await pgQuery(/*SQL*/`
 			SELECT
-			character_sheet.character_id,
-			character_sheet.alliance_id,
-			character_sheet.birthday,
-			character_sheet.bloodline_id,
-			character_sheet.corporation_id,
-			character_sheet.description,
-			character_sheet.faction_id,
-			character_sheet.gender,
-			character_sheet.name,
-			character_sheet.race_id,
-			character_sheet.security_status,
-			character_sheet.title,
-			bloodlines.name AS bloodline_name,
-			bloodlines.description AS bloodline_description,
-			bloodlines.corporation_id AS bloodline_corporation_id,
-			races.name AS race_name,
-			races.description AS race_description,
-			title.name AS title_name
+				character_sheet.character_id,
+				character_sheet.alliance_id,
+				character_sheet.birthday,
+				character_sheet.bloodline_id,
+				character_sheet.corporation_id,
+				character_sheet.description,
+				character_sheet.faction_id,
+				character_sheet.gender,
+				character_sheet.name,
+				character_sheet.race_id,
+				character_sheet.security_status,
+				character_sheet.title,
+				bloodlines.name AS bloodline_name,
+				bloodlines.description AS bloodline_description,
+				bloodlines.corporation_id AS bloodline_corporation_id,
+				races.name AS race_name,
+				races.description AS race_description
 
-		FROM character_sheet
-				JOIN bloodlines ON character_sheet.bloodline_id = bloodlines.bloodline_id
-				JOIN races ON character_sheet.race_id = races.race_id
-				JOIN title ON character_sheet.character_id = title.character_id
-			`)
+			FROM character_sheet
+					JOIN bloodlines ON character_sheet.bloodline_id = bloodlines.bloodline_id
+					JOIN races ON character_sheet.race_id = races.race_id
+		`)
 		return result
 	},
 })

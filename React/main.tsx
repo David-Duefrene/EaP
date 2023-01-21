@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Route, Routes, HashRouter } from 'react-router-dom'
 
 import Home from './Pages/Home/Home'
 import ErrorPage from './Pages/ErrorPage/ErrorPage'
+
+import './i18n'
 
 import NavBar from './Components/NavBars/MainNavBar'
 import Notification from './Components/Buttons/Notification/Notification'
@@ -54,7 +56,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<HashRouter>
 			<NavBar />
-			{routes}
+			<Suspense fallback={<div>Loading...</div>}>
+				{routes}
+			</Suspense>
 			<Notification />
 		</HashRouter>
 	</React.StrictMode>,

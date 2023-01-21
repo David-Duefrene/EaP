@@ -3,10 +3,10 @@ import Blueprint from '../APICrawler/Endpoints/Character/Blueprint/Blueprint.typ
 import CharacterSheet from '../APICrawler/Endpoints/Character/CharacterSheet/CharacterSheet.type'
 import ContactNotification from '../APICrawler/Endpoints/Character/ContactNotification/ContactNotification.type'
 import CorpHistory from '../APICrawler/Endpoints/Character/CorpHistory/CorpHistory.type'
-import CorpRoles from '../React/Pages/Character/CorpRoles/CorpRoles.type'
+import CorpRoles from '../APICrawler/Endpoints/Character/CorpRoles/CorpRoles.type'
 import Fatigue from '../APICrawler/Endpoints/Character/Fatigue/Fatigue.type'
 import Medal from '../APICrawler/Endpoints/Character/Medal/Medal.type'
-import Notification from '../React/Components/Buttons/Notification/Notification.type'
+import Notification from '../APICrawler/Endpoints/Character/Notification/Notification.type'
 import Standing from '../APICrawler/Endpoints/Character/Standing/Standing.type'
 import Title from '../APICrawler/Endpoints/Character/Title/Title.type'
 

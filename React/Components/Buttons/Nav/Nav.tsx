@@ -3,7 +3,7 @@ import { useLocation, Link } from 'react-router-dom'
 
 import CSS from './Nav.module.css'
 
-const Nav = (props: { URL: string, children: string }) => {
+const Nav = (props: { URL: string, children: string, onClick?: () => void }) => {
 	const currentButton = props.URL === '/' ? '/' : props.URL.slice(1)
 	const currentURL = useLocation().pathname
 
