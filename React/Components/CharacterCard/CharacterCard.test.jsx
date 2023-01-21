@@ -4,6 +4,8 @@ import {
 	createBrowserRouter, createRoutesFromElements, RouterProvider, Route,
 } from 'react-router-dom'
 
+import '../../i18n'
+
 import {
 	expect, test, afterEach, describe, beforeEach,
 } from 'vitest'
@@ -50,7 +52,7 @@ describe('CharacterCard', () => {
 	})
 
 	test('should render the character Alliance ID', () => {
-		expect(screen.getByText(`Alliance: ${character.allianceID}`)).toBeTruthy()
+		expect(screen.getByText(`Alliance ID: ${character.allianceID}`)).toBeTruthy()
 	})
 
 	test('should render the character birthday', () => {
@@ -62,11 +64,11 @@ describe('CharacterCard', () => {
 	})
 
 	test('should render the character Corp ID', () => {
-		expect(screen.getByText(`Corporation: ${character.corporationID}`)).toBeTruthy()
+		expect(screen.getByText(`Corporation ID: ${character.corporationID}`)).toBeTruthy()
 	})
 
 	test('should render the character Gender', () => {
-		expect(screen.getByText(`Gender: ${character.gender}`)).toBeTruthy()
+		expect(screen.getByText('Gender: Male')).toBeTruthy()
 	})
 
 	test('should render the character Race', () => {
