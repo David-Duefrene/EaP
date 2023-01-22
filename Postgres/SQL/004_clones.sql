@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS clones (
-	character_id INTEGER NOT NULL,
+	character_id BIGINT NOT NULL,
 	jump_clone_id INTEGER NOT NULL,
 	location_id BIGINT NOT NULL,
 	location_type location_type NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS clones (
 );
 
 CREATE TABLE IF NOT EXISTS clone_status (
-	character_id INTEGER NOT NULL,
+	character_id BIGINT NOT NULL,
 	home_location_id BIGINT NOT NULL,
 	home_location_type location_type NOT NULL,
 	last_clone_jump_date TIMESTAMP,
