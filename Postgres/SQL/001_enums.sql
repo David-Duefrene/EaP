@@ -72,3 +72,5 @@ CREATE TYPE corp_role_type AS ENUM (
 );
 
 CREATE TYPE npc_standing_type AS ENUM ('agent', 'npc_corp', 'faction');
+
+CREATE TYPE location_type AS ENUM ('station', 'structure')
