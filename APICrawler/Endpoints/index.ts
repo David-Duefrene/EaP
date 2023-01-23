@@ -2,7 +2,7 @@ import CharacterAuthData from './CharacterAuthData.type'
 
 type Module = (auth: CharacterAuthData) => Promise<never>
 
-const endpoints: Record<string, { default: Module }> = import.meta.globEager('./**/!(*.test|*.type).ts')
+const endpoints: Record<string, { default: Module }> = import.meta.globEager('./**/!(*.test|*.type|*.d).ts')
 
 const endpointObject: Record<string, Record<string, Module>> = {}
 

@@ -3,10 +3,10 @@ CREATE TABLE IF NOT EXISTS clones (
 	jump_clone_id INTEGER NOT NULL,
 	location_id BIGINT NOT NULL,
 	location_type location_type NOT NULL,
-	implants INTEGER[]
-	name STRING,
+	implants INTEGER[],
+	name TEXT,
 
-	PRIMARY KEY (jump_clone_id, character_id)
+	PRIMARY KEY (jump_clone_id, character_id),
 	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS clone_status (
 	last_station_change_date TIMESTAMP,
 	implants INTEGER[],
 
-	PRIMARY KEY (character_id)
+	PRIMARY KEY (character_id),
 	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
 
 );

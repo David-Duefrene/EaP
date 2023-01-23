@@ -4,15 +4,27 @@ import ESIRequest from '../../../axiosRequests/ESIRequest'
 import CharacterAuthData from '../../CharacterAuthData.type'
 import Clones from './Clones.d'
 
-export default (characterAuthData: CharacterAuthData) => {
-	const { characterID, accessToken } = characterAuthData
+export default async (characterAuthData: CharacterAuthData) => {
+	try {
+		const { characterID, accessToken } = characterAuthData
 
-	return ESIRequest(`/characters/${characterID}/clones/`, accessToken).then((result: { data: Clones[] }) => {
-		result.data.forEach(async (clone: Clones) => {
-			const cloneData = { ...clone }
-			pgUpsert('clone', cloneData, [ 'character_id', 'jump_clone_id' ])
+		const jumpClones = await ESIRequest(`characters/${characterID}/clones/`, accessToken)
+		jumpClones.data.jump_clones.forEach(async (clone: Clones) => {
+			clone.characterID = characterID
+			pgUpsert('clones', clone, [ 'character_id', 'jump_clone_id' ])
 		})
-	}).catch((error: Error) => {
+
+		const currentImplants = await ESIRequest(`characters/${characterID}/implants/`, accessToken)
+		const cloneStatus = {
+			characterID,
+			lastCloneJumpDate: jumpClones.data.last_clone_jump_date,
+			lastStationChangeDate: jumpClones.data.last_station_change_date,
+			homeLocationID: jumpClones.data.home_location.location_id,
+			homeLocationType: jumpClones.data.home_location.location_type,
+			implants: currentImplants.data,
+		}
+		pgUpsert('clone_status', cloneStatus, [ 'character_id' ])
+	} catch (error) {
 		throw new Error('Clones API error\n', { cause: error })
-	})
+	}
 }
