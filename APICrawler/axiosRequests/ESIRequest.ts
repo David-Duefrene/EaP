@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-export default (path: string, accessToken = '', server='tranquility') => {
+export default (path: string, accessToken = '', server='tranquility'): Promise<{ data: Record<string, unknown>}> => {
 	// Create an axios.create object that converts the response data to camelCase
 	const esiAxios = axios.create({
 		baseURL: `https://esi.evetech.net/latest/${path}`,
