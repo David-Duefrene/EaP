@@ -10,6 +10,9 @@ import Notification from '../APICrawler/Endpoints/Character/Notification/Notific
 import Standing from '../APICrawler/Endpoints/Character/Standing/Standing.type'
 import Title from '../APICrawler/Endpoints/Character/Title/Title.type'
 
+import Clone from '../APICrawler/Endpoints/Clones/Clones/Clones.d'
+import CloneStatus from '../APICrawler/Endpoints/Clones/CloneStatus/CloneStatus.d'
+
 import Bloodline from '../APICrawler/Endpoints/Universe/Bloodline.type'
 import Race from '../APICrawler/Endpoints/Universe/Race.type'
 
@@ -34,4 +37,6 @@ export type GetCharacter = {
 	notifications: (number) => Promise<Notification[]>,
 	standings: (number) => Promise<Standing[]>,
 	titles: (number) => Promise<Title[]>,
+	clones: (number) => Promise<Clone[]>,
+	cloneStatus: (number) => Promise<CloneStatus>,
 }

@@ -38,6 +38,10 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 						if (key === 'agentResearch') continue
 						await value({ ...characterTokens })
 					}
+
+					for (const [ key, value ] of Object.entries(endpoints.clones)) {
+						await value({ ...characterTokens })
+					}
 				})
 			}
 		})

@@ -72,6 +72,8 @@ contextBridge.exposeInMainWorld('getCharacter', {
 	notifications: (characterID: bigint) => pgSelectByCharID('notification', characterID),
 	standings: (characterID: bigint) => pgSelectByCharID('standings', characterID),
 	titles: (characterID: bigint) => pgSelectByCharID('title', characterID),
+	clones: (characterID: bigint) => pgSelectByCharID('clones', characterID),
+	cloneStatus: (characterID: bigint) => pgSelectByCharID('clone_status', characterID),
 })
 
 contextBridge.exposeInMainWorld('auth', {
