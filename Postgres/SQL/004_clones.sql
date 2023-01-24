@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS clones (
 	name TEXT,
 
 	PRIMARY KEY (jump_clone_id, character_id),
-	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_location_id FOREIGN KEY (location_id) REFERENCES structure(structure_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS clone_status (
@@ -19,6 +20,6 @@ CREATE TABLE IF NOT EXISTS clone_status (
 	implants INTEGER[],
 
 	PRIMARY KEY (character_id),
-	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE
-
+	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_home_location_id FOREIGN KEY (home_location_id) REFERENCES structure(structure_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

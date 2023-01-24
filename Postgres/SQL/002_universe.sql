@@ -1,24 +1,37 @@
-create table if not exists bloodlines (
-	bloodline_id integer not null,
-	charisma integer not null,
-	corporation_id integer not null,
-	description text not null,
-	intelligence integer not null,
-	memory integer not null,
-	name text not null,
-	perception integer not null,
-	race_id integer not null,
-	ship_type_id integer,
-	willpower integer not null,
-	
-	primary key (bloodline_id)
+CREATE TABLE IF NOT EXISTS bloodlines (
+	bloodline_id INTEGER NOT NULL,
+	charisma INTEGER NOT NULL,
+	corporation_id INTEGER NOT NULL,
+	description text NOT NULL,
+	intelligence INTEGER NOT NULL,
+	memory INTEGER NOT NULL,
+	name text NOT NULL,
+	perception INTEGER NOT NULL,
+	race_id INTEGER NOT NULL,
+	ship_type_id INTEGER,
+	willpower INTEGER NOT NULL,
+
+	PRIMARY KEY (bloodline_id)
 );
 
-create table if not exists races (
-	alliance_id integer not null,
-	description text not null,
-	name text not null,
-	race_id integer not null,
+CREATE TABLE IF NOT EXISTS races (
+	alliance_id INTEGER NOT NULL,
+	description text NOT NULL,
+	name text NOT NULL,
+	race_id INTEGER NOT NULL,
 
-	primary key (race_id)
-)
+	PRIMARY KEY (race_id)
+);
+
+CREATE TABLE IF NOT EXISTS structure (
+	structure_id BIGINT NOT NULL,
+	name text NOT NULL,
+	owner_id INTEGER NOT NULL,
+	solar_system_id INTEGER NOT NULL,
+	position_x DOUBLE PRECISION,
+	position_y DOUBLE PRECISION,
+	position_z DOUBLE PRECISION,
+	type_id INTEGER,
+
+	PRIMARY KEY (structure_id)
+);
