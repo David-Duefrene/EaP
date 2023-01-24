@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS corporation (
 	url TEXT,
 	war_eligible BOOLEAN DEFAULT false,
 
-	CONSTRAINT fk_alliance_id FOREIGN KEY (alliance_id) REFERENCES character(alliance_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_alliance_id FOREIGN KEY (alliance_id) REFERENCES alliance(alliance_id) ON DELETE CASCADE ON UPDATE CASCADE,
 
 
 	PRIMARY KEY (corporation_id)
