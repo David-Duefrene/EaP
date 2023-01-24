@@ -11,6 +11,7 @@ const CharacterNavBar = () => {
 
 	return (
 		<>
+			<Nav URL={`./character/${characterID}/`}>{t('Character Sheet')}</Nav>
 			<Nav URL={`./character/${characterID}/blueprints`}>{t('Blueprints')}</Nav>
 			<Nav URL={`./character/${characterID}/contact-notifications`}>{t('Contact Notifications')}</Nav>
 			<Nav URL={`./character/${characterID}/corp-history`}>{t('Corp History')}</Nav>
