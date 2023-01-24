@@ -58,7 +58,10 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 				{keys.map((key, i) => {
 					return (
 						<td key={i}>
-							{t(el[key].toString(), { ns: 'enums' })}
+							{
+								typeof el[key] === typeof [] ? el[key] :
+									t(el[key].toString(), { ns: 'enums' })
+							}
 						</td>
 					)
 				})}
