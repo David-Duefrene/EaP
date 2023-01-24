@@ -19,10 +19,10 @@ describe('CharacterCard', () => {
 	const character = {
 		characterID: 123,
 		name: 'Test Name',
-		allianceID: 456,
+		alliance: 456,
 		birthday: '2021-01-01',
 		bloodlineName: 'Jin-Mei',
-		corporationID: 901,
+		corporation: 901,
 		description: 'Test Description',
 		gender: 'male',
 		raceName: 'Gallente',
@@ -52,7 +52,7 @@ describe('CharacterCard', () => {
 	})
 
 	test('should render the character Alliance ID', () => {
-		expect(screen.getByText(`Alliance ID: ${character.allianceID}`)).toBeTruthy()
+		expect(screen.getByText(`Alliance: ${character.alliance}`)).toBeTruthy()
 	})
 
 	test('should render the character birthday', () => {
@@ -64,7 +64,7 @@ describe('CharacterCard', () => {
 	})
 
 	test('should render the character Corp ID', () => {
-		expect(screen.getByText(`Corporation ID: ${character.corporationID}`)).toBeTruthy()
+		expect(screen.getByText(`Corporation: ${character.corporation}`)).toBeTruthy()
 	})
 
 	test('should render the character Gender', () => {

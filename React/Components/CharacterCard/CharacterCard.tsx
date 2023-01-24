@@ -9,7 +9,7 @@ import './CharacterCard.css'
 const CharacterCard = (props: { character: FindAllCharacters }) => {
 	const { t } = useTranslation([ 'keys', 'enums' ])
 	const {
-		characterID, name, allianceID, birthday, bloodlineName, corporationID, gender, raceName, securityStatus,
+		characterID, name, alliance, birthday, bloodlineName, corporation, gender, raceName, securityStatus,
 	} = props.character
 
 	return (
@@ -18,12 +18,12 @@ const CharacterCard = (props: { character: FindAllCharacters }) => {
 			<ul className='CardBody'>
 				<li>{`${t('name')}: ${name}`}</li>
 				<li>{`${t('characterID')}: ${characterID}`}</li>
-				<li>{`${t('allianceID')}: ${allianceID}`}</li>
+				<li>{`${t('alliance')}: ${alliance}`}</li>
 				<li>{`${t('birthday')}: ${birthday.toLocaleString()}`}</li>
-				<li>{`${t('bloodlineName')}: ${bloodlineName}`}</li>
-				<li>{`${t('corporationID')}: ${corporationID}`}</li>
+				<li>{`${t('bloodline')}: ${bloodlineName}`}</li>
+				<li>{`${t('corporation')}: ${corporation}`}</li>
 				<li>{`${t('gender')}: ${t(gender, { ns: 'enums' })}`}</li>
-				<li>{`${t('raceName')}: ${raceName}`}</li>
+				<li>{`${t('race')}: ${raceName}`}</li>
 				<li>{`${t('securityStatus')}: ${securityStatus.toFixed(2)}`}</li>
 			</ul>
 		</Link>

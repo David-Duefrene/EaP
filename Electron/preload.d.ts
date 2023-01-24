@@ -21,7 +21,10 @@ export type {
 	Standing, Title, Bloodline, Race,
 }
 type charID = { characterID: string, bloodlineName: string, raceName: string, titleName: string }
-export type FindAllCharacters = CharacterSheet & Title & Bloodline & Race & charID
+export type FindAllCharacters = CharacterSheet & Title & Bloodline & Race & charID & {
+	corporation: string,
+	alliance: string,
+}
 
 export type FindAll = {
 	characters: () => Promise<findAllCharacters[]>
