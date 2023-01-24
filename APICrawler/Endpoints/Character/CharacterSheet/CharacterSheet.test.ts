@@ -30,9 +30,9 @@ describe('PublicCharacterData', () => {
 		}))
 
 		await PublicCharacterData({ characterID: BigInt(1), accessToken: 'Token' })
-		expect(ESIRequest).toBeCalledTimes(1)
+		expect(ESIRequest).toBeCalledTimes(2)
 		expect(ESIRequest).toBeCalledWith('characters/1')
-		expect(pgUpsert).toBeCalledTimes(2)
+		expect(pgUpsert).toBeCalledTimes(3)
 		const mockData = {
 			name: 'name',
 			characterID: 1n,

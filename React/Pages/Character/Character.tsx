@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { useTranslation } from 'react-i18next'
+
 import SortableList from '../../Components/SortableList/SortableList'
 
 import { FindAllCharacters } from '../../../Electron/preload.d'
@@ -13,6 +15,7 @@ const {
 } = CSS
 
 const Character = () => {
+	const { t } = useTranslation([ 'keys', 'enums' ])
 	const [ character, setCharacter ] = useState<FindAllCharacters>()
 	const [ clones, setClones ] = useState<Clones[]>()
 	const { characterID = '' } = useParams<{ characterID: string }>()
@@ -30,8 +33,8 @@ const Character = () => {
 		return <h1>Loading...</h1>
 	}
 	const {
-		name, allianceID, corporationID, birthday, bloodlineName, gender, raceName, securityStatus, titleName,
-		description,
+		name, alliance, corporation, allianceID, corporationID, birthday, bloodlineName, gender, raceName,
+		securityStatus, titleName, description,
 	} = character
 
 	return clones ?
@@ -41,16 +44,16 @@ const Character = () => {
 				<img className={AllianceLogo} alt={'Alliance Logo'} src={`https://images.evetech.net/Alliance/${allianceID}_128.png`} />
 				<img className={CorpLogo} alt={'Corporation Logo'} src={`https://images.evetech.net/Corporation/${corporationID}_128.png`} />
 				<ul className={Data}>
-					<li>{`Name: ${name}`}</li>
-					<li>{`Character ID: ${characterID}`}</li>
+					<li>{`${t('name')}: ${name}`}</li>
+					<li>{`${t('characterID')}: ${characterID}`}</li>
 					<li dangerouslySetInnerHTML={ { __html: titleName } }></li>
-					<li>{`Alliance: ${allianceID}`}</li>
-					<li>{`Birthday: ${birthday.toLocaleString()}`}</li>
-					<li>{`Bloodline: ${bloodlineName}`}</li>
-					<li>{`Corporation: ${corporationID}`}</li>
-					<li>{`Gender: ${gender}`}</li>
-					<li>{`Race: ${raceName}`}</li>
-					<li>{`Security Status: ${securityStatus.toFixed(2)}`}</li>
+					<li>{`${t('alliance')}: ${alliance}`}</li>
+					<li>{`${t('birthday')}: ${birthday.toLocaleString()}`}</li>
+					<li>{`${t('bloodline')}: ${bloodlineName}`}</li>
+					<li>{`${t('corporation')}: ${corporation}`}</li>
+					<li>{`${t('gender')}: ${gender}`}</li>
+					<li>{`${t('race')}: ${raceName}`}</li>
+					<li>{`${t('securityStatus')}: ${securityStatus.toFixed(2)}`}</li>
 				</ul>
 			</div>
 			<SortableList data={clones} />

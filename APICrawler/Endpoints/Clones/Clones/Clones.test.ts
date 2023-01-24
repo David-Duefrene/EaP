@@ -23,7 +23,7 @@ describe('clones', () => {
 							location_id: BigInt(1),
 							location_type: 'station',
 							name: 'Clone',
-						}
+						},
 					],
 					home_location: {
 						location_id: BigInt(1),

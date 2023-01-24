@@ -8,26 +8,25 @@ contextBridge.exposeInMainWorld('findAll', {
 		const result = await pgQuery(/*SQL*/`
 			SELECT
 				character_sheet.character_id,
-				character_sheet.alliance_id,
 				character_sheet.birthday,
-				character_sheet.bloodline_id,
-				character_sheet.corporation_id,
 				character_sheet.description,
-				character_sheet.faction_id,
 				character_sheet.gender,
 				character_sheet.name,
-				character_sheet.race_id,
 				character_sheet.security_status,
 				character_sheet.title,
 				bloodlines.name AS bloodline_name,
 				bloodlines.description AS bloodline_description,
 				bloodlines.corporation_id AS bloodline_corporation_id,
 				races.name AS race_name,
-				races.description AS race_description
+				races.description AS race_description,
+				corporation.name AS corporation,
+				alliance.name AS alliance
 
 			FROM character_sheet
 					JOIN bloodlines ON character_sheet.bloodline_id = bloodlines.bloodline_id
 					JOIN races ON character_sheet.race_id = races.race_id
+					JOIN corporation ON character_sheet.corporation_id = corporation.corporation_id
+					LEFT JOIN alliance ON character_sheet.alliance_id = alliance.alliance_id
 		`)
 		return result
 	},
@@ -38,15 +37,10 @@ contextBridge.exposeInMainWorld('getCharacter', {
 		const result = await pgQuery(/*SQL*/`
 		SELECT
 			character_sheet.character_id,
-			character_sheet.alliance_id,
 			character_sheet.birthday,
-			character_sheet.bloodline_id,
-			character_sheet.corporation_id,
 			character_sheet.description,
-			character_sheet.faction_id,
 			character_sheet.gender,
 			character_sheet.name,
-			character_sheet.race_id,
 			character_sheet.security_status,
 			character_sheet.title,
 			bloodlines.name AS bloodline_name,
@@ -54,12 +48,17 @@ contextBridge.exposeInMainWorld('getCharacter', {
 			bloodlines.corporation_id AS bloodline_corporation_id,
 			races.name AS race_name,
 			races.description AS race_description,
-			title.name AS title_name
+			title.name AS title_name,
+			corporation.name AS corporation,
+			alliance.name AS alliance
 
 		FROM character_sheet
 				JOIN bloodlines ON character_sheet.bloodline_id = bloodlines.bloodline_id
 				JOIN races ON character_sheet.race_id = races.race_id
-				JOIN title ON character_sheet.character_id = title.character_id
+				JOIN corporation ON character_sheet.corporation_id = corporation.corporation_id
+				LEFT JOIN title ON character_sheet.character_id = title.character_id
+				LEFT JOIN alliance ON character_sheet.alliance_id = alliance.alliance_id
+
 		WHERE character_sheet.character_id = $1
 		`, [ characterID ])
 		return result[0]
