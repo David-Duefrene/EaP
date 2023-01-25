@@ -23,3 +23,16 @@ CREATE TABLE IF NOT EXISTS clone_status (
 	CONSTRAINT fk_char_id FOREIGN KEY (character_id) REFERENCES character(character_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT fk_home_location_id FOREIGN KEY (home_location_id) REFERENCES structure(structure_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE OR REPLACE VIEW get_clones AS
+	SELECT
+		character_id,
+		jump_clone_id,
+		location_id,
+		location_type,
+		implants,
+		name,
+		structure.name AS location_name,
+		structure.owner_id AS location_owner_id
+	FROM clones
+	JOIN structure ON structure.structure_id = clones.location_id
