@@ -1,17 +1,20 @@
 import pgUpsert from '../../../../Postgres/pgUpsert'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
+import Structures from '../../Universe/Structure/Structures'
 
 import CharacterAuthData from '../../CharacterAuthData.type'
-import Blueprint from './Blueprint.type'
+import Blueprint from './Blueprint.d'
 
-export default (characterAuthData: CharacterAuthData) => {
+export default async (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
-	return ESIRequest(`characters/${characterID}/blueprints`, accessToken).then((result: { data: Array<Blueprint> }) => {
-		result.data.forEach(async (blueprint) => {
+	try {
+		const result = await ESIRequest(`characters/${characterID}/blueprints`, accessToken)
+		result.data.forEach(async (blueprint: Blueprint) => {
+			await Structures(characterAuthData, blueprint.location_id)
 			await pgUpsert('blueprint', { characterID, ...blueprint }, [ 'character_id', 'item_id' ])
 		})
-	}).catch((error: Error) => {
+	} catch (error) {
 		throw new Error('Blueprints API error\n', { cause: error })
-	})
+	}
 }

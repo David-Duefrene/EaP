@@ -11,7 +11,7 @@ export enum BlueprintLocationFlags {
     FighterBay, FighterTube0, FighterTube1, FighterTube2, FighterTube3, FighterTube4, Module,
 }
 
-type Blueprint = {
+export type Blueprint = {
     itemID: string,
     locationFlag: BlueprintLocationFlags,
     locationID: string,

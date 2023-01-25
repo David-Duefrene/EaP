@@ -31,7 +31,7 @@ CREATE OR REPLACE VIEW get_clones AS
 		location_id,
 		location_type,
 		implants,
-		name,
+		clones.name,
 		structure.name AS location_name,
 		structure.owner_id AS location_owner_id
 	FROM clones

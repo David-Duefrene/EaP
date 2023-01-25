@@ -9,7 +9,7 @@ import {
 	cleanup, render, screen, waitForElementToBeRemoved,
 } from '@testing-library/react'
 
-import { BlueprintLocationFlags } from '../../../../APICrawler/Endpoints/Character/Blueprint/Blueprint.type'
+import { BlueprintLocationFlags } from '../../../../APICrawler/Endpoints/Character/Blueprint/Blueprint.d'
 
 import Blueprints from './Blueprints'
 

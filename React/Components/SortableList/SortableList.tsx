@@ -70,10 +70,7 @@ const SortableList = (props: Props) => {
 					if (ignore?.indexOf(key) >= 0) return null
 					return (
 						<td key={i}>
-							{
-								typeof el[key] === typeof [] ? el[key] :
-									t(el[key].toString(), { ns: 'enums' })
-							}
+							{t(String(el[key]), { ns: 'enums' })}
 						</td>
 					)
 				})}

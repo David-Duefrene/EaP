@@ -1,5 +1,5 @@
 import AgentResearch from '../APICrawler/Endpoints/Character/AgentResearch/AgentResearch.type'
-import Blueprint from '../APICrawler/Endpoints/Character/Blueprint/Blueprint.type'
+import Blueprint from '../APICrawler/Endpoints/Character/Blueprint/Blueprint.d'
 import CharacterSheet from '../APICrawler/Endpoints/Character/CharacterSheet/CharacterSheet.type'
 import ContactNotification from '../APICrawler/Endpoints/Character/ContactNotification/ContactNotification.type'
 import CorpHistory from '../APICrawler/Endpoints/Character/CorpHistory/CorpHistory.type'
