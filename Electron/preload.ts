@@ -6,27 +6,7 @@ import pgQuery from '../Postgres/pgQuery'
 contextBridge.exposeInMainWorld('findAll', {
 	characters: async () => {
 		const result = await pgQuery(/*SQL*/`
-			SELECT
-				character_sheet.character_id,
-				character_sheet.birthday,
-				character_sheet.description,
-				character_sheet.gender,
-				character_sheet.name,
-				character_sheet.security_status,
-				character_sheet.title,
-				bloodlines.name AS bloodline_name,
-				bloodlines.description AS bloodline_description,
-				bloodlines.corporation_id AS bloodline_corporation_id,
-				races.name AS race_name,
-				races.description AS race_description,
-				corporation.name AS corporation,
-				alliance.name AS alliance
-
-			FROM character_sheet
-					JOIN bloodlines ON character_sheet.bloodline_id = bloodlines.bloodline_id
-					JOIN races ON character_sheet.race_id = races.race_id
-					JOIN corporation ON character_sheet.corporation_id = corporation.corporation_id
-					LEFT JOIN alliance ON character_sheet.alliance_id = alliance.alliance_id
+			SELECT * FROM get_all_characters
 		`)
 		return result
 	},
@@ -35,31 +15,8 @@ contextBridge.exposeInMainWorld('findAll', {
 contextBridge.exposeInMainWorld('getCharacter', {
 	characterSheet: async (characterID: bigint) => {
 		const result = await pgQuery(/*SQL*/`
-		SELECT
-			character_sheet.character_id,
-			character_sheet.birthday,
-			character_sheet.description,
-			character_sheet.gender,
-			character_sheet.name,
-			character_sheet.security_status,
-			character_sheet.title,
-			bloodlines.name AS bloodline_name,
-			bloodlines.description AS bloodline_description,
-			bloodlines.corporation_id AS bloodline_corporation_id,
-			races.name AS race_name,
-			races.description AS race_description,
-			title.name AS title_name,
-			corporation.name AS corporation,
-			alliance.name AS alliance
-
-		FROM character_sheet
-				JOIN bloodlines ON character_sheet.bloodline_id = bloodlines.bloodline_id
-				JOIN races ON character_sheet.race_id = races.race_id
-				JOIN corporation ON character_sheet.corporation_id = corporation.corporation_id
-				LEFT JOIN title ON character_sheet.character_id = title.character_id
-				LEFT JOIN alliance ON character_sheet.alliance_id = alliance.alliance_id
-
-		WHERE character_sheet.character_id = $1
+		SELECT * FROM get_character_sheet
+		WHERE character_id = $1
 		`, [ characterID ])
 		return result[0]
 	},
