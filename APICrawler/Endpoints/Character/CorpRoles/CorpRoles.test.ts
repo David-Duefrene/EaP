@@ -14,12 +14,10 @@ describe('corpRoles', () => {
 	test('should be able to get corp roles', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
-				data: {
-					roles: [ 'Director' ],
-					roles_at_base: [ 'Director' ],
-					roles_at_hq: [ 'Director' ],
-					roles_at_other: [ 'Director' ],
-				},
+				roles: [ 'Director' ],
+				roles_at_base: [ 'Director' ],
+				roles_at_hq: [ 'Director' ],
+				roles_at_other: [ 'Director' ],
 			}),
 		}))
 

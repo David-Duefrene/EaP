@@ -15,18 +15,16 @@ describe('Alliance', () => {
 	test('should be able to get alliance data', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
-				data: {
-					name: 'name',
-					ticker: 'ticker',
-					creator_id: 1,
-					creator_corporation_id: 1,
-					date_founded: new Date('2022-10-06T02:09:38.981Z'),
-					executor_corporation_id: 1,
-					faction_id: 1,
-					tax_rate: 1,
-					url: 'url',
-					description: 'description',
-				},
+				name: 'name',
+				ticker: 'ticker',
+				creator_id: 1,
+				creator_corporation_id: 1,
+				date_founded: new Date('2022-10-06T02:09:38.981Z'),
+				executor_corporation_id: 1,
+				faction_id: 1,
+				tax_rate: 1,
+				url: 'url',
+				description: 'description',
 			}),
 		}))
 

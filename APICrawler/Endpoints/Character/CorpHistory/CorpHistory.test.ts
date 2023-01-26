@@ -13,13 +13,11 @@ describe('corpHistory', () => {
 
 	test('should be able to get corp history', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
-			default: vi.fn().mockResolvedValue({
-				data: [ {
-					record_id: 1,
-					corporation_id: 1,
-					start_date: new Date('2022-10-06T02:09:38.981Z'),
-				} ],
-			}),
+			default: vi.fn().mockResolvedValue([ {
+				record_id: 1,
+				corporation_id: 1,
+				start_date: new Date('2022-10-06T02:09:38.981Z'),
+			} ]),
 		}))
 
 		vi.mock('../../../../Postgres/pgUpsert', () => ({

@@ -15,18 +15,16 @@ describe('Corporation', () => {
 	test('should be able to get corporation data', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
-				data: {
-					name: 'name',
-					ticker: 'ticker',
-					ceo_id: 1,
-					creator_id: 1,
-					home_station_id: 1,
-					creation_date: new Date('2022-10-06T02:09:38.981Z'),
-					member_count: 1,
-					tax_rate: 1,
-					url: 'url',
-					description: 'description',
-				},
+				name: 'name',
+				ticker: 'ticker',
+				ceo_id: 1,
+				creator_id: 1,
+				home_station_id: 1,
+				creation_date: new Date('2022-10-06T02:09:38.981Z'),
+				member_count: 1,
+				tax_rate: 1,
+				url: 'url',
+				description: 'description',
 			}),
 		}))
 

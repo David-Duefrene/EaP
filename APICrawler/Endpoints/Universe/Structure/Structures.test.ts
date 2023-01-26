@@ -15,13 +15,11 @@ describe('structures', () => {
 	test('should be able to get structures', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
-				data: {
-					station_id: 1n,
-					name: 'name',
-					owner: 1,
-					system_id: 1,
-					type_id: 1,
-				},
+				station_id: 1n,
+				name: 'name',
+				owner: 1,
+				system_id: 1,
+				type_id: 1,
 			}),
 		}))
 

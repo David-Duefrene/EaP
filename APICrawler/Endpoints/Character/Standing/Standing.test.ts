@@ -13,13 +13,11 @@ describe('standings', () => {
 
 	test('should be able to get standings', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
-			default: vi.fn().mockResolvedValue({
-				data: [ {
-					from_id: 1,
-					from_type: 'agent',
-					standing: 1,
-				} ],
-			}),
+			default: vi.fn().mockResolvedValue([ {
+				from_id: 1,
+				from_type: 'agent',
+				standing: 1,
+			} ]),
 		}))
 
 		vi.mock('../../../../Postgres/pgUpsert', () => ({

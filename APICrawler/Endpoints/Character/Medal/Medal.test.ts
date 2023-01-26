@@ -13,24 +13,22 @@ describe('medals', () => {
 
 	test('should be able to get medals', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
-			default: vi.fn().mockResolvedValue({
-				data: [ {
-					medal_id: 1,
-					reason: 'reason',
-					status: 'status',
-					issuer_id: 1,
-					issued: new Date('2022-10-06T02:09:38.981Z'),
-					title: 'title',
-					description: 'description',
-					corporation_id: 1,
-					graphics: {
-						color: 1,
-						graphic: 'graphic',
-						layer: 1,
-						part: 1,
-					},
-				} ],
-			}),
+			default: vi.fn().mockResolvedValue([ {
+				medal_id: 1,
+				reason: 'reason',
+				status: 'status',
+				issuer_id: 1,
+				issued: new Date('2022-10-06T02:09:38.981Z'),
+				title: 'title',
+				description: 'description',
+				corporation_id: 1,
+				graphics: {
+					color: 1,
+					graphic: 'graphic',
+					layer: 1,
+					part: 1,
+				},
+			} ]),
 		}))
 
 		vi.mock('../../../../Postgres/pgUpsert', () => ({

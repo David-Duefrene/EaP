@@ -4,14 +4,16 @@ import ESIRequest from '../../../axiosRequests/ESIRequest'
 import CharacterAuthData from '../../CharacterAuthData.type'
 import Standing from './Standing.type'
 
-export default (characterAuthData: CharacterAuthData) => {
-	const { characterID, accessToken } = characterAuthData
-
-	return ESIRequest(`characters/${characterID}/standings`, accessToken).then((result: { data: Array<Standing> }) => {
-		result.data.forEach(async (standing) => {
+export default async (characterAuthData: CharacterAuthData) => {
+	try {
+		const { characterID, accessToken } = characterAuthData
+		const result = await ESIRequest(`characters/${characterID}/standings`, accessToken)
+		result.forEach(async (standing: Standing) => {
 			pgUpsert('standings', { characterID, ...standing }, [ 'character_id', 'from_id' ])
 		})
-	}).catch((error: Error) => {
+		return Promise.resolve()
+	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('Standings API error\n', { cause: error })
-	})
+	}
 }

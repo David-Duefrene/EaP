@@ -6,15 +6,16 @@ import CharacterAuthData from '../../CharacterAuthData.type'
 import Blueprint from './Blueprint.d'
 
 export default async (characterAuthData: CharacterAuthData) => {
-	const { characterID, accessToken } = characterAuthData
-
 	try {
+		const { characterID, accessToken } = characterAuthData
 		const result = await ESIRequest(`characters/${characterID}/blueprints`, accessToken)
-		result.data.forEach(async (blueprint: Blueprint) => {
+		result.forEach(async (blueprint: Blueprint) => {
 			await Structures(characterAuthData, blueprint.location_id)
 			await pgUpsert('blueprint', { characterID, ...blueprint }, [ 'character_id', 'item_id' ])
 		})
+		return Promise.resolve()
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('Blueprints API error\n', { cause: error })
 	}
 }

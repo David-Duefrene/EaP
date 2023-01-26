@@ -15,24 +15,22 @@ describe('clones', () => {
 	test('should be able to get clones', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
-				data: {
-					characterID: BigInt(1),
-					jump_clones: [
-						{
-							implants: [ 1, 2 ],
-							jump_clone_id: 1,
-							location_id: BigInt(1),
-							location_type: 'station',
-							name: 'Clone',
-						},
-					],
-					home_location: {
+				characterID: BigInt(1),
+				jump_clones: [
+					{
+						implants: [ 1, 2 ],
+						jump_clone_id: 1,
 						location_id: BigInt(1),
 						location_type: 'station',
+						name: 'Clone',
 					},
-					last_clone_jump_date: '2021-01-01T00:00:00Z',
-					last_station_change_date: '2021-01-01T00:00:00Z',
+				],
+				home_location: {
+					location_id: BigInt(1),
+					location_type: 'station',
 				},
+				last_clone_jump_date: '2021-01-01T00:00:00Z',
+				last_station_change_date: '2021-01-01T00:00:00Z',
 			}),
 		}))
 
