@@ -1,5 +1,6 @@
 import pgUpsert from '../../../../Postgres/pgUpsert'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
+import Structure from '../../Universe/Structure/Structures'
 
 import CharacterAuthData from '../../CharacterAuthData.type'
 import Clones from './Clones.d'
@@ -10,9 +11,11 @@ export default async (characterAuthData: CharacterAuthData) => {
 
 		const jumpClones = await ESIRequest(`characters/${characterID}/clones/`, accessToken)
 		jumpClones.data.jump_clones.forEach(async (clone: Clones) => {
+			await Structure(characterAuthData, clone.location_id)
 			clone.characterID = characterID
 			pgUpsert('clones', clone, [ 'character_id', 'jump_clone_id' ])
 		})
+		await Structure(characterAuthData, jumpClones.data.home_location.location_id)
 
 		const currentImplants = await ESIRequest(`characters/${characterID}/implants/`, accessToken)
 		const cloneStatus = {

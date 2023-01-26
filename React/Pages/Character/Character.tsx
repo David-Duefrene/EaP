@@ -56,7 +56,7 @@ const Character = () => {
 					<li>{`${t('securityStatus')}: ${securityStatus.toFixed(2)}`}</li>
 				</ul>
 			</div>
-			<SortableList data={clones} />
+			<SortableList data={clones} ignore={[ 'characterID', 'locationID' ]} />
 			<div className={Bio} dangerouslySetInnerHTML={{ __html: description }} />
 		</> : <h1>Loading...</h1>
 }

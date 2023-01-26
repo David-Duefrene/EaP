@@ -3,6 +3,7 @@ import {
 } from 'vitest'
 
 import clones from './Clones'
+import structures from '../../Universe/Structure/Structures'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 import pgUpsert from '../../../../Postgres/pgUpsert'
 
@@ -33,6 +34,10 @@ describe('clones', () => {
 					last_station_change_date: '2021-01-01T00:00:00Z',
 				},
 			}),
+		}))
+
+		vi.mock('../../Universe/Structure/Structures', () => ({
+			default: vi.fn().mockResolvedValue(null),
 		}))
 
 		vi.mock('../../../../Postgres/pgUpsert', () => ({

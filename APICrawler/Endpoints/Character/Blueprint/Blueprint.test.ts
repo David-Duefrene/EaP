@@ -3,6 +3,7 @@ import {
 } from 'vitest'
 
 import blueprints from './Blueprint'
+import structures from '../../Universe/Structure/Structures'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 import pgUpsert from '../../../../Postgres/pgUpsert'
 
@@ -31,10 +32,15 @@ describe('blueprints', () => {
 			default: vi.fn().mockResolvedValue(null),
 		}))
 
+		vi.mock('../../Universe/Structure/Structures', () => ({
+			default: vi.fn().mockReturnValue(null),
+		}))
+
 		await blueprints({ characterID: BigInt(1), accessToken: 'Token' })
 
 		expect(ESIRequest).toBeCalledTimes(1)
 		expect(ESIRequest).toBeCalledWith('characters/1/blueprints', 'Token')
+		expect(structures).toBeCalledTimes(1)
 		expect(pgUpsert).toBeCalledTimes(1)
 		const mockData = {
 			characterID: BigInt(1),

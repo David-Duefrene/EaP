@@ -63,7 +63,7 @@ contextBridge.exposeInMainWorld('getCharacter', {
 		`, [ characterID ])
 		return result[0]
 	},
-	blueprints: (characterID: bigint) => pgSelectByCharID('blueprint', characterID),
+	blueprints: (characterID: bigint) => pgSelectByCharID('get_blueprints', characterID),
 	contactNotifications: (characterID: bigint) => pgSelectByCharID('contact_notification', characterID),
 	corpHistory: (characterID: bigint) => pgSelectByCharID('corporation_history', characterID),
 	corpRoles: (characterID: bigint) => pgSelectByCharID('corp_roles', characterID),
@@ -71,7 +71,7 @@ contextBridge.exposeInMainWorld('getCharacter', {
 	notifications: (characterID: bigint) => pgSelectByCharID('notification', characterID),
 	standings: (characterID: bigint) => pgSelectByCharID('standings', characterID),
 	titles: (characterID: bigint) => pgSelectByCharID('title', characterID),
-	clones: (characterID: bigint) => pgSelectByCharID('clones', characterID),
+	clones: (characterID: bigint) => pgSelectByCharID('get_clones', characterID),
 	cloneStatus: (characterID: bigint) => pgSelectByCharID('clone_status', characterID),
 })
 

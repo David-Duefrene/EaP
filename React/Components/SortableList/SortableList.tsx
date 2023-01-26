@@ -5,9 +5,14 @@ import { useTranslation } from 'react-i18next'
 
 import CSS from './SortableList.module.css'
 
-const SortableList = (props: { data: Record<string, any>[] | Record<string, any> }) => {
+type Props = {
+	data: Record<string, any>[] | Record<string, any>,
+	ignore?: string[],
+}
+
+const SortableList = (props: Props) => {
 	const { t } = useTranslation([ 'keys', 'enums' ])
-	const { data } = props
+	const { data, ignore = [] } = props
 
 	if (data.length === 0) {
 		return <div>No data to display</div>
@@ -15,6 +20,12 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 
 	// @ts-ignore
 	const keys = Object.keys(data[0]) // Pulls key from 1st object
+
+	if (ignore) {
+		ignore.forEach((el) => {
+			keys.splice(keys.indexOf(el), 1)
+		})
+	}
 	const [ sortConfig, setSortConfig ] = useState(keys[0]) // Sets default sort to first key
 	const [ sortDirection, setSortDirection ] = useState('asc') // Sets default sort direction to ascending
 
@@ -56,12 +67,10 @@ const SortableList = (props: { data: Record<string, any>[] | Record<string, any>
 		return (
 			<tr key={`Row-item-${key}`}>
 				{keys.map((key, i) => {
+					if (ignore?.indexOf(key) >= 0) return null
 					return (
 						<td key={i}>
-							{
-								typeof el[key] === typeof [] ? el[key] :
-									t(el[key].toString(), { ns: 'enums' })
-							}
+							{t(String(el[key]), { ns: 'enums' })}
 						</td>
 					)
 				})}

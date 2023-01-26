@@ -28,6 +28,7 @@ const crawler = (sendMessage = defaultSendMessage, receiveMessage = defaultRecei
 					}
 
 					for (const [ key, value ] of Object.entries(endpoints.universe)) {
+						if (key === 'structure') continue
 						await value({ ...characterTokens })
 					}
 

@@ -1,5 +1,5 @@
 import AgentResearch from '../APICrawler/Endpoints/Character/AgentResearch/AgentResearch.type'
-import Blueprint from '../APICrawler/Endpoints/Character/Blueprint/Blueprint.type'
+import Blueprint from '../APICrawler/Endpoints/Character/Blueprint/Blueprint.d'
 import CharacterSheet from '../APICrawler/Endpoints/Character/CharacterSheet/CharacterSheet.type'
 import ContactNotification from '../APICrawler/Endpoints/Character/ContactNotification/ContactNotification.type'
 import CorpHistory from '../APICrawler/Endpoints/Character/CorpHistory/CorpHistory.type'
@@ -13,8 +13,8 @@ import Title from '../APICrawler/Endpoints/Character/Title/Title.type'
 import Clone from '../APICrawler/Endpoints/Clones/Clones/Clones.d'
 import CloneStatus from '../APICrawler/Endpoints/Clones/CloneStatus/CloneStatus.d'
 
-import Bloodline from '../APICrawler/Endpoints/Universe/Bloodline.type'
-import Race from '../APICrawler/Endpoints/Universe/Race.type'
+import Bloodline from '../APICrawler/Endpoints/Universe/Bloodline/Bloodline'
+import Race from '../APICrawler/Endpoints/Universe/Race/Race'
 
 export type {
 	AgentResearch, Blueprint, CharacterSheet, ContactNotification, CorpHistory, CorpRoles, Fatigue, Medal, Notification,
