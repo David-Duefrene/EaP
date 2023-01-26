@@ -15,7 +15,7 @@ export default async (auth: CharacterAuthData, structureID: bigint): Promise<voi
 			typeID: station.type_id,
 		}
 
-		pgUpsert('structure', push, [ 'structure_id' ])
+		await pgUpsert('structure', push, [ 'structure_id' ])
 	} else {
 		const result = await ESIRequest(`universe/structures/${structureID.toString()}`, auth.accessToken)
 		const pos = {
@@ -24,6 +24,6 @@ export default async (auth: CharacterAuthData, structureID: bigint): Promise<voi
 			position_z: result.data.position.z,
 		}
 		delete result.data.position
-		pgUpsert('structure', { ...pos, ...result.data, structureID }, [ 'structure_id' ])
+		await pgUpsert('structure', { ...pos, ...result.data, structureID }, [ 'structure_id' ])
 	}
 }
