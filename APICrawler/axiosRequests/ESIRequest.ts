@@ -1,7 +1,6 @@
 const axios = require('axios')
 
-export default (path: string, accessToken = '', server='tranquility'): Promise<{ data: Record<string, any>}> => {
-	// Create an axios.create object that converts the response data to camelCase
+export default async (path: string, accessToken = '', server='tranquility') => {
 	const esiAxios = axios.create({
 		baseURL: `https://esi.evetech.net/latest/${path}`,
 		headers: {
@@ -9,5 +8,9 @@ export default (path: string, accessToken = '', server='tranquility'): Promise<{
 		},
 	})
 
-	return esiAxios.get(`?datasource=${server}`)
+	const result = await esiAxios.get(`?datasource=${server}`)
+	// return async () => {
+	// 	const result = await esiAxios.get(`?datasource=${server}`)
+	return result.data
+	// }
 }

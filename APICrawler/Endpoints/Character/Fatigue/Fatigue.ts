@@ -2,14 +2,13 @@ import pgUpsert from '../../../../Postgres/pgUpsert'
 import ESIRequest from '../../../axiosRequests/ESIRequest'
 
 import CharacterAuthData from '../../CharacterAuthData.type'
-import Fatigue from './Fatigue.type'
 
-export default (characterAuthData: CharacterAuthData) => {
-	const { characterID, accessToken } = characterAuthData
-
-	return ESIRequest(`characters/${characterID}/fatigue`, accessToken).then((result: Fatigue) => {
-		pgUpsert('fatigue', { characterID, ...result.data }, [ 'character_id' ])
-	}).catch((error: Error) => {
+export default async (characterAuthData: CharacterAuthData) => {
+	try {
+		const { characterID, accessToken } = characterAuthData
+		const result = await ESIRequest(`characters/${characterID}/fatigue`, accessToken)
+		pgUpsert('fatigue', { characterID, ...result }, [ 'character_id' ])
+	} catch (error) {
 		throw new Error('Fatigue API error\n', { cause: error })
-	})
+	}
 }

@@ -6,7 +6,7 @@ import CharacterAuthData from '../../CharacterAuthData.type'
 export default async (auth: CharacterAuthData, structureID: bigint): Promise<void> => {
 	if (structureID < BigInt(100000000)) {
 		const result = await ESIRequest(`universe/stations/${structureID.toString()}`, auth.accessToken)
-		const station = result.data
+		const station = result
 		const push = {
 			structureID: station.station_id,
 			name: station.name,
@@ -19,11 +19,11 @@ export default async (auth: CharacterAuthData, structureID: bigint): Promise<voi
 	} else {
 		const result = await ESIRequest(`universe/structures/${structureID.toString()}`, auth.accessToken)
 		const pos = {
-			position_x: result.data.position.x,
-			position_y: result.data.position.y,
-			position_z: result.data.position.z,
+			position_x: result.position.x,
+			position_y: result.position.y,
+			position_z: result.position.z,
 		}
-		delete result.data.position
-		await pgUpsert('structure', { ...pos, ...result.data, structureID }, [ 'structure_id' ])
+		delete result.position
+		await pgUpsert('structure', { ...pos, ...result, structureID }, [ 'structure_id' ])
 	}
 }

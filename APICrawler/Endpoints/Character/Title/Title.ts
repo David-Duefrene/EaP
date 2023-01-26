@@ -6,8 +6,8 @@ import Title from './Title.type'
 export default (characterAuthData: CharacterAuthData) => {
 	const { characterID, accessToken } = characterAuthData
 
-	return ESIRequest(`characters/${characterID}/titles`, accessToken).then((result: { data: Array<Title> }) => {
-		result.data.forEach(async (title) => {
+	return ESIRequest(`characters/${characterID}/titles`, accessToken).then((result: Array<Title>) => {
+		result.forEach(async (title) => {
 			await pgUpsert('title', { characterID, ...title }, [ 'character_id', 'title_id' ])
 		})
 	}).catch((error: Error) => {

@@ -4,14 +4,14 @@ import ESIRequest from '../../../axiosRequests/ESIRequest'
 import CharacterAuthData from '../../CharacterAuthData.type'
 import Notification from './Notification.type'
 
-export default (characterAuthData: CharacterAuthData) => {
-	const { characterID, accessToken } = characterAuthData
-
-	return ESIRequest(`characters/${characterID}/notifications`, accessToken).then((result: { data: Array<Notification>}) => {
-		result.data.forEach(async (notification: Notification) => {
+export default async (characterAuthData: CharacterAuthData) => {
+	try {
+		const { characterID, accessToken } = characterAuthData
+		const result = await ESIRequest(`characters/${characterID}/notifications`, accessToken)
+		result.forEach(async (notification: Notification) => {
 			pgUpsert('notification', { characterID, ...notification }, [ 'character_id', 'notification_id' ])
 		})
-	}).catch((error: Error) => {
+	} catch (error) {
 		throw new Error('Notifications API error\n', { cause: error })
-	})
+	}
 }

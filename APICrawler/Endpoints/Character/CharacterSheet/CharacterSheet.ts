@@ -9,11 +9,11 @@ export default async (characterAuthData: CharacterAuthData) => {
 		const { characterID } = characterAuthData
 
 		const charSheet = await ESIRequest(`characters/${characterID}`)
-		const { name, corporation_id, alliance_id } = charSheet.data
+		const { name, corporation_id, alliance_id } = charSheet
 
 		await pgUpsert('character', { name, updatedAt: new Date, characterID }, [ 'character_id' ])
 		await Corporation(corporation_id)
-		await pgUpsert('character_sheet', { ...charSheet.data, characterID }, [ 'character_id' ])
+		await pgUpsert('character_sheet', { ...charSheet, characterID }, [ 'character_id' ])
 	} catch (error) {
 		throw new Error('public character sheet API error\n', { cause: error })
 	}
