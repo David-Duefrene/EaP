@@ -13,9 +13,11 @@ export default async (characterAuthData: CharacterAuthData) => {
 			const graphics = JSON.stringify(medalData.graphics)
 			delete medalData.graphics
 
-			pgUpsert('medal', { characterID, graphics, ...medalData }, ['character_id', 'medal_id'])
+			pgUpsert('medal', { characterID, graphics, ...medalData }, [ 'character_id', 'medal_id' ])
 		})
+		return Promise.resolve()
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('Medals API error\n', { cause: error })
 	}
 }

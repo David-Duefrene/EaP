@@ -26,8 +26,9 @@ export default async (characterAuthData: CharacterAuthData) => {
 			homeLocationType: jumpClones.home_location.location_type,
 			implants: currentImplants,
 		}
-		pgUpsert('clone_status', cloneStatus, [ 'character_id' ])
+		return pgUpsert('clone_status', cloneStatus, [ 'character_id' ])
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('Clones API error\n', { cause: error })
 	}
 }

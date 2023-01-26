@@ -8,8 +8,9 @@ export default async (corporationID: number) => {
 
 		if (corp.alliance_id) await Alliance(corp.alliance_id)
 
-		await pgUpsert('corporation', { corporationID, ...corp }, [ 'corporation_id' ])
+		return await pgUpsert('corporation', { corporationID, ...corp }, [ 'corporation_id' ])
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('corporation crawler error', { cause: error })
 	}
 }

@@ -13,8 +13,9 @@ export default async (characterAuthData: CharacterAuthData) => {
 
 		await pgUpsert('character', { name, updatedAt: new Date, characterID }, [ 'character_id' ])
 		await Corporation(corporation_id)
-		await pgUpsert('character_sheet', { ...charSheet, characterID }, [ 'character_id' ])
+		return await pgUpsert('character_sheet', { ...charSheet, characterID }, [ 'character_id' ])
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('public character sheet API error\n', { cause: error })
 	}
 }

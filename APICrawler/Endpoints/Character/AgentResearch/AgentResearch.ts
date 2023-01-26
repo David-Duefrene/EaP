@@ -15,7 +15,9 @@ export default async (characterAuthData: CharacterAuthData) => {
 			// Should loop through an array of agents and send them to the db and not return the promise
 			pgUpsert('agent_research', agentData, [ 'character_id', 'agent_id' ])
 		})
+		return Promise.resolve()
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('Agent research API error\n', { cause: error })
 	}
 }

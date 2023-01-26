@@ -13,7 +13,9 @@ export default async (characterAuthData: CharacterAuthData) => {
 			await Structures(characterAuthData, blueprint.location_id)
 			await pgUpsert('blueprint', { characterID, ...blueprint }, [ 'character_id', 'item_id' ])
 		})
+		return Promise.resolve()
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('Blueprints API error\n', { cause: error })
 	}
 }

@@ -11,7 +11,9 @@ export default async (characterAuthData: CharacterAuthData) => {
 		result.forEach(async (notification: Notification) => {
 			pgUpsert('notification', { characterID, ...notification }, [ 'character_id', 'notification_id' ])
 		})
+		return Promise.resolve()
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('Notifications API error\n', { cause: error })
 	}
 }

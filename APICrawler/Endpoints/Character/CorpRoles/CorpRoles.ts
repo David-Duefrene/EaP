@@ -17,8 +17,9 @@ export default async (characterAuthData: CharacterAuthData) => {
 			rolesAtHQ: roles_at_hq.length === 0 ? [ 'None' ] : roles_at_hq,
 			rolesAtOther: roles_at_other.length === 0 ? [ 'None' ] : roles_at_other,
 		}
-		pgUpsert('corp_roles', { characterID, ...defaultRoles }, [ 'character_id' ])
+		return pgUpsert('corp_roles', { characterID, ...defaultRoles }, [ 'character_id' ])
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('CorpRoles API error\n', { cause: error })
 	}
 }

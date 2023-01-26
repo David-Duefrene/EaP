@@ -11,7 +11,9 @@ export default async (characterAuthData: CharacterAuthData) => {
 		result.forEach(async (corpHistory: CorpHistory) => {
 			await pgUpsert('corporation_history', { characterID, ...corpHistory }, [ 'record_id' ])
 		})
+		return Promise.resolve()
 	} catch (error) {
+		if (error === '304') return Promise.resolve()
 		throw new Error('CorpHistory API error\n', { cause: error })
 	}
 }
