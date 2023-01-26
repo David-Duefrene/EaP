@@ -13,12 +13,10 @@ describe('title', () => {
 
 	test('should be able to get title', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
-			default: vi.fn().mockResolvedValue({
-				data: [ {
-					name: 'name',
-					title_id: 1,
-				} ],
-			}),
+			default: vi.fn().mockResolvedValue([ {
+				name: 'name',
+				title_id: 1,
+			} ]),
 		}))
 
 		vi.mock('../../../../Postgres/pgUpsert', () => ({

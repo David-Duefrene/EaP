@@ -14,14 +14,12 @@ describe('PublicCharacterData', () => {
 	test('should be able to get public character data', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
-				data: {
-					name: 'name',
-					race_id: 1,
-					birthday: new Date('2022-10-06T02:09:38.981Z'),
-					bloodline_id: 1,
-					corporation_id: 1,
-					description: 'description',
-				},
+				name: 'name',
+				race_id: 1,
+				birthday: new Date('2022-10-06T02:09:38.981Z'),
+				bloodline_id: 1,
+				corporation_id: 1,
+				description: 'description',
 			}),
 		}))
 

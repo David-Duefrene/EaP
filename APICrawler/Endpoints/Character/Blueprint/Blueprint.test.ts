@@ -14,18 +14,15 @@ describe('blueprints', () => {
 
 	test('should be able to get blueprints', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
-			default: vi.fn().mockResolvedValue({
-				data: [ {
-					item_id: 1,
-					location_id: 1,
-					type_id: 1,
-					quantity: 1,
-					time_efficiency: 1,
-					material_efficiency: 1,
-					runs: 1,
-				} ],
-			},
-			),
+			default: vi.fn().mockResolvedValue([ {
+				item_id: 1,
+				location_id: 1,
+				type_id: 1,
+				quantity: 1,
+				time_efficiency: 1,
+				material_efficiency: 1,
+				runs: 1,
+			} ]),
 		}))
 
 		vi.mock('../../../../Postgres/pgUpsert', () => ({

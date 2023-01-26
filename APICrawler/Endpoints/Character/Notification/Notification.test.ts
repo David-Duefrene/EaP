@@ -13,16 +13,14 @@ describe('notifications', () => {
 
 	test('should be able to get notifications', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
-			default: vi.fn().mockResolvedValue({
-				data: [ {
-					notification_id: 1,
-					sender_id: 1,
-					sender_type: 'senderType',
-					sent_date: new Date('2022-10-06T02:09:38.981Z'),
-					text: 'text',
-					type: 'type',
-				} ],
-			}),
+			default: vi.fn().mockResolvedValue([ {
+				notification_id: 1,
+				sender_id: 1,
+				sender_type: 'senderType',
+				sent_date: new Date('2022-10-06T02:09:38.981Z'),
+				text: 'text',
+				type: 'type',
+			} ]),
 		}))
 
 		vi.mock('../../../../Postgres/pgUpsert', () => ({

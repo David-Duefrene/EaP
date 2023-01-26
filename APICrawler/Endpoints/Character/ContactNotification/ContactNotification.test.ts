@@ -13,15 +13,13 @@ describe('contactNotification', () => {
 
 	test('should be able to get contactNotification', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
-			default: vi.fn().mockResolvedValue({
-				data: [ {
-					message: 'text',
-					notification_id: 1,
-					sent_date: new Date('2022-10-06T02:09:38.981Z'),
-					sender_character_id: 1,
-					standing_level: -5.5,
-				} ],
-			}),
+			default: vi.fn().mockResolvedValue([ {
+				message: 'text',
+				notification_id: 1,
+				sent_date: new Date('2022-10-06T02:09:38.981Z'),
+				sender_character_id: 1,
+				standing_level: -5.5,
+			} ]),
 		}))
 
 		vi.mock('../../../../Postgres/pgUpsert', () => ({

@@ -14,11 +14,9 @@ describe('fatigue', () => {
 	test('should be able to get fatigue', async () => {
 		vi.mock('../../../axiosRequests/ESIRequest', () => ({
 			default: vi.fn().mockResolvedValue({
-				data: {
-					last_jump_date: new Date('2022-10-06T02:09:38.981Z'),
-					last_update_date: new Date('2022-10-06T02:09:38.981Z'),
-					jump_fatigue_expire_date: new Date('2022-10-06T02:09:38.981Z'),
-				},
+				last_jump_date: new Date('2022-10-06T02:09:38.981Z'),
+				last_update_date: new Date('2022-10-06T02:09:38.981Z'),
+				jump_fatigue_expire_date: new Date('2022-10-06T02:09:38.981Z'),
 			}),
 		}))
 
