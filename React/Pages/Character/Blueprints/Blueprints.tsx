@@ -20,7 +20,7 @@ const Blueprints = () => {
 	return blueprints.length ?
 		<>
 			<h1>Blueprints</h1>
-			<SortableList data={blueprints} ignore={[ 'characterID', 'locationID' ]} />
+			<SortableList data={blueprints} ignore={[ 'characterID' ]} />
 		</> : <h1>Loading...</h1>
 }
 

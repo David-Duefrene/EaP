@@ -56,22 +56,6 @@ CREATE TABLE blueprint (
 	CONSTRAINT fk_location_id FOREIGN KEY (location_id) REFERENCES structure(structure_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE VIEW get_blueprints AS
-	SELECT
-		item_id,
-		character_id,
-		location_flag,
-		location_id,
-		material_efficiency,
-		quantity,
-		runs,
-		time_efficiency,
-		blueprint.type_id,
-		structure.name AS location_name,
-		structure.owner_id AS location_owner_id
-	FROM blueprint
-	JOIN structure ON structure.structure_id = blueprint.location_id;
-
 CREATE TABLE corporation_history (
     character_id BIGINT NOT NULL,
     corporation_id INTEGER NOT NULL,
