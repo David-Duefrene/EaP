@@ -17,7 +17,7 @@
 	"author": "Dave",
 	"license": "MIT",
 	"devDependencies": {
-		"@testing-library/react": "13.4.0",
+		"@testing-library/react": "14.0.0",
 		"@types/jsonwebtoken": "^9.0.0",
 		"@types/node": "18.14.1",
 		"@types/react": "18.0.27",
