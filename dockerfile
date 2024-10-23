@@ -1,4 +1,4 @@
-FROM node:18.10
+FROM node:18.20
 
 LABEL RUN="podman run -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY -v $(pwd)/src:/app/src --rm -it electron-wrapper bash"
 
